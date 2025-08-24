@@ -309,11 +309,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Easter egg: Konami code
 let konamiCode = [];
-const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
+const konamiSequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]; // Up Up Down Down Left Right Left Right B A
 
 document.addEventListener('keydown', (e) => {
-  konamiCode.push(e.keyCode);
+  konamiCode.push(e.key);
   
+  console.log(e.keyCode, e.key, e.code);
+
   if (konamiCode.length > konamiSequence.length) {
     konamiCode.shift();
   }
