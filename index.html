@@ -3,11 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UT-STAR Club</title>
+    <title>UT-STAR Club - Space Technology and Research</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-rocket"></i>
+                <span>UT-STAR</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#events" class="nav-link">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#team" class="nav-link">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
 
-<p>Welcome to the UT-STAR Club website!</p>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">University of Toronto<br><span class="highlight">Space Technology & Research Club</span></h1>
+            <p class="hero-description">Exploring the cosmos through innovation, research, and collaboration. Join us in pushing the boundaries of space technology.</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary">Learn More</a>
+                <a href="#contact" class="btn btn-secondary">Join Us</a>
+            </div>
+        </div>
+        <div class="hero-animation">
+            <div class="planet planet-1"></div>
+            <div class="planet planet-2"></div>
+            <div class="planet planet-3"></div>
+            <div class="stars"></div>
+        </div>
+    </section>
 
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About UT-STAR</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>The University of Toronto Space Technology and Research (UT-STAR) Club is a student-led organization dedicated to advancing space science and technology. We bring together passionate students from diverse academic backgrounds to work on cutting-edge projects, participate in competitions, and explore the frontiers of space exploration.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-satellite"></i>
+                            <h3>Satellite Development</h3>
+                            <p>Design and build CubeSats and small satellites for research missions</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-microscope"></i>
+                            <h3>Research Projects</h3>
+                            <p>Conduct cutting-edge research in space technology and astronomy</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-users"></i>
+                            <h3>Community</h3>
+                            <p>Connect with like-minded students and industry professionals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title">Current Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <h3>CubeSat Mission</h3>
+                    <p>Developing a 3U CubeSat for atmospheric research and Earth observation.</p>
+                    <div class="project-status">
+                        <span class="status-badge active">In Progress</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Rocket Propulsion</h3>
+                    <p>Designing and testing hybrid rocket engines for small payload delivery.</p>
+                    <div class="project-status">
+                        <span class="status-badge planning">Planning</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Lunar Rover</h3>
+                    <p>Building an autonomous rover prototype for lunar surface exploration.</p>
+                    <div class="project-status">
+                        <span class="status-badge completed">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="section">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-timeline">
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">15</span>
+                        <span class="month">Sep</span>
+                    </div>
+                    <div class="event-content">
+                        <h3>Weekly General Meeting</h3>
+                        <p>Join us for our weekly meeting to discuss ongoing projects and plan future activities.</p>
+                        <span class="event-time"><i class="fas fa-clock"></i> 6:00 PM - 8:00 PM</span>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">22</span>
+                        <span class="month">Sep</span>
+                    </div>
+                    <div class="event-content">
+                        <h3>Guest Lecture: Mars Exploration</h3>
+                        <p>Dr. Sarah Chen from NASA will discuss the latest developments in Mars exploration technology.</p>
+                        <span class="event-time"><i class="fas fa-clock"></i> 7:00 PM - 9:00 PM</span>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">05</span>
+                        <span class="month">Oct</span>
+                    </div>
+                    <div class="event-content">
+                        <h3>Satellite Design Workshop</h3>
+                        <p>Hands-on workshop covering the fundamentals of satellite design and mission planning.</p>
+                        <span class="event-time"><i class="fas fa-clock"></i> 2:00 PM - 6:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Alex Chen</h3>
+                    <p class="member-role">President</p>
+                    <p class="member-program">Aerospace Engineering</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Maria Rodriguez</h3>
+                    <p class="member-role">Vice President</p>
+                    <p class="member-program">Computer Science</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>David Kim</h3>
+                    <p class="member-role">Technical Lead</p>
+                    <p class="member-program">Electrical Engineering</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-photo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Sarah Johnson</h3>
+                    <p class="member-role">Research Coordinator</p>
+                    <p class="member-program">Physics & Astronomy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get Involved</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Join Our Community</h3>
+                    <p>Ready to explore the cosmos with us? We welcome students from all disciplines who share our passion for space technology and research.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>utstar@utoronto.ca</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Bahen Centre, University of Toronto</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Meetings: Every Friday 6-8 PM</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="program" name="program" required>
+                                <option value="">Select Your Program</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="physics">Physics & Astronomy</option>
+                                <option value="computer-science">Computer Science</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Tell us about your interests..." rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>UT-STAR Club</span>
+                </div>
+                <p>&copy; 2025 University of Toronto Space Technology and Research Club. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
