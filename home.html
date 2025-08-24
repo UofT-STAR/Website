@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UofT STAR — University of Toronto Student Team for Amateur Rocketry</title>
+  <meta name="description" content="UofT STAR (UTSTAR) is the University of Toronto Student Team for Amateur Rocketry. We design, build, and launch experimental rockets while growing the next generation of aerospace talent." />
+  <meta property="og:title" content="UofT STAR — University of Toronto Student Team for Amateur Rocketry" />
+  <meta property="og:description" content="We design, build, and launch experimental rockets while growing the next generation of aerospace talent." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/og-image.jpg" />
+  <meta name="theme-color" content="#00204E" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root{
+      --uoft-blue:#00204E;
+      --uoft-light:#E6EEF7;
+      --uoft-accent:#0A84FF;
+      --ink:#0f172a;
+      --muted:#475569;
+      --bg:#070b14;
+      --radius:18px;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Arial;color:#e5e7eb;background:#070b14;}
+    a{color:var(--uoft-accent);text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin-inline:auto;padding:0 1.2rem}
+    header{position:sticky;top:0;z-index:50;background:rgba(7,11,20,.85);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
+    .brand{display:flex;gap:.75rem;align-items:center;color:#fff;text-decoration:none}
+    .brand img{height:42px;width:auto;border-radius:50%}
+    .nav-links{display:flex;gap:1rem;align-items:center}
+    .nav-cta{padding:.55rem .9rem;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.08)}
+    .hero{padding:4rem 0;text-align:center;background:radial-gradient(circle at top right,rgba(10,132,255,.2),transparent)}
+    .hero img{max-width:160px;margin-bottom:1rem}
+    .hero h1{font-size:2.5rem;font-weight:800;margin:.5rem 0}
+    .hero p{max-width:65ch;margin-inline:auto;color:#cbd5e1}
+    section{padding:3rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .section-title{font-size:1.8rem;margin:0 0 .8rem}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .card{border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1rem;background:rgba(255,255,255,.03)}
+    footer{padding:2rem 0;color:#94a3b8;font-size:.9rem;text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#top" class="brand">
+        <img src="/assets/UTSTAR_logo.jpg" alt="UofT STAR Logo">
+        <b>UofT STAR</b>
+      </a>
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Team</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#join" class="nav-cta">Join Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <img src="/assets/UTSTAR_logo.jpg" alt="UofT STAR Logo">
+      <h1>University of Toronto Student Team for Amateur Rocketry</h1>
+      <p>We design, test, and launch unique mid‑ to large‑scale model rockets, each showcasing innovative technology. Our first project: a propulsively landing rocket without a parachute!</p>
+      <p><a class="nav-cta" href="#join">Join the Team</a></p>
+    </section>
+
+    <section id="about" class="container">
+      <h2 class="section-title">About Us</h2>
+      <p>Hi there! I am the President and Founder of UofT STAR. As a second‑year math and physics double major with a strong interest in rocketry, I created this team to bring together students passionate about aerospace. We’re proud to be the only rocketry team run by Faculty of Arts & Science students, aiming to become the go‑to rocketry group for FAS and beyond.</p>
+      <p>Our mission is to design, test, and launch rockets while giving students valuable experience in CAD, propulsion, fluid dynamics, avionics, and systems engineering. We welcome students of all backgrounds and experience levels — join us to learn, build, and fly!</p>
+    </section>
+
+    <section id="projects" class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>VTOL Demonstrator</h3>
+          <p>A vertical take‑off and landing rocket testbed for thrust vector control, guidance, and navigation.</p>
+        </div>
+        <div class="card">
+          <h3>Avionics</h3>
+          <p>Flight computers, telemetry, and ground control software using C/C++ and Python with simulation testing.</p>
+        </div>
+        <div class="card">
+          <h3>Structures & Propulsion</h3>
+          <p>Airframe design, composite structures, motor integration, and thrust stand testing.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="container">
+      <h2 class="section-title">Our Team</h2>
+      <p>We’re a diverse group of students spanning physics, engineering, computer science, and more. Our executive committee of eight leads subsystems including avionics, propulsion, and structures.</p>
+    </section>
+
+    <section id="sponsors" class="container">
+      <h2 class="section-title">Sponsors</h2>
+      <p>Interested in supporting us? Contact us to receive our sponsor package.</p>
+    </section>
+
+    <section id="join" class="container">
+      <h2 class="section-title">Join UofT STAR</h2>
+      <p>We recruit every Fall and also accept rolling applications. No prior rocketry experience is required — just curiosity and commitment!</p>
+      <p><a class="nav-cta" href="https://forms.gle/isJRaBi8EYFYcJYL7" target="_blank">Apply Here</a></p>
+      <p>Follow us on Instagram: <a href="https://www.instagram.com/uoftstar/" target="_blank">@uoftstar</a></p>
+      <p>Email us at: <a href="mailto:rocketry@utoronto.ca">rocketry@utoronto.ca</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> UofT STAR — Student Team for Amateur Rocketry
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
