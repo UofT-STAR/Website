@@ -27,39 +27,88 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Navbar scroll effect
+// Navbar scroll effect - Cool dark theme
 window.addEventListener('scroll', () => {
   const navbar = document.querySelector('.navbar');
   if (window.scrollY > 100) {
-    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-    navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+    // Scrolled down - make navbar more solid and add glow effect
+    navbar.style.background = 'rgba(13, 17, 23, 0.95)';
+    navbar.style.backdropFilter = 'blur(16px)';
+    navbar.style.borderBottom = '1px solid rgba(10, 132, 255, 0.3)';
+    navbar.style.boxShadow = '0 4px 32px rgba(10, 132, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3)';
   } else {
-    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+    // At top - more transparent and subtle
+    navbar.style.background = 'rgba(13, 17, 23, 0.85)';
+    navbar.style.backdropFilter = 'blur(8px)';
+    navbar.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
     navbar.style.boxShadow = 'none';
   }
 });
 
-// Intersection Observer for fade-in animations
+// Enhanced Intersection Observer for staggered animations
 const observerOptions = {
   threshold: 0.1,
   rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry, index) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+      // Stagger animations
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+        
+        // Add special animations based on element type
+        if (entry.target.classList.contains('feature')) {
+          entry.target.style.animationDelay = `${index * 0.2}s`;
+        }
+        if (entry.target.classList.contains('project-card')) {
+          entry.target.style.animationDelay = `${index * 0.3}s`;
+        }
+        if (entry.target.classList.contains('team-member')) {
+          entry.target.style.animationDelay = `${index * 0.15}s`;
+        }
+      }, index * 100);
     }
   });
 }, observerOptions);
 
-// Add fade-in class to elements and observe them
+// Add fade-in class to elements and observe them with enhanced animations
 document.addEventListener('DOMContentLoaded', () => {
   const animatedElements = document.querySelectorAll('.feature, .project-card, .event-item, .team-member');
-  animatedElements.forEach(el => {
+  animatedElements.forEach((el, index) => {
     el.classList.add('fade-in');
+    el.style.animationDelay = `${index * 0.1}s`;
     observer.observe(el);
   });
+  
+  // Add hover effects to icons
+  const icons = document.querySelectorAll('.feature i, .project-icon i');
+  icons.forEach(icon => {
+    icon.addEventListener('mouseenter', () => {
+      icon.style.transform = 'scale(1.2) rotate(10deg)';
+      icon.style.color = 'var(--accent)';
+    });
+    
+    icon.addEventListener('mouseleave', () => {
+      icon.style.transform = 'scale(1) rotate(0deg)';
+      icon.style.color = 'var(--primary-color)';
+    });
+  });
+  
+  // Add floating animation to nav logo
+  const navLogo = document.querySelector('.nav-logo i');
+  if (navLogo) {
+    navLogo.style.animation = 'float 3s ease-in-out infinite';
+  }
+  
+  // Add typing effect to highlight text
+  const highlightText = document.querySelector('.highlight');
+  if (highlightText) {
+    highlightText.addEventListener('mouseenter', () => {
+      highlightText.style.animation = 'pulse 1s ease-in-out';
+    });
+  }
 });
 
 // Contact form handling
