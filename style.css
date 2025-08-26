@@ -91,6 +91,12 @@ html {
   color: var(--accent);
 }
 
+.logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 .nav-menu {
   display: flex;
   list-style: none;
@@ -284,6 +290,29 @@ html {
   animation-delay: 4s;
 }
 
+.stars-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 160px 30px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 180px 90px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 220px 60px, #fff, transparent),
+    radial-gradient(1px 1px at 250px 20px, rgba(255,255,255,0.8), transparent);
+  background-repeat: repeat;
+  background-size: 300px 150px;
+  animation: twinkle 20s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .stars {
   position: absolute;
   top: 0;
@@ -298,7 +327,7 @@ html {
   background-repeat: repeat;
   background-size: 200px 100px;
   animation: twinkle 8s linear infinite;
-  opacity: 0.6;
+  opacity: 0.3;
 }
 
 /* Cool Animations */
@@ -308,6 +337,11 @@ html {
 }
 
 @keyframes twinkle {
+  0% { background-position: 0 0; }
+  100% { background-position: 300px 150px; }
+}
+
+@keyframes twinkleSmooth {
   0% { background-position: 0 0; }
   100% { background-position: 200px 100px; }
 }
@@ -359,10 +393,28 @@ html {
 /* Sections */
 .section {
   padding: 100px 0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Very subtle alternating backgrounds */
+.section:nth-child(2n) {
+  background: rgba(0, 0, 0, 0.025);
+}
+
+.section:nth-child(2n+1) {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+/* Ultra-smooth section blending */
+.section {
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.01),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.01);
 }
 
 .bg-dark {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   color: var(--ink);
 }
 
@@ -844,6 +896,13 @@ html {
 }
 
 .footer-logo i {
+  margin-right: 0.5rem;
+}
+
+.footer-logo-img {
+  height: 35px;
+  width: auto;
+  object-fit: contain;
   margin-right: 0.5rem;
 }
 
