@@ -13,6 +13,171 @@ document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', 
   navMenu.classList.remove('active');
 }));
 
+// Enhanced Navbar - Active Section Highlighting
+function updateActiveNavLink() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  let current = '';
+  const scrollPos = window.scrollY + 100; // Offset for navbar height
+  
+  // Find the section that's currently most visible
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    
+    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  // If no section detected, find the closest one
+  if (!current) {
+    let closest = null;
+    let closestDistance = Infinity;
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const distance = Math.abs(scrollPos - sectionTop);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = section.getAttribute('id');
+      }
+    });
+    current = closest;
+  }
+
+  // Map section IDs to navbar links (handle special cases)
+  let targetLink = current;
+  if (current === 'presidents-message') {
+    targetLink = 'about'; // President's message should highlight "About" button
+  }
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const linkHref = link.getAttribute('href');
+    if (linkHref === `#${targetLink}`) {
+      link.classList.add('active');
+    }
+  });
+}
+
+// Enhanced Navbar - Scroll Effects
+let lastScrollY = window.scrollY;
+const navbar = document.querySelector('.navbar');
+
+function handleNavbarScroll() {
+  const currentScrollY = window.scrollY;
+  
+  // Update active nav link
+  updateActiveNavLink();
+  
+  // Dynamic navbar styling based on scroll using classes
+  if (currentScrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  lastScrollY = currentScrollY;
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', handleNavbarScroll);
+
+// Enhanced navbar button interactions
+document.querySelectorAll('.nav-link').forEach(link => {
+  // Add click ripple effect
+  link.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+      position: absolute;
+      width: ${size}px;
+      height: ${size}px;
+      left: ${x}px;
+      top: ${y}px;
+      background: rgba(10, 132, 255, 0.6);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    `;
+    
+    this.appendChild(ripple);
+    
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+  });
+  
+  // Add magnetic effect
+  link.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    this.style.transform = `translateY(-3px) scale(1.05) translate(${x * 0.1}px, ${y * 0.1}px)`;
+  });
+  
+  link.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+});
+
+// Add ripple animation CSS
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+  @keyframes ripple {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+`;
+document.head.appendChild(rippleStyle);
+
+// Add logo click animation with improved handling
+let logoAnimating = false;
+let currentRotation = 0;
+
+document.querySelector('.nav-logo').addEventListener('click', () => {
+  if (!logoAnimating) {
+    logoAnimating = true;
+    const logoImg = document.querySelector('.logo-img');
+    
+    // Calculate next rotation to always go forward
+    currentRotation += 360;
+    
+    logoImg.style.transform = `rotate(${currentRotation}deg)`;
+    logoImg.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    
+    setTimeout(() => {
+      logoAnimating = false;
+      // Keep the rotation state, don't reset
+    }, 800);
+  }
+});
+
+// Fix hover interaction - don't interfere with click animation
+document.querySelector('.nav-logo').addEventListener('mouseenter', () => {
+  if (!logoAnimating) {
+    const logoImg = document.querySelector('.logo-img');
+    logoImg.style.transform = `rotate(${currentRotation}deg) scale(1.05)`;
+    logoImg.style.transition = 'transform 0.3s ease';
+  }
+});
+
+document.querySelector('.nav-logo').addEventListener('mouseleave', () => {
+  if (!logoAnimating) {
+    const logoImg = document.querySelector('.logo-img');
+    logoImg.style.transform = `rotate(${currentRotation}deg)`;
+    logoImg.style.transition = 'transform 0.3s ease';
+  }
+});
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -148,8 +313,8 @@ function isValidEmail(email) {
 
 // Notification system
 function showNotification(message, type = 'info') {
-  // Remove any existing notifications
-  const existingNotification = document.querySelector('.notification');
+  // Remove any existing notifications from container
+  const existingNotification = document.querySelector('#notification-container .notification');
   if (existingNotification) {
     existingNotification.remove();
   }
@@ -164,20 +329,46 @@ function showNotification(message, type = 'info') {
     </div>
   `;
   
+  // Create isolated container for notification to avoid stacking context issues
+  let notificationContainer = document.getElementById('notification-container');
+  if (!notificationContainer) {
+    notificationContainer = document.createElement('div');
+    notificationContainer.id = 'notification-container';
+    notificationContainer.style.cssText = `
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      pointer-events: none !important;
+      z-index: 999999 !important;
+      filter: none !important;
+    `;
+    document.documentElement.appendChild(notificationContainer);
+  }
+  
   // Add notification styles
   const style = document.createElement('style');
   style.textContent = `
     .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10000;
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 999999 !important;
       min-width: 300px;
       max-width: 500px;
       border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
       transform: translateX(100%);
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      pointer-events: auto;
+      
+      /* Explicitly inherit the website's font styling */
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Arial, sans-serif !important;
+      font-size: 14px;
+      line-height: 1.6;
+      color: white;
     }
     
     .notification.show {
@@ -187,16 +378,19 @@ function showNotification(message, type = 'info') {
     .notification-success {
       background: linear-gradient(135deg, #48bb78, #38a169);
       color: white;
+      border: 2px solid rgba(72, 187, 120, 0.5);
     }
     
     .notification-error {
       background: linear-gradient(135deg, #f56565, #e53e3e);
       color: white;
+      border: 2px solid rgba(245, 101, 101, 0.5);
     }
     
     .notification-info {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
+      border: 2px solid rgba(102, 126, 234, 0.5);
     }
     
     .notification-content {
@@ -204,11 +398,15 @@ function showNotification(message, type = 'info') {
       align-items: center;
       justify-content: space-between;
       padding: 15px 20px;
+      font-family: inherit;
     }
     
     .notification-message {
       flex: 1;
       font-weight: 500;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
     }
     
     .notification-close {
@@ -220,6 +418,7 @@ function showNotification(message, type = 'info') {
       margin-left: 15px;
       opacity: 0.8;
       transition: opacity 0.2s ease;
+      font-family: inherit;
     }
     
     .notification-close:hover {
@@ -232,12 +431,17 @@ function showNotification(message, type = 'info') {
     document.head.appendChild(style);
   }
   
-  // Add to page
-  document.body.appendChild(notification);
+  // Add to isolated container (not body)
+  notificationContainer.appendChild(notification);
   
-  // Show notification
+  // Force reflow and show notification
+  notification.offsetHeight; // Force reflow
   requestAnimationFrame(() => {
     notification.classList.add('show');
+    // Ensure it's visible
+    notification.style.display = 'block';
+    notification.style.visibility = 'visible';
+    notification.style.pointerEvents = 'auto';
   });
   
   // Add close functionality
@@ -292,28 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Uncomment the line below to enable typing effect
     // typeWriter(heroTitle, originalText.replace(/<[^>]*>/g, ''), 50);
   }
-});
-
-// Add active class to current navigation item based on scroll position
-window.addEventListener('scroll', () => {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-  
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (scrollY >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
-  
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}`) {
-      link.classList.add('active');
-    }
-  });
 });
 
 // Add CSS for active nav link
@@ -373,7 +555,7 @@ document.addEventListener('keydown', (e) => {
       konamiCode.every((code, index) => code === konamiSequence[index])) {
     showNotification('🚀 Congratulations! You found the secret space code! Welcome to the elite space cadets!', 'success');
     
-    // Add some fun visual effects
+    // Add some fun visual effects but exclude the notification
     document.body.style.animation = 'rainbow 2s infinite';
     
     const rainbowStyle = document.createElement('style');
@@ -381,6 +563,20 @@ document.addEventListener('keydown', (e) => {
       @keyframes rainbow {
         0% { filter: hue-rotate(0deg); }
         100% { filter: hue-rotate(360deg); }
+      }
+      
+      /* Ensure notification stays unaffected by body animations */
+      .notification {
+        filter: none !important;
+        transform: translateX(0) !important;
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+      }
+      
+      .notification.show {
+        transform: translateX(0) !important;
       }
     `;
     document.head.appendChild(rainbowStyle);

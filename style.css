@@ -41,6 +41,7 @@ body {
   color: var(--text-primary);
   background: linear-gradient(180deg, #0a1224, #070b14 35%);
   overflow-x: hidden;
+  padding-top: 0; /* Let sections handle their own spacing */
 }
 
 html {
@@ -54,17 +55,96 @@ html {
   padding: 0 1.1rem;
 }
 
-/* Navigation - Clean dark theme */
+/* Navigation - Enhanced with dynamic effects */
 .navbar {
-  position: fixed;
+  position: fixed !important;
   top: 0;
+  left: 0;
   width: 100%;
-  background: rgba(13, 17, 23, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, .05);
-  box-shadow: none;
-  z-index: 1000;
-  transition: all 0.3s ease;
+  background: var(--navbar-bg, linear-gradient(
+    135deg,
+    rgba(13, 17, 23, 0.9) 0%,
+    rgba(20, 25, 35, 0.85) 50%,
+    rgba(13, 17, 23, 0.9) 100%
+  ));
+  backdrop-filter: var(--navbar-blur, blur(20px) saturate(150%));
+  border-bottom: 1px solid var(--navbar-border, rgba(10, 132, 255, 0.2));
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  z-index: 10000 !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.navbar.scrolled {
+  --navbar-bg: linear-gradient(
+    135deg,
+    rgba(13, 17, 23, 0.95) 0%,
+    rgba(20, 25, 35, 0.9) 50%,
+    rgba(13, 17, 23, 0.95) 100%
+  );
+  --navbar-blur: blur(25px) saturate(180%);
+  --navbar-border: rgba(10, 132, 255, 0.3);
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(10, 132, 255, 0.4) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 300% 100%;
+  animation: scanLineSmooth 6s linear infinite;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 20px 15px, rgba(10, 132, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 80px 25px, rgba(10, 132, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 150px 10px, rgba(10, 132, 255, 0.3), transparent);
+  background-size: 200px 50px;
+  animation: twinkleSmooth 8s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes scanLineSmooth {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes activeGlow {
+  0% { box-shadow: 0 5px 20px rgba(10, 132, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+  100% { box-shadow: 0 8px 30px rgba(10, 132, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+}
+
+@keyframes activePulse {
+  0%, 100% { opacity: 0.8; transform: translateX(-50%) scaleX(1); }
+  50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+}
+
+@keyframes scanLine {
+  0%, 100% { left: -100%; opacity: 0; }
+  50% { left: 100%; opacity: 1; }
 }
 
 .nav-container {
@@ -84,40 +164,94 @@ html {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--ink);
+  cursor: pointer;
+  position: relative;
 }
 
-.nav-logo i {
-  font-size: 1.5rem;
-  color: var(--accent);
+.nav-logo:hover {
+  filter: brightness(1.2);
 }
 
 .logo-img {
   height: 40px;
   width: auto;
   object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  will-change: transform;
 }
 
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
 .nav-link {
   color: rgba(229, 231, 235, 0.8);
   text-decoration: none;
-  padding: 0.5rem 0.8rem;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+  padding: 0.8rem 1.3rem;
+  border-radius: 25px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-weight: 500;
+  position: relative;
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+  border-radius: 1px;
 }
 
 .nav-link:hover {
-  color: var(--ink);
-  background: linear-gradient(180deg, var(--glass), rgba(255, 255, 255, .02));
-  border-color: rgba(255, 255, 255, .12);
+  color: white;
+  background: rgba(10, 132, 255, 0.15);
+  border-color: rgba(10, 132, 255, 0.6);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(10, 132, 255, 0.25),
+    0 0 25px rgba(10, 132, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(10, 132, 255, 0.3);
+  text-shadow: 0 0 15px rgba(10, 132, 255, 0.8);
+  backdrop-filter: blur(15px) saturate(150%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: linear-gradient(
+    135deg,
+    rgba(10, 132, 255, 0.15) 0%,
+    rgba(10, 132, 255, 0.08) 100%
+  );
+  border-color: rgba(10, 132, 255, 0.4);
+  box-shadow: 
+    0 5px 20px rgba(10, 132, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+.nav-link.active::after {
+  width: 60%;
+  animation: activePulse 1.5s ease-in-out infinite;
 }
 
 .nav-link.active {
@@ -511,7 +645,7 @@ html {
   border: 1px solid var(--border);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.6s ease-out, float 6s ease-in-out infinite;
 }
 
@@ -519,19 +653,19 @@ html {
   transform: translateY(-10px);
   background: var(--glass-hover);
   border-color: rgba(255, 255, 255, .14);
-  animation: pulse 2s infinite;
+  box-shadow: 0 20px 40px rgba(10, 132, 255, 0.1);
 }
 
 .feature i {
   font-size: 3rem;
   color: var(--primary-color);
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .feature:hover i {
-  animation: rocketLaunch 1s ease-in-out;
   color: var(--accent);
+  transform: scale(1.1);
 }
 
 .feature h3 {
@@ -560,7 +694,7 @@ html {
   text-align: center;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.8s ease-out, pulse 4s ease-in-out infinite;
 }
 
@@ -568,19 +702,19 @@ html {
   transform: translateY(-10px);
   background: var(--glass-hover);
   border-color: rgba(255, 255, 255, .25);
-  animation: glow 2s infinite;
+  box-shadow: 0 20px 40px rgba(10, 132, 255, 0.15);
 }
 
 .project-icon {
   font-size: 3rem;
   color: var(--primary-color);
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card:hover .project-icon i {
-  animation: spin 1s ease-in-out;
   color: var(--accent);
+  transform: scale(1.1) rotate(5deg);
 }
 
 .project-card h3 {
@@ -708,7 +842,7 @@ html {
   border-radius: 16px;
   padding: 2rem;
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 1s ease-out, float 8s ease-in-out infinite;
 }
 
@@ -716,7 +850,7 @@ html {
   transform: translateY(-10px) scale(1.02);
   background: var(--glass-hover);
   border-color: rgba(255, 255, 255, .14);
-  animation: pulse 2s infinite;
+  box-shadow: 0 20px 40px rgba(10, 132, 255, 0.12);
 }
 
 .member-photo {
@@ -730,12 +864,12 @@ html {
   justify-content: center;
   font-size: 2rem;
   color: white;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .team-member:hover .member-photo {
-  animation: bounce 1s ease-in-out;
   background: linear-gradient(135deg, var(--accent), var(--primary-color));
+  transform: scale(1.05);
 }
 
 .team-member h3 {
