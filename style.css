@@ -847,12 +847,11 @@ html {
 
 /* Team Section */
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  place-items: center;
-  grid-auto-rows: 1fr;
   justify-content: center;
+  align-items: stretch;
 }
 
 .team-member {
@@ -867,6 +866,7 @@ html {
   width: 100%;
   max-width: 300px;
   min-height: 320px;
+  flex: 1 1 280px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
