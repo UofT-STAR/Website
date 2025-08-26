@@ -1137,7 +1137,7 @@ html {
 
   /* Fix navbar clipping issue on mobile */
   .navbar {
-    overflow: visible !important;
+    overflow: visible;
   }
 
   .hamburger {
@@ -1238,7 +1238,7 @@ html {
   #presidents-message .btn {
     display: block;
     width: 100%;
-    margin: 0.5rem 0 !important;
+    margin: 0.5rem 0;
     text-align: center;
   }
 
@@ -1322,7 +1322,7 @@ html {
 
   .features .feature i,
   .projects-grid .project-icon {
-    font-size: 2rem !important;
+    font-size: 2rem;
     margin-bottom: 0.8rem;
   }
 
@@ -1416,7 +1416,7 @@ html {
 
   .features .feature i,
   .projects-grid .project-icon {
-    font-size: 1.8rem !important;
+    font-size: 1.8rem;
     margin-bottom: 0.6rem;
   }
 
