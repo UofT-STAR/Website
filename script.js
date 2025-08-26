@@ -544,8 +544,6 @@ const konamiSequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLe
 
 document.addEventListener('keydown', (e) => {
   konamiCode.push(e.key);
-  
-  console.log(e.keyCode, e.key, e.code);
 
   if (konamiCode.length > konamiSequence.length) {
     konamiCode.shift();
