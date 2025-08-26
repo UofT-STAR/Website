@@ -57,7 +57,7 @@ html {
 
 /* Navigation - Enhanced with dynamic effects */
 .navbar {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -72,7 +72,7 @@ html {
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  z-index: 10000 !important;
+  z-index: 100;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
@@ -632,10 +632,12 @@ html {
 }
 
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-top: 3rem;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .feature {
@@ -647,6 +649,12 @@ html {
   backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.6s ease-out, float 6s ease-in-out infinite;
+  width: 100%;
+  max-width: 320px;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .feature:hover {
@@ -685,6 +693,8 @@ html {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  place-items: center;
+  grid-auto-rows: 1fr;
 }
 
 .project-card {
@@ -696,6 +706,12 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.8s ease-out, pulse 4s ease-in-out infinite;
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .project-card:hover {
@@ -727,10 +743,11 @@ html {
   opacity: 0.9;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  flex-grow: 1;
 }
 
 .project-status {
-  margin-top: 1rem;
+  margin-top: auto;
 }
 
 .status-badge {
@@ -833,6 +850,9 @@ html {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
+  place-items: center;
+  grid-auto-rows: 1fr;
+  justify-content: center;
 }
 
 .team-member {
@@ -844,6 +864,12 @@ html {
   backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 1s ease-out, float 8s ease-in-out infinite;
+  width: 100%;
+  max-width: 300px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .team-member:hover {
@@ -876,17 +902,23 @@ html {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  line-height: 1.3;
+  min-height: 1.6rem;
 }
 
 .member-role {
   color: var(--accent-color);
   font-weight: 500;
   margin-bottom: 0.25rem;
+  line-height: 1.4;
+  min-height: 1.4rem;
 }
 
 .member-program {
   opacity: 0.8;
   font-size: 0.875rem;
+  line-height: 1.4;
+  min-height: 2.4rem;
 }
 
 /* Contact Section */
@@ -1099,29 +1131,94 @@ html {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  body {
+    padding-top: 80px;
+  }
+
+  /* Fix navbar clipping issue on mobile */
+  .navbar {
+    overflow: visible !important;
+  }
+
   .hamburger {
     display: flex;
+    z-index: 9999;
   }
 
+  /* Mobile navigation menu - side positioned and properly hidden */
   .nav-menu {
     position: fixed;
-    left: -100%;
-    top: 70px;
+    top: 90px;
+    right: -100%;
+    width: 280px;
+    height: auto;
+    max-height: calc(100vh - 120px);
+    background: rgba(13, 13, 13, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    z-index: 9998;
+    display: flex;
     flex-direction: column;
-    background-color: white;
-    width: 100%;
-    text-align: center;
-    transition: 0.3s;
-    box-shadow: var(--shadow);
-    padding: 2rem 0;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 1.5rem;
+    gap: 0.8rem;
+    list-style: none;
+    margin: 0;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    box-sizing: border-box;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   }
 
+  /* Show menu when active - slides in from right */
   .nav-menu.active {
-    left: 0;
+    right: 20px;
   }
 
-  .nav-menu li {
-    margin: 1rem 0;
+  .nav-menu .nav-item {
+    width: 100%;
+    margin: 0;
+    list-style: none;
+  }
+
+  .nav-menu .nav-link {
+    display: block;
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .nav-menu .nav-link:hover,
+  .nav-menu .nav-link.active {
+    background: rgba(10, 132, 255, 0.2);
+    color: var(--primary-color);
+    border-color: rgba(10, 132, 255, 0.4);
+    transform: scale(1.02);
+  }
+
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
   }
 
   .hero-title {
@@ -1137,9 +1234,18 @@ html {
     align-items: center;
   }
 
+  /* President's message buttons - better mobile layout */
+  #presidents-message .btn {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0 !important;
+    text-align: center;
+  }
+
   .contact-content {
     grid-template-columns: 1fr;
     gap: 2rem;
+    justify-content: center;
   }
 
   .event-item {
@@ -1153,15 +1259,96 @@ html {
   }
 
   .features {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .features .feature {
+    flex: 1 1 150px;
+    min-width: 150px;
+    max-width: 200px;
+    height: 280px;
   }
 
   .projects-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .projects-grid .project-card {
+    flex: 1 1 150px;
+    min-width: 150px;
+    max-width: 200px;
+    height: 320px;
   }
 
   .team-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .team-grid .team-member {
+    flex: 1 1 150px;
+    min-width: 150px;
+    max-width: 200px;
+    height: 300px;
+  }
+
+  /* Mobile text sizing for cards - STANDARDIZED */
+  .features .feature h3,
+  .projects-grid .project-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .features .feature p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .projects-grid .project-card p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .features .feature i,
+  .projects-grid .project-icon {
+    font-size: 2rem !important;
+    margin-bottom: 0.8rem;
+  }
+
+  .team-grid .team-member h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-grid .team-member p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+  }
+
+  .team-grid .member-photo {
+    width: 90px;
+    height: 90px;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Reduce padding on mobile cards */
+  .features .feature,
+  .projects-grid .project-card,
+  .team-grid .team-member {
+    padding: 1.2rem;
   }
 }
 
@@ -1186,6 +1373,82 @@ html {
   .feature,
   .contact-form {
     padding: 1.5rem;
+  }
+
+  /* Even more compact layouts for small screens */
+  .team-grid .team-member {
+    flex: 1 1 140px;
+    min-width: 140px;
+    max-width: 180px;
+    height: 280px;
+  }
+
+  .features .feature {
+    flex: 1 1 140px;
+    min-width: 140px;
+    max-width: 180px;
+    height: 260px;
+  }
+
+  .projects-grid .project-card {
+    flex: 1 1 140px;
+    min-width: 140px;
+    max-width: 180px;
+    height: 300px;
+  }
+
+  /* Smaller mobile text sizing for cards - STANDARDIZED */
+  .features .feature h3,
+  .projects-grid .project-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .features .feature p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .projects-grid .project-card p {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .features .feature i,
+  .projects-grid .project-icon {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.6rem;
+  }
+
+  .team-grid .team-member h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .team-grid .team-member p {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+  }
+
+  .team-grid .member-photo {
+    width: 80px;
+    height: 80px;
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Even more compact padding for small screens */
+  .features .feature,
+  .projects-grid .project-card,
+  .team-grid .team-member {
+    padding: 1rem;
+  }
+
+  /* Optimize President's message buttons for very small screens */
+  #presidents-message .btn {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
   }
 }
 
@@ -1217,4 +1480,10 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gradient-accent);
+}
+
+/* Firefox scrollbar support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #0a84ff #1a1a1a;
 }
