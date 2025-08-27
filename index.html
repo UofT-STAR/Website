@@ -169,8 +169,8 @@
                 <div class="about-text">
                     <p>We recruit each Fall and ad‑hoc when roles open. No prior rocketry experience is required — bring curiosity and commitment. We emphasize documentation, mentorship, and safe engineering practices.</p>
                     <p>Ready to join the next generation of aerospace talent? We welcome students from all disciplines who share our passion for rocketry and space technology.</p>
-                    <div style="margin-top: 2rem;">
-                        <a href="https://forms.gle/isJRaBi8EYFYcJYL7" class="btn btn-primary" target="_blank" rel="noopener" style="margin-right: 1rem;">Apply to Join</a>
+                    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+                        <a href="https://forms.gle/isJRaBi8EYFYcJYL7" class="btn btn-primary" target="_blank" rel="noopener">Apply to Join</a>
                         <a href="https://www.instagram.com/uoftstar/" class="btn btn-secondary" target="_blank" rel="noopener">Follow @uoftstar</a>
                     </div>
                 </div>
@@ -307,14 +307,34 @@
                             <input type="email" id="email" name="email" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <select id="program" name="program" required>
-                                <option value="">Select Your Program</option>
-                                <option value="physics">Physics & Astronomy</option>
-                                <option value="mathematics">Mathematics</option>
-                                <option value="computer-science">Computer Science</option>
-                                <option value="engineering">Engineering</option>
-                                <option value="other">Other</option>
-                            </select>
+                            <label>Select Your Program(s):</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="program[]" value="physics">
+                                    <span class="checkmark"></span>
+                                    <span>Physics & Astronomy</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="program[]" value="mathematics">
+                                    <span class="checkmark"></span>
+                                    <span>Mathematics</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="program[]" value="computer-science">
+                                    <span class="checkmark"></span>
+                                    <span>Computer Science</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="program[]" value="engineering">
+                                    <span class="checkmark"></span>
+                                    <span>Engineering</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="program[]" value="other">
+                                    <span class="checkmark"></span>
+                                    <span>Other</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <textarea id="message" name="message" placeholder="Tell us about your interests in rocketry and aerospace..." rows="4"></textarea>
@@ -334,8 +354,33 @@
                     <img src="UTSTAR_logo.png" alt="UofT STAR Logo" class="footer-logo-img">
                     <span>UofT STAR</span>
                 </div>
-                <p>&copy; 2025 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
+                
+                <div class="footer-info">
+                    <div class="footer-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="location-text">
+                            <span>Bahen Centre for Information Technology</span>
+                            <small>University of Toronto</small>
+                        </div>
+                    </div>
+                    <div class="footer-map">
+                        <div class="map-button" onclick="window.open('https://www.google.com/maps/place/Bahen+Centre+for+Information+Technology/@43.6597267,-79.3994284,17z/data=!3m1!4b1!4m6!3m5!1s0x882b34c75165c957:0x6459384147b4b67b!8m2!3d43.6597267!4d-79.3972397!16s%2Fm%2F0h3p4d0', '_blank')">
+                            <div class="map-preview">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>View on Google Maps</span>
+                                <small>Click to open location</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:info.utstar@gmail.com" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
+                    <a href="https://forms.gle/isJRaBi8EYFYcJYL7" target="_blank" rel="noopener"><i class="fas fa-rocket"></i></a>
+                </div>
             </div>
+            <p>&copy; 2025 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
         </div>
     </footer>
 

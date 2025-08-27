@@ -691,11 +691,11 @@ html {
 
 /* Projects Section */
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  place-items: center;
-  grid-auto-rows: 1fr;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .project-card {
@@ -707,9 +707,10 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.8s ease-out, pulse 4s ease-in-out infinite;
-  width: 100%;
+  /* width: 100%; */
   max-width: 350px;
-  height: 100%;
+  /* height: 100%; */
+  flex: 1 1 280px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -745,6 +746,7 @@ html {
   margin-bottom: 1.5rem;
   line-height: 1.6;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .project-status {
@@ -997,6 +999,22 @@ html {
   backdrop-filter: blur(10px);
 }
 
+/* Remove resize delay from message textarea */
+#message {
+  transition: none !important;
+  resize: vertical;
+}
+
+/* Allow smooth animations for the "Other" program input container */
+.other-program-input {
+  transition: all 0.3s ease !important;
+}
+
+/* But disable transitions on input fields inside the "Other" container to prevent conflicts */
+.other-program-input input {
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease !important;
+}
+
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -1040,6 +1058,93 @@ html {
   color: var(--ink);
 }
 
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.checkbox-item:hover {
+  background: var(--glass-hover);
+  border-color: rgba(10, 132, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(10, 132, 255, 0.1);
+}
+
+.checkbox-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-item .checkmark {
+  height: 20px;
+  width: 20px;
+  background: var(--glass);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.checkbox-item input[type="checkbox"]:checked ~ .checkmark {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.3);
+}
+
+.checkbox-item .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-item input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-item span {
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.checkbox-item:hover span {
+  color: var(--primary-color);
+}
+
+.checkbox-item input[type="checkbox"]:checked ~ span {
+  color: var(--primary-color);
+}
+
 .form-group textarea {
   resize: vertical;
   min-height: 120px;
@@ -1079,13 +1184,180 @@ html {
 
 .footer-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 1.5rem auto;
   position: relative;
   z-index: 1;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(10, 132, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.footer-logo:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 20px rgba(10, 132, 255, 0.5);
+}
+
+.footer-logo-img {
+  height: 35px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 0.5rem;
+}
+
+.footer-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-location {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.8);
+  gap: 0.5rem;
+}
+
+.footer-location i {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.location-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.location-text span {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.location-text small {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.footer-map {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-map:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(10, 132, 255, 0.2);
+}
+
+.map-button {
+  width: 200px;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.8), rgba(0, 212, 255, 0.6));
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.map-button:hover {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.9), rgba(0, 212, 255, 0.7));
+  transform: translateY(-2px);
+}
+
+.map-preview {
+  text-align: center;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.map-preview i {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  display: block;
+  color: #ff4757;
+}
+
+.map-preview span {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.map-preview small {
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-social a {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Remove old complex footer styles */
+.footer-section,
+.footer-contact,
+.footer-contact-item,
+.footer-social-link,
+.footer-description,
+.footer-bottom,
+.footer-note {
+  display: none;
 }
 
 .footer-logo {
@@ -1476,6 +1748,27 @@ html {
   #presidents-message .btn {
     font-size: 0.9rem;
     padding: 0.7rem 1.2rem;
+  }
+
+  #events .btn {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+  }
+
+  /* Footer mobile adjustments */
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .footer-info {
+    order: -1;
+  }
+
+  .footer-map iframe {
+    width: 180px;
+    height: 100px;
   }
 }
 
