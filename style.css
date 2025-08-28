@@ -1793,26 +1793,8 @@ html {
   transform: translateY(0);
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--gradient-primary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gradient-accent);
-}
-
-/* Firefox scrollbar support */
-html {
+/* Custom scrollbar styling - Firefox compatible approach */
+html, body {
   scrollbar-width: thin;
   scrollbar-color: #0a84ff #1a1a1a;
 }

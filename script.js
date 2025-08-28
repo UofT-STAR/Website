@@ -14,6 +14,12 @@ document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', 
   navMenu.classList.remove('active');
 }));
 
+// Close mobile menu when clicking on dropdown links (Constitution page)
+document.querySelectorAll('.dropdown-link').forEach(n => n.addEventListener('click', () => {
+  hamburger.classList.remove('active');
+  navMenu.classList.remove('active');
+}));
+
 // Enhanced Navbar - Active Section Highlighting
 function updateActiveNavLink() {
   const sections = document.querySelectorAll('section[id]');
@@ -83,8 +89,20 @@ function handleNavbarScroll() {
   lastScrollY = currentScrollY;
 }
 
-// Add scroll event listener
-window.addEventListener('scroll', handleNavbarScroll);
+// Add scroll event listener with performance optimization
+let ticking = false;
+
+function optimizedScrollHandler() {
+  handleNavbarScroll();
+  ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(optimizedScrollHandler);
+    ticking = true;
+  }
+}, { passive: true });
 
 // Enhanced navbar button interactions
 document.querySelectorAll('.nav-link').forEach(link => {
@@ -183,7 +201,14 @@ document.querySelector('.nav-logo').addEventListener('mouseleave', () => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
+    const href = this.getAttribute('href');
+    
+    // Skip if href is just '#' or empty
+    if (!href || href === '#') {
+      return;
+    }
+    
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({
         behavior: 'smooth',
@@ -193,8 +218,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Navbar scroll effect - Cool dark theme
-window.addEventListener('scroll', () => {
+// Navbar scroll effect - Cool dark theme (optimized)
+let navbarTicking = false;
+
+function updateNavbarStyle() {
   const navbar = document.querySelector('.navbar');
   if (window.scrollY > 100) {
     // Scrolled down - make navbar more solid and add glow effect
@@ -209,7 +236,15 @@ window.addEventListener('scroll', () => {
     navbar.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
     navbar.style.boxShadow = 'none';
   }
-});
+  navbarTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!navbarTicking) {
+    requestAnimationFrame(updateNavbarStyle);
+    navbarTicking = true;
+  }
+}, { passive: true });
 
 // Enhanced Intersection Observer for staggered animations
 const observerOptions = {
@@ -239,48 +274,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Add fade-in class to elements and observe them with enhanced animations
-document.addEventListener('DOMContentLoaded', () => {
-  const animatedElements = document.querySelectorAll('.feature, .project-card, .event-item, .team-member');
-  animatedElements.forEach((el, index) => {
-    el.classList.add('fade-in');
-    el.style.animationDelay = `${index * 0.1}s`;
-    observer.observe(el);
-  });
-  
-  // Add hover effects to icons
-  const icons = document.querySelectorAll('.feature i, .project-icon i');
-  icons.forEach(icon => {
-    icon.addEventListener('mouseenter', () => {
-      icon.style.transform = 'scale(1.2) rotate(10deg)';
-      icon.style.color = 'var(--accent)';
-    });
-    
-    icon.addEventListener('mouseleave', () => {
-      icon.style.transform = 'scale(1) rotate(0deg)';
-      icon.style.color = 'var(--primary-color)';
-    });
-  });
-  
-  // Add floating animation to nav logo
-  const navLogo = document.querySelector('.nav-logo i');
-  if (navLogo) {
-    navLogo.style.animation = 'float 3s ease-in-out infinite';
-  }
-  
-  // Add typing effect to highlight text
-  const highlightText = document.querySelector('.highlight');
-  if (highlightText) {
-    highlightText.addEventListener('mouseenter', () => {
-      highlightText.style.animation = 'pulse 1s ease-in-out';
-    });
-  }
-});
-
-// Contact form handling
-const contactForm = document.getElementById('contactForm');
-
-// Handle "Other" program selection
+// Initialize the "Other" program functionality when DOM is loaded
 function handleOtherProgramSelection() {
   const otherCheckbox = document.querySelector('input[name="program[]"][value="other"]');
   const checkboxGroup = document.querySelector('.checkbox-group');
@@ -374,36 +368,100 @@ function handleOtherProgramSelection() {
   });
 }
 
-// Initialize the "Other" program functionality when DOM is loaded
+// Consolidated DOMContentLoaded handler
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize back to top button for any page
+  initBackToTopButton();
+  
+  // Initialize Constitution page features
+  setupConstitutionSectionObserver();
+  
+  // Handle "Other" program selection (index.html contact form)
   handleOtherProgramSelection();
+  
+  // Add fade-in class to elements and observe them with enhanced animations
+  const animatedElements = document.querySelectorAll('.feature, .project-card, .event-item, .team-member');
+  animatedElements.forEach((el, index) => {
+    el.classList.add('fade-in');
+    el.style.animationDelay = `${index * 0.1}s`;
+    observer.observe(el);
+  });
+  
+  // Add hover effects to icons
+  const icons = document.querySelectorAll('.feature i, .project-icon i');
+  icons.forEach(icon => {
+    icon.addEventListener('mouseenter', () => {
+      icon.style.transform = 'scale(1.2) rotate(10deg)';
+      icon.style.color = 'var(--accent)';
+    });
+    
+    icon.addEventListener('mouseleave', () => {
+      icon.style.transform = 'scale(1) rotate(0deg)';
+      icon.style.color = 'var(--primary-color)';
+    });
+  });
+  
+  // Add floating animation to nav logo
+  const navLogo = document.querySelector('.nav-logo i');
+  if (navLogo) {
+    navLogo.style.animation = 'float 3s ease-in-out infinite';
+  }
+  
+  // Add typing effect to highlight text
+  const highlightText = document.querySelector('.highlight');
+  if (highlightText) {
+    highlightText.addEventListener('mouseenter', () => {
+      highlightText.style.animation = 'pulse 1s ease-in-out';
+    });
+  }
+  
+  // Initialize typing effect when page loads
+  const heroTitle = document.querySelector('.hero-title');
+  if (heroTitle) {
+    const originalText = heroTitle.innerHTML;
+    // Uncomment the line below to enable typing effect
+    // typeWriter(heroTitle, originalText.replace(/<[^>]*>/g, ''), 50);
+  }
+  
+  // Initialize smooth reveal animations for sections
+  const sections = document.querySelectorAll('.section');
+  sections.forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(50px)';
+    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    revealObserver.observe(section);
+  });
 });
 
-contactForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  
-  // Get form data
-  const formData = new FormData(contactForm);
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const message = formData.get('message');
+// Contact form handling
+const contactForm = document.getElementById('contactForm');
 
-  // Get selected programs including "Other"
-  const selectedPrograms = Array.from(document.querySelectorAll('input[name="program[]"]:checked')).map(checkbox => checkbox.value);
-  const otherProgram = formData.get('otherProgram');
-  
-  // Build final programs list
-  let finalPrograms = [...selectedPrograms];
-  
-  // If "Other" is selected and has custom text, replace it with the custom programs
-  if (selectedPrograms.includes('other') && otherProgram && otherProgram.trim()) {
-    // Remove "other" from the list
-    finalPrograms = finalPrograms.filter(program => program !== 'other');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
     
-    // Split the custom programs by commas and add them
-    const customPrograms = otherProgram.split(',').map(program => program.trim()).filter(program => program);
-    finalPrograms.push(...customPrograms);
-  }
+    // Get form data
+    const formData = new FormData(contactForm);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+
+    // Get selected programs including "Other"
+    const selectedPrograms = Array.from(document.querySelectorAll('input[name="program[]"]:checked')).map(checkbox => checkbox.value);
+    const otherProgram = formData.get('otherProgram');
+    
+    // Build final programs list
+    let finalPrograms = [...selectedPrograms];
+    
+    // If "Other" is selected and has custom text, replace it with the custom programs
+    if (selectedPrograms.includes('other') && otherProgram && otherProgram.trim()) {
+      // Remove "other" from the list
+      finalPrograms = finalPrograms.filter(program => program !== 'other');
+      
+      // Split the custom programs by commas and add them
+      const customPrograms = otherProgram.split(',').map(program => program.trim()).filter(program => program);
+      finalPrograms.push(...customPrograms);
+    }
   
   // Simple validation
   if (!name || !email || !finalPrograms.length || !message) {
@@ -444,7 +502,8 @@ contactForm.addEventListener('submit', (e) => {
     const otherInput = document.getElementById('otherProgram');
     if (otherInput) otherInput.value = '';
   }
-});
+  });
+}
 
 // Email validation function
 function isValidEmail(email) {
@@ -604,14 +663,24 @@ function showNotification(message, type = 'info') {
   }, 5000);
 }
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
+// Parallax effect for hero section (optimized)
+let parallaxTicking = false;
+
+function updateParallaxEffect() {
   const scrolled = window.pageYOffset;
   const heroAnimation = document.querySelector('.hero-animation');
   if (heroAnimation) {
     heroAnimation.style.transform = `translateY(${scrolled * 0.5}px)`;
   }
-});
+  parallaxTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!parallaxTicking) {
+    requestAnimationFrame(updateParallaxEffect);
+    parallaxTicking = true;
+  }
+}, { passive: true });
 
 // Dynamic typing effect for hero title
 function typeWriter(element, text, speed = 100) {
@@ -628,16 +697,6 @@ function typeWriter(element, text, speed = 100) {
   
   type();
 }
-
-// Initialize typing effect when page loads
-document.addEventListener('DOMContentLoaded', () => {
-  const heroTitle = document.querySelector('.hero-title');
-  if (heroTitle) {
-    const originalText = heroTitle.innerHTML;
-    // Uncomment the line below to enable typing effect
-    // typeWriter(heroTitle, originalText.replace(/<[^>]*>/g, ''), 50);
-  }
-});
 
 // Add CSS for active nav link
 const activeNavStyle = document.createElement('style');
@@ -669,16 +728,110 @@ const revealObserver = new IntersectionObserver((entries) => {
   threshold: 0.1
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('.section');
-  sections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(50px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    revealObserver.observe(section);
+// Back to top functionality - useful for both index.html and Constitution.html
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
   });
-});
+}
 
+// Scroll to table of contents (Constitution page specific)
+function scrollToTOC() {
+  const toc = document.querySelector('.constitution-nav');
+  if (toc) {
+    toc.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+}
+
+// Show/hide back to top button - works for any page with a backToTop element
+function initBackToTopButton() {
+  const backToTopBtn = document.getElementById('backToTop');
+  if (backToTopBtn) {
+    let backToTopTicking = false;
+    
+    function updateBackToTopButton() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+      backToTopTicking = false;
+    }
+    
+    window.addEventListener('scroll', function() {
+      if (!backToTopTicking) {
+        requestAnimationFrame(updateBackToTopButton);
+        backToTopTicking = true;
+      }
+    }, { passive: true });
+  }
+}
+
+// Constitution page: Highlight active section in table of contents and dropdown using Intersection Observer
+function setupConstitutionSectionObserver() {
+  // Only run on Constitution page
+  if (!document.querySelector('.constitution-article')) return;
+  
+  const sections = document.querySelectorAll('.constitution-article');
+  const tocLinks = document.querySelectorAll('.constitution-toc a');
+  const dropdownLinks = document.querySelectorAll('.dropdown-link[href^="#article"]');
+  
+  // console.log(`Constitution observer setup: ${sections.length} sections, ${tocLinks.length} TOC links, ${dropdownLinks.length} dropdown links`);
+  
+  let currentSection = '';
+  
+  const observer = new IntersectionObserver((entries) => {
+    // Find the section that's most visible
+    let maxRatio = 0;
+    let mostVisibleSection = '';
+    
+    entries.forEach(entry => {
+      if (entry.intersectionRatio > maxRatio) {
+        maxRatio = entry.intersectionRatio;
+        mostVisibleSection = entry.target.getAttribute('id');
+      }
+    });
+    
+    // Only update if we have a significantly visible section
+    if (maxRatio > 0.1) {
+      currentSection = mostVisibleSection;
+      // console.log(`Active section: ${currentSection}, visibility: ${maxRatio}`);
+      
+      // Update table of contents
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + currentSection) {
+          link.classList.add('active');
+          // console.log(`TOC link activated: ${link.getAttribute('href')}`);
+        }
+      });
+
+      // Update dropdown menu
+      dropdownLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + currentSection) {
+          link.classList.add('active');
+          // console.log(`Dropdown link activated: ${link.getAttribute('href')}`);
+        }
+      });
+    }
+  }, {
+    threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    rootMargin: '-100px 0px -100px 0px' // Account for navbar
+  });
+  
+  // Observe all sections
+  sections.forEach(section => {
+    observer.observe(section);
+    // console.log(`Observing section: ${section.getAttribute('id')}`);
+  });
+}
+
+// Initialize Constitution-specific features when DOM loads
 // Easter egg: Konami code
 let konamiCode = [];
 const konamiSequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]; // Up Up Down Down Left Right Left Right B A

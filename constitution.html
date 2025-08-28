@@ -27,7 +27,7 @@
                     <a href="about.html" class="nav-link">About</a>
                 </li>
                 <li class="nav-item nav-dropdown">
-                    <a href="Constitution.html" class="nav-link active">Constitution <i class="fas fa-chevron-down"></i></a>
+                    <a href="constitution.html" class="nav-link active">Constitution <i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown-menu">
                         <div class="dropdown-content">
                             <div class="dropdown-columns">
@@ -589,89 +589,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Back to top functionality
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // Scroll to table of contents
-        function scrollToTOC() {
-            const toc = document.querySelector('.constitution-nav');
-            if (toc) {
-                toc.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-
-        // Show/hide back to top button
-        window.addEventListener('scroll', function() {
-            const backToTopBtn = document.getElementById('backToTop');
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-
-        // Highlight active section in table of contents and dropdown using Intersection Observer
-        function setupSectionObserver() {
-            const sections = document.querySelectorAll('.constitution-article');
-            const tocLinks = document.querySelectorAll('.constitution-toc a');
-            const dropdownLinks = document.querySelectorAll('.dropdown-link[href^="#article"]');
-            
-            let currentSection = '';
-            
-            const observer = new IntersectionObserver((entries) => {
-                // Find the section that's most visible
-                let maxRatio = 0;
-                let mostVisibleSection = '';
-                
-                entries.forEach(entry => {
-                    if (entry.intersectionRatio > maxRatio) {
-                        maxRatio = entry.intersectionRatio;
-                        mostVisibleSection = entry.target.getAttribute('id');
-                    }
-                });
-                
-                // Only update if we have a significantly visible section
-                if (maxRatio > 0.1) {
-                    currentSection = mostVisibleSection;
-                    
-                    // Update table of contents
-                    tocLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + currentSection) {
-                            link.classList.add('active');
-                        }
-                    });
-
-                    // Update dropdown menu
-                    dropdownLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + currentSection) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            }, {
-                threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-                rootMargin: '-100px 0px -100px 0px' // Account for navbar
-            });
-            
-            // Observe all sections
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        }
-        
-        // Initialize observer when page loads
-        setupSectionObserver();
-    </script>
 </body>
 </html>
