@@ -2140,17 +2140,25 @@ html {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 0;
   min-width: 500px;
+  max-height: 0;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 9999;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.dropdown-content {
+  padding: 1rem;
+  transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-dropdown:hover .dropdown-menu {
+  max-height: 500px;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -2255,22 +2263,30 @@ html {
   /* When dropdown is inside active mobile menu */
   .nav-menu.active .dropdown-menu {
     position: relative;
-    top: 0.5rem;
+    top: 0;
     right: auto;
     left: 0;
     width: 100%;
     min-width: auto;
     max-width: none;
-    margin-top: 0.5rem;
+    margin-top: 0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* Keep the collapse behavior in mobile menu too */
+    max-height: 0;
+    overflow: hidden;
+  }
+  
+  .nav-menu.active .nav-dropdown:hover .dropdown-menu {
+    max-height: 700px;
+    margin-top: 0.5rem;
+  }
+  
+  .nav-menu.active .dropdown-content {
+    padding: 1rem;
   }
   
   .nav-dropdown:hover .dropdown-menu {
     transform: translateX(0) translateY(0);
-  }
-  
-  .nav-menu.active .nav-dropdown:hover .dropdown-menu {
-    transform: none;
   }
   
   .dropdown-columns {
@@ -2297,5 +2313,11 @@ html {
     max-width: none;
     right: auto;
     left: 0;
+    /* Keep collapse behavior */
+    max-height: 0;
+  }
+  
+  .nav-menu.active .nav-dropdown:hover .dropdown-menu {
+    max-height: 650px;
   }
 }
