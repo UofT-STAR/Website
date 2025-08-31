@@ -376,6 +376,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize Constitution page features
   setupConstitutionSectionObserver();
   
+  // Initialize team profile pictures
+  loadTeamProfilePictures();
+  
   // Handle "Other" program selection (index.html contact form)
   handleOtherProgramSelection();
   
@@ -828,6 +831,75 @@ function setupConstitutionSectionObserver() {
   sections.forEach(section => {
     observer.observe(section);
     // console.log(`Observing section: ${section.getAttribute('id')}`);
+  });
+}
+
+// Team Profile Pictures Loader
+function loadTeamProfilePictures() {
+  // Only run if we're on a page with team members
+  const teamMembers = document.querySelectorAll('.team-member');
+  if (teamMembers.length === 0) return;
+  
+  teamMembers.forEach(member => {
+    const nameElement = member.querySelector('h3');
+    const photoElement = member.querySelector('.member-photo');
+    
+    if (!nameElement || !photoElement) return;
+    
+    const fullName = nameElement.textContent.trim();
+    const initials = photoElement.textContent.trim(); // Store original initials as fallback
+    
+    // Convert name to filename format (remove spaces, keep camelCase)
+    const filename = fullName.replace(/\s+/g, '');
+    
+    // Try different image extensions
+    const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+    let imageLoaded = false;
+    
+    function tryLoadImage(index) {
+      if (index >= extensions.length || imageLoaded) {
+        return; // All extensions tried or image already loaded
+      }
+      
+      const ext = extensions[index];
+      const imagePath = `TeamExecs/${filename}.${ext}`;
+      
+      // Create a test image to check if file exists
+      const img = new Image();
+      
+      img.onload = function() {
+        // Image loaded successfully
+        imageLoaded = true;
+        photoElement.style.backgroundImage = `url('${imagePath}')`;
+        photoElement.style.backgroundSize = 'cover';
+        photoElement.style.backgroundPosition = 'center';
+        photoElement.style.backgroundRepeat = 'no-repeat';
+        photoElement.textContent = ''; // Remove initials
+        photoElement.setAttribute('data-has-image', 'true');
+        
+        // Add a subtle border to indicate it's a photo
+        photoElement.style.border = '2px solid rgba(10, 132, 255, 0.3)';
+        photoElement.style.boxShadow = '0 4px 12px rgba(10, 132, 255, 0.2)';
+      };
+      
+      img.onerror = function() {
+        // Image failed to load, try next extension
+        tryLoadImage(index + 1);
+      };
+      
+      img.src = imagePath;
+    }
+    
+    // Start trying to load images
+    tryLoadImage(0);
+    
+    // Set a timeout fallback to ensure initials stay if no image loads
+    setTimeout(() => {
+      if (!imageLoaded) {
+        photoElement.textContent = initials; // Keep original initials
+        photoElement.setAttribute('data-has-image', 'false');
+      }
+    }, 2000); // 2 second timeout
   });
 }
 
