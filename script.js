@@ -379,8 +379,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize team profile pictures
   loadTeamProfilePictures();
   
-  // Initialize trivia game
-  triviaGame = new TriviaGame();
+  // Initialize trivia game (only on trivia page)
+  if (document.getElementById('startBtn')) {
+    triviaGame = new TriviaGame();
+  }
   
   // Initialize website data manager
   websiteDataManager = new WebsiteDataManager();
@@ -923,13 +925,16 @@ class TriviaGame {
     this.questionStartTime = null;
     this.timeLimit = 30; // seconds per question
     this.timer = null;
+    this.shuffledCorrectIndex = 0;
     
     this.init();
   }
   
   init() {
     // Only initialize if we're on the trivia page
-    if (!document.querySelector('#triviaQuestions')) return;
+    if (!document.getElementById('startBtn')) {
+      return;
+    }
     
     this.loadQuestions();
     this.bindEvents();
@@ -943,7 +948,6 @@ class TriviaGame {
         this.questions = [...window.triviaQuestions]; // Copy array to avoid modifying original
         this.shuffleArray(this.questions);
         this.updateStats();
-        console.log('Using loaded trivia questions from JavaScript module');
         return;
       }
       
@@ -956,7 +960,6 @@ class TriviaGame {
       // Shuffle questions for random order
       this.shuffleArray(this.questions);
       this.updateStats();
-      console.log('Loaded trivia questions from JSON file');
     } catch (error) {
       console.error('Error loading trivia questions:', error);
       if (typeof showNotification === 'function') {
@@ -1007,6 +1010,11 @@ class TriviaGame {
   }
   
   startGame() {
+    if (this.questions.length === 0) {
+      alert('Error: No trivia questions loaded. Please refresh the page.');
+      return;
+    }
+    
     this.currentQuestionIndex = 0;
     this.score = 0;
     this.correctAnswers = 0;
@@ -1059,17 +1067,30 @@ class TriviaGame {
     const answersGrid = document.getElementById('answersGrid');
     answersGrid.innerHTML = '';
     
-    question.answers.forEach((answer, index) => {
+    // Create array of answers with their original indices
+    const answersWithIndex = question.answers.map((answer, index) => ({
+      text: answer,
+      originalIndex: index,
+      isCorrect: index === question.correct
+    }));
+    
+    // Shuffle the answers
+    this.shuffleArray(answersWithIndex);
+    
+    // Find the new index of the correct answer after shuffling
+    this.shuffledCorrectIndex = answersWithIndex.findIndex(item => item.isCorrect);
+    
+    answersWithIndex.forEach((answerItem, displayIndex) => {
       const answerEl = document.createElement('button');
       answerEl.className = 'answer-option';
-      answerEl.setAttribute('data-answer', index);
+      answerEl.setAttribute('data-answer', displayIndex);
       
       answerEl.innerHTML = `
-        <div class="answer-letter">${String.fromCharCode(65 + index)}</div>
-        <span>${answer}</span>
+        <div class="answer-letter">${String.fromCharCode(65 + displayIndex)}</div>
+        <span>${answerItem.text}</span>
       `;
       
-      answerEl.addEventListener('click', () => this.selectAnswer(index));
+      answerEl.addEventListener('click', () => this.selectAnswer(displayIndex));
       answersGrid.appendChild(answerEl);
     });
   }
@@ -1087,9 +1108,9 @@ class TriviaGame {
     answerOptions.forEach((option, index) => {
       option.classList.add('disabled');
       
-      if (index === question.correct) {
+      if (index === this.shuffledCorrectIndex) {
         option.classList.add('correct');
-      } else if (index === answerIndex && index !== question.correct) {
+      } else if (index === answerIndex && index !== this.shuffledCorrectIndex) {
         option.classList.add('incorrect');
       }
       
@@ -1099,7 +1120,7 @@ class TriviaGame {
     });
     
     // Calculate score
-    if (answerIndex === question.correct) {
+    if (answerIndex === this.shuffledCorrectIndex) {
       this.correctAnswers++;
       const timeBonus = Math.max(0, this.timeLimit - Math.floor((Date.now() - this.questionStartTime) / 1000));
       let points = 100; // Base points
@@ -1133,6 +1154,11 @@ class TriviaGame {
   }
   
   nextQuestion() {
+    // Only allow next question if game is active and an answer was selected
+    if (!this.startTime || this.currentQuestionIndex >= this.questions.length || this.selectedAnswer === null) {
+      return;
+    }
+    
     this.currentQuestionIndex++;
     this.showQuestion();
   }
@@ -1141,7 +1167,8 @@ class TriviaGame {
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     
-    const progress = ((this.currentQuestionIndex) / this.questions.length) * 100;
+    // Show progress based on current question being displayed (1-based for display)
+    const progress = ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
     progressFill.style.width = `${progress}%`;
     
     progressText.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questions.length}`;
@@ -1150,10 +1177,22 @@ class TriviaGame {
   startTimer() {
     let timeLeft = this.timeLimit;
     const timeLeftEl = document.getElementById('timeLeft');
+    const timerProgressFill = document.getElementById('timerProgressFill');
+    
+    // Reset timer progress bar to full
+    if (timerProgressFill) {
+      timerProgressFill.style.width = '100%';
+    }
     
     this.timer = setInterval(() => {
       timeLeft--;
       timeLeftEl.textContent = `${timeLeft}s`;
+      
+      // Update timer progress bar
+      const progressPercentage = (timeLeft / this.timeLimit) * 100;
+      if (timerProgressFill) {
+        timerProgressFill.style.width = `${progressPercentage}%`;
+      }
       
       // Change color when time is running low
       if (timeLeft <= 5) {
@@ -1185,6 +1224,7 @@ class TriviaGame {
     // Hide game elements, show results
     document.querySelector('.trivia-progress').style.display = 'none';
     document.getElementById('questionContainer').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
     document.getElementById('resultsContainer').style.display = 'block';
     document.getElementById('restartBtn').style.display = 'inline-block';
     
@@ -1223,6 +1263,7 @@ class TriviaGame {
     // Reset all elements
     document.getElementById('restartBtn').style.display = 'none';
     document.getElementById('startBtn').style.display = 'inline-block';
+    document.getElementById('nextBtn').style.display = 'none';
     document.getElementById('resultsContainer').style.display = 'none';
     document.querySelector('.trivia-progress').style.display = 'none';
     document.getElementById('questionContainer').style.display = 'none';
