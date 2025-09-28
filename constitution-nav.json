@@ -1,0 +1,53 @@
+{
+  "constitutionNavigation": [
+    {
+      "title": "Table of Contents",
+      "href": "#",
+      "onclick": "scrollToTOC()"
+    },
+    {
+      "title": "Article I: Name",
+      "href": "#article1"
+    },
+    {
+      "title": "Article II: Purpose",
+      "href": "#article2"
+    },
+    {
+      "title": "Article III: Membership",
+      "href": "#article3"
+    },
+    {
+      "title": "Article IV: Officers",
+      "href": "#article4"
+    },
+    {
+      "title": "Article V: Executive Committee",
+      "href": "#article5"
+    },
+    {
+      "title": "Article VI: Meetings",
+      "href": "#article6"
+    },
+    {
+      "title": "Article VII: Quorum",
+      "href": "#article7"
+    },
+    {
+      "title": "Article VIII: Voting",
+      "href": "#article8"
+    },
+    {
+      "title": "Article IX: Financial Policies",
+      "href": "#article9"
+    },
+    {
+      "title": "Article X: Amendments",
+      "href": "#article10"
+    },
+    {
+      "title": "Article XI: Dissolution",
+      "href": "#article11"
+    }
+  ]
+}

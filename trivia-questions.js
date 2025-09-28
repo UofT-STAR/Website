@@ -1,0 +1,93 @@
+// Trivia questions exported as JavaScript module
+// This works with file:// protocol unlike JSON fetch
+
+const triviaQuestions = [
+  {
+    "category": "Rockets",
+    "difficulty": "Easy",
+    "question": "What is the most powerful rocket ever successfully flown?",
+    "answers": ["Falcon Heavy", "Saturn V", "Space Shuttle", "Atlas V"],
+    "correct": 1,
+    "explanation": "The Saturn V remains the most powerful rocket to have flown successfully, used in the Apollo missions to the Moon."
+  },
+  {
+    "category": "Space History",
+    "difficulty": "Easy", 
+    "question": "Who was the first human to travel to space?",
+    "answers": ["Neil Armstrong", "Yuri Gagarin", "John Glenn", "Alan Shepard"],
+    "correct": 1,
+    "explanation": "Yuri Gagarin became the first human in space on April 12, 1961, aboard Vostok 1."
+  },
+  {
+    "category": "Planets",
+    "difficulty": "Medium",
+    "question": "Which planet has the most moons in our solar system?",
+    "answers": ["Jupiter", "Saturn", "Uranus", "Neptune"],
+    "correct": 1,
+    "explanation": "Saturn has the most confirmed moons with over 80 natural satellites, surpassing Jupiter's count."
+  },
+  {
+    "category": "Space Technology",
+    "difficulty": "Medium",
+    "question": "What does ISS stand for?",
+    "answers": ["International Space Station", "Interstellar Space System", "International Satellite Station", "Integrated Space Structure"],
+    "correct": 0,
+    "explanation": "ISS stands for International Space Station, a habitable artificial satellite in low Earth orbit."
+  },
+  {
+    "category": "Rockets",
+    "difficulty": "Hard",
+    "question": "What is the specific impulse (Isp) unit commonly used for rocket engines?",
+    "answers": ["Newtons", "Seconds", "Joules", "Pascals"],
+    "correct": 1,
+    "explanation": "Specific impulse is measured in seconds and represents the efficiency of rocket propellant usage."
+  },
+  {
+    "category": "Space Exploration",
+    "difficulty": "Easy",
+    "question": "Which space agency successfully landed the Perseverance rover on Mars?",
+    "answers": ["ESA", "NASA", "ISRO", "SpaceX"],
+    "correct": 1,
+    "explanation": "NASA's Perseverance rover successfully landed on Mars in February 2021 as part of the Mars 2020 mission."
+  },
+  {
+    "category": "Physics",
+    "difficulty": "Hard",
+    "question": "What is the escape velocity from Earth's surface?",
+    "answers": ["7.9 km/s", "11.2 km/s", "15.4 km/s", "9.8 km/s"],
+    "correct": 1,
+    "explanation": "Earth's escape velocity is approximately 11.2 km/s (25,000 mph), the minimum speed needed to escape Earth's gravitational pull."
+  },
+  {
+    "category": "Space History",
+    "difficulty": "Medium",
+    "question": "What was the name of the first artificial satellite?",
+    "answers": ["Explorer 1", "Luna 1", "Sputnik 1", "Vanguard 1"],
+    "correct": 2,
+    "explanation": "Sputnik 1 was the first artificial Earth satellite, launched by the Soviet Union on October 4, 1957."
+  },
+  {
+    "category": "Modern Space",
+    "difficulty": "Easy",
+    "question": "Which company developed the reusable Falcon 9 rocket?",
+    "answers": ["Blue Origin", "SpaceX", "Virgin Galactic", "Boeing"],
+    "correct": 1,
+    "explanation": "SpaceX developed the Falcon 9, revolutionizing space launch with its reusable first stage booster."
+  },
+  {
+    "category": "Astronomy",
+    "difficulty": "Hard",
+    "question": "What is the closest star system to our solar system?",
+    "answers": ["Proxima Centauri", "Alpha Centauri", "Barnard's Star", "Wolf 359"],
+    "correct": 1,
+    "explanation": "Alpha Centauri is the closest star system to our solar system at about 4.37 light-years away. Proxima Centauri is part of this system."
+  }
+];
+
+// Export for different module systems
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = triviaQuestions;
+}
+if (typeof window !== 'undefined') {
+  window.triviaQuestions = triviaQuestions;
+}

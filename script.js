@@ -379,6 +379,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize team profile pictures
   loadTeamProfilePictures();
   
+  // Initialize trivia game
+  triviaGame = new TriviaGame();
+  
+  // Initialize website data manager
+  websiteDataManager = new WebsiteDataManager();
+  
   // Handle "Other" program selection (index.html contact form)
   handleOtherProgramSelection();
   
@@ -836,9 +842,10 @@ function setupConstitutionSectionObserver() {
 
 // Team Profile Pictures Loader
 function loadTeamProfilePictures() {
-  // Only run if we're on a page with team members
-  const teamMembers = document.querySelectorAll('.team-member');
-  if (teamMembers.length === 0) return;
+  // Add a small delay to ensure dynamically loaded content is ready
+  setTimeout(() => {
+    const teamMembers = document.querySelectorAll('.team-member');
+    if (teamMembers.length === 0) return;
   
   teamMembers.forEach(member => {
     const nameElement = member.querySelector('h3');
@@ -900,10 +907,467 @@ function loadTeamProfilePictures() {
         photoElement.setAttribute('data-has-image', 'false');
       }
     }, 2000); // 2 second timeout
-  });
+    });
+  }, 500); // Wait 500ms for dynamic content to load
 }
 
-// Initialize Constitution-specific features when DOM loads
+// Trivia Game Functionality
+class TriviaGame {
+  constructor() {
+    this.questions = [];
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.correctAnswers = 0;
+    this.selectedAnswer = null;
+    this.startTime = null;
+    this.questionStartTime = null;
+    this.timeLimit = 30; // seconds per question
+    this.timer = null;
+    
+    this.init();
+  }
+  
+  init() {
+    // Only initialize if we're on the trivia page
+    if (!document.querySelector('#triviaQuestions')) return;
+    
+    this.loadQuestions();
+    this.bindEvents();
+    this.updateStats();
+  }
+  
+  async loadQuestions() {
+    try {
+      // Use globally loaded data from trivia-questions.js
+      if (typeof window.triviaQuestions !== 'undefined') {
+        this.questions = [...window.triviaQuestions]; // Copy array to avoid modifying original
+        this.shuffleArray(this.questions);
+        this.updateStats();
+        console.log('Using loaded trivia questions from JavaScript module');
+        return;
+      }
+      
+      // Fallback to fetch for HTTP environments
+      const response = await fetch('trivia-questions.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      this.questions = await response.json();
+      // Shuffle questions for random order
+      this.shuffleArray(this.questions);
+      this.updateStats();
+      console.log('Loaded trivia questions from JSON file');
+    } catch (error) {
+      console.error('Error loading trivia questions:', error);
+      if (typeof showNotification === 'function') {
+        showNotification('Error loading questions. Please refresh the page.', 'error');
+      }
+      // Fallback: show error message in UI
+      const startBtn = document.getElementById('startBtn');
+      if (startBtn) {
+        startBtn.textContent = 'Error loading questions';
+        startBtn.disabled = true;
+      }
+    }
+  }
+  
+  shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  
+  bindEvents() {
+    const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (startBtn) {
+      startBtn.addEventListener('click', () => this.startGame());
+    }
+    
+    if (restartBtn) {
+      restartBtn.addEventListener('click', () => this.restartGame());
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => this.nextQuestion());
+    }
+  }
+  
+  updateStats() {
+    const totalQuestionsEl = document.getElementById('totalQuestions');
+    const currentScoreEl = document.getElementById('currentScore');
+    const currentQuestionEl = document.getElementById('currentQuestion');
+    
+    if (totalQuestionsEl) totalQuestionsEl.textContent = this.questions.length;
+    if (currentScoreEl) currentScoreEl.textContent = this.score;
+    if (currentQuestionEl) currentQuestionEl.textContent = this.currentQuestionIndex + 1;
+  }
+  
+  startGame() {
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.correctAnswers = 0;
+    this.startTime = Date.now();
+    
+    // Hide start button, show game elements
+    document.getElementById('startBtn').style.display = 'none';
+    document.getElementById('restartBtn').style.display = 'none';
+    document.querySelector('.trivia-progress').style.display = 'block';
+    document.getElementById('questionContainer').style.display = 'block';
+    document.getElementById('resultsContainer').style.display = 'none';
+    
+    this.showQuestion();
+  }
+  
+  showQuestion() {
+    if (this.currentQuestionIndex >= this.questions.length) {
+      this.endGame();
+      return;
+    }
+    
+    const question = this.questions[this.currentQuestionIndex];
+    this.selectedAnswer = null;
+    this.questionStartTime = Date.now();
+    
+    // Update progress
+    this.updateProgress();
+    
+    // Display question
+    document.getElementById('questionCategory').textContent = question.category;
+    const difficultyEl = document.getElementById('questionDifficulty');
+    difficultyEl.textContent = question.difficulty;
+    difficultyEl.setAttribute('data-difficulty', question.difficulty);
+    
+    document.getElementById('questionText').textContent = question.question;
+    
+    // Display answers
+    this.displayAnswers(question);
+    
+    // Start timer
+    this.startTimer();
+    
+    // Hide next button
+    document.getElementById('nextBtn').style.display = 'none';
+    
+    this.updateStats();
+  }
+  
+  displayAnswers(question) {
+    const answersGrid = document.getElementById('answersGrid');
+    answersGrid.innerHTML = '';
+    
+    question.answers.forEach((answer, index) => {
+      const answerEl = document.createElement('button');
+      answerEl.className = 'answer-option';
+      answerEl.setAttribute('data-answer', index);
+      
+      answerEl.innerHTML = `
+        <div class="answer-letter">${String.fromCharCode(65 + index)}</div>
+        <span>${answer}</span>
+      `;
+      
+      answerEl.addEventListener('click', () => this.selectAnswer(index));
+      answersGrid.appendChild(answerEl);
+    });
+  }
+  
+  selectAnswer(answerIndex) {
+    if (this.selectedAnswer !== null) return; // Already answered
+    
+    this.selectedAnswer = answerIndex;
+    this.clearTimer();
+    
+    const question = this.questions[this.currentQuestionIndex];
+    const answerOptions = document.querySelectorAll('.answer-option');
+    
+    // Disable all options and show correct/incorrect
+    answerOptions.forEach((option, index) => {
+      option.classList.add('disabled');
+      
+      if (index === question.correct) {
+        option.classList.add('correct');
+      } else if (index === answerIndex && index !== question.correct) {
+        option.classList.add('incorrect');
+      }
+      
+      if (index === answerIndex) {
+        option.classList.add('selected');
+      }
+    });
+    
+    // Calculate score
+    if (answerIndex === question.correct) {
+      this.correctAnswers++;
+      const timeBonus = Math.max(0, this.timeLimit - Math.floor((Date.now() - this.questionStartTime) / 1000));
+      let points = 100; // Base points
+      
+      // Difficulty bonus
+      if (question.difficulty === 'Medium') points += 50;
+      else if (question.difficulty === 'Hard') points += 100;
+      
+      // Time bonus
+      points += timeBonus * 2;
+      
+      this.score += points;
+      
+      // Show success feedback
+      if (typeof showNotification === 'function') {
+        showNotification(`Correct! +${points} points`, 'success');
+      }
+    } else {
+      // Show incorrect feedback with explanation
+      if (typeof showNotification === 'function') {
+        showNotification(`Incorrect. ${question.explanation}`, 'error');
+      }
+    }
+    
+    // Show next button
+    setTimeout(() => {
+      document.getElementById('nextBtn').style.display = 'inline-block';
+    }, 1500);
+    
+    this.updateStats();
+  }
+  
+  nextQuestion() {
+    this.currentQuestionIndex++;
+    this.showQuestion();
+  }
+  
+  updateProgress() {
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    
+    const progress = ((this.currentQuestionIndex) / this.questions.length) * 100;
+    progressFill.style.width = `${progress}%`;
+    
+    progressText.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questions.length}`;
+  }
+  
+  startTimer() {
+    let timeLeft = this.timeLimit;
+    const timeLeftEl = document.getElementById('timeLeft');
+    
+    this.timer = setInterval(() => {
+      timeLeft--;
+      timeLeftEl.textContent = `${timeLeft}s`;
+      
+      // Change color when time is running low
+      if (timeLeft <= 5) {
+        timeLeftEl.style.color = '#ef4444';
+      } else if (timeLeft <= 10) {
+        timeLeftEl.style.color = '#f59e0b';
+      } else {
+        timeLeftEl.style.color = 'var(--muted)';
+      }
+      
+      if (timeLeft <= 0) {
+        this.selectAnswer(-1); // Auto-select wrong answer for timeout
+      }
+    }, 1000);
+  }
+  
+  clearTimer() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+  
+  endGame() {
+    this.clearTimer();
+    
+    const totalTime = Math.floor((Date.now() - this.startTime) / 1000);
+    
+    // Hide game elements, show results
+    document.querySelector('.trivia-progress').style.display = 'none';
+    document.getElementById('questionContainer').style.display = 'none';
+    document.getElementById('resultsContainer').style.display = 'block';
+    document.getElementById('restartBtn').style.display = 'inline-block';
+    
+    // Display results
+    document.getElementById('finalScore').textContent = this.score;
+    document.getElementById('correctAnswers').textContent = `${this.correctAnswers}/${this.questions.length}`;
+    document.getElementById('totalTime').textContent = totalTime;
+    
+    // Generate results message
+    const percentage = (this.correctAnswers / this.questions.length) * 100;
+    let message = '';
+    
+    if (percentage >= 90) {
+      message = '🚀 Outstanding! You\'re a true space expert!';
+    } else if (percentage >= 80) {
+      message = '⭐ Excellent work! Your space knowledge is impressive!';
+    } else if (percentage >= 70) {
+      message = '🌟 Great job! You know your space stuff!';
+    } else if (percentage >= 60) {
+      message = '👍 Good effort! Keep exploring the cosmos!';
+    } else if (percentage >= 50) {
+      message = '📚 Not bad! Time to brush up on space knowledge!';
+    } else {
+      message = '🌌 Keep learning! The universe has so much to offer!';
+    }
+    
+    document.getElementById('resultsMessage').textContent = message;
+    
+    this.updateStats();
+  }
+  
+  restartGame() {
+    // Shuffle questions again
+    this.shuffleArray(this.questions);
+    
+    // Reset all elements
+    document.getElementById('restartBtn').style.display = 'none';
+    document.getElementById('startBtn').style.display = 'inline-block';
+    document.getElementById('resultsContainer').style.display = 'none';
+    document.querySelector('.trivia-progress').style.display = 'none';
+    document.getElementById('questionContainer').style.display = 'none';
+    
+    // Reset stats
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.correctAnswers = 0;
+    this.updateStats();
+  }
+}
+
+// Initialize trivia game when DOM loads
+let triviaGame;
+
+// Website Data Management
+class WebsiteDataManager {
+  constructor() {
+    this.data = null;
+    this.init();
+  }
+  
+  async init() {
+    // Only load data if we're on the main page
+    if (document.querySelector('.team-grid') || document.querySelector('.projects-grid')) {
+      await this.loadData();
+      this.populateContent();
+    }
+  }
+  
+  async loadData() {
+    try {
+      // Use globally loaded data from website-data.js
+      if (typeof window.websiteData !== 'undefined') {
+        this.data = window.websiteData;
+        console.log('Using loaded website data from JavaScript module');
+        return;
+      }
+      
+      // Fallback to fetch for HTTP environments
+      const response = await fetch('website-data.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      this.data = await response.json();
+      console.log('Loaded website data from JSON file');
+    } catch (error) {
+      console.error('Error loading website data:', error);
+      this.showErrorMessage();
+      // Fallback: keep existing HTML content
+    }
+  }
+  
+  showErrorMessage() {
+    // Show error message in loading placeholders
+    const placeholders = document.querySelectorAll('.loading-placeholder');
+    placeholders.forEach(placeholder => {
+      placeholder.innerHTML = `
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Error loading content. Please refresh the page.</p>
+      `;
+      placeholder.style.color = '#ef4444';
+    });
+  }
+  
+  populateContent() {
+    if (!this.data) return;
+    
+    this.populateTeamMembers();
+    this.populateProjects();
+    this.populateFeatures();
+  }
+  
+  populateTeamMembers() {
+    const teamGrid = document.getElementById('teamGrid');
+    if (!teamGrid || !this.data.teamMembers) return;
+    
+    // Clear existing content (including loading placeholder)
+    teamGrid.innerHTML = '';
+    
+    this.data.teamMembers.forEach(member => {
+      const memberElement = document.createElement('div');
+      memberElement.className = 'team-member';
+      memberElement.innerHTML = `
+        <div class="member-photo">
+          ${member.initials}
+        </div>
+        <h3>${member.name}</h3>
+        <p class="member-role">${member.role}</p>
+        <p class="member-program">${member.program}</p>
+      `;
+      teamGrid.appendChild(memberElement);
+    });
+    
+    // Load profile pictures after team members are populated
+    loadTeamProfilePictures();
+  }
+  
+  populateProjects() {
+    const projectsGrid = document.getElementById('projectsGrid');
+    if (!projectsGrid || !this.data.projects) return;
+    
+    // Clear existing content (including loading placeholder)
+    projectsGrid.innerHTML = '';
+    
+    this.data.projects.forEach(project => {
+      const projectElement = document.createElement('div');
+      projectElement.className = 'project-card';
+      projectElement.innerHTML = `
+        <div class="project-icon">
+          <i class="${project.icon}"></i>
+        </div>
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <div class="project-status">
+          <span class="status-badge ${project.statusClass}">${project.status}</span>
+        </div>
+      `;
+      projectsGrid.appendChild(projectElement);
+    });
+  }
+  
+  populateFeatures() {
+    const featuresContainer = document.getElementById('featuresGrid');
+    if (!featuresContainer || !this.data.features) return;
+    
+    // Clear existing content (including loading placeholder)
+    featuresContainer.innerHTML = '';
+    
+    this.data.features.forEach(feature => {
+      const featureElement = document.createElement('div');
+      featureElement.className = 'feature';
+      featureElement.innerHTML = `
+        <i class="${feature.icon}"></i>
+        <h3>${feature.title}</h3>
+        <p>${feature.description}</p>
+      `;
+      featuresContainer.appendChild(featureElement);
+    });
+  }
+}
+
+// Initialize website data manager
+let websiteDataManager;
+
 // Easter egg: Konami code
 let konamiCode = [];
 const konamiSequence = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]; // Up Up Down Down Left Right Left Right B A

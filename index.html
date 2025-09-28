@@ -76,21 +76,11 @@
                 <div class="about-text">
                     <p>We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR). Our mission is to design, test, and launch innovative model rockets while training a diverse community of builders in avionics, structures, propulsion, and flight systems.</p>
                     <p>UofT STAR is the only rocketry team run by students of the Faculty of Arts & Science (FAS). Our vision is to become the go‑to rocketry team for FAS students and, eventually, the wider university. Students who want hands‑on experience in CAD and solid modeling, fluid dynamics, propulsion, and avionics will find our team a great fit—without compromising academic commitments.</p>
-                    <div class="features">
-                        <div class="feature">
-                            <i class="fas fa-rocket"></i>
-                            <h3>Rocket Development</h3>
-                            <p>Design and launch mid‑ to large‑scale model rockets showcasing unique technology</p>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-microchip"></i>
-                            <h3>Avionics & Software</h3>
-                            <p>Flight computers, telemetry, and software integration in C/C++ and Python</p>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-cogs"></i>
-                            <h3>Structures & Propulsion</h3>
-                            <p>Composites, thrust characterization, recovery systems, and VTOL hardware</p>
+                    <div class="features" id="featuresGrid">
+                        <!-- Features will be loaded from website-data.json -->
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading features...</p>
                         </div>
                     </div>
                 </div>
@@ -125,36 +115,11 @@
     <section id="projects" class="section">
         <div class="container">
             <h2 class="section-title">Current Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>VTOL Demonstrator</h3>
-                    <p>A propulsively landing rocket without a parachute - our flagship project showcasing thrust vector control, guidance, and navigation systems.</p>
-                    <div class="project-status">
-                        <span class="status-badge active">In Progress</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <h3>Avionics Systems</h3>
-                    <p>Flight computers, telemetry, and ground control software using C/C++ and Python with simulation and Hardware-in-the-Loop testing.</p>
-                    <div class="project-status">
-                        <span class="status-badge active">In Progress</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Structures & Propulsion</h3>
-                    <p>Airframe design, composite structures, motor integration, thrust characterization, and recovery/VTOL hardware development.</p>
-                    <div class="project-status">
-                        <span class="status-badge active">In Progress</span>
-                    </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded from website-data.json -->
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading projects...</p>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
@@ -185,102 +150,11 @@
     <section id="team" class="section">
         <div class="container">
             <h2 class="section-title">Leadership Team</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-photo">
-                        FHD
-                    </div>
-                    <h3>Faredoon Dastur</h3>
-                    <p class="member-role">President & Founder</p>
-                    <p class="member-program">Programs: Physics and Mathematics</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        KC
-                    </div>
-                    <h3>Kevin Chen</h3>
-                    <p class="member-role">Vice President</p>
-                    <p class="member-program">Program: Mathematics</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        AK
-                    </div>
-                    <h3>Ashish Abbur Venkata Kumar</h3>
-                    <p class="member-role">Propulsion Lead</p>
-                    <p class="member-program">Programs: Physics and Mathematics minor</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        AM
-                    </div>
-                    <h3>Andrew Miranda</h3>
-                    <p class="member-role">Mechanical & Aerodynamics Lead</p>
-                    <p class="member-program">Programs: Astronomy, Physics and Mathematics minor</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        TC
-                    </div>
-                    <h3>Tymon Cui</h3>
-                    <p class="member-role">Avionics Lead</p>
-                    <p class="member-program">Programs: Mathematics and Computer Science</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        MB
-                    </div>
-                    <h3>Michael Bai</h3>
-                    <p class="member-role">Testing & Safety Lead</p>
-                    <p class="member-program">Program: Applied Mathematics: Statistics</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        ZG
-                    </div>
-                    <h3>Zagrous Ghodsian</h3>
-                    <p class="member-role">Media & Outreach Team Lead</p>
-                    <p class="member-program">Program: Physics and Mathematics minor </p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        JC
-                    </div>
-                    <h3>Joshua Chen</h3>
-                    <p class="member-role">Finance Team Lead</p>
-                    <p class="member-program">Programs: Computer Science, Management and Economics minor</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        IT
-                    </div>
-                    <h3>Inba Thiyagarajan</h3>
-                    <p class="member-role">Executive Secretary</p>
-                    <p class="member-program">Programs: Computer Science and Mathematics minor</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        KTB
-                    </div>
-                    <h3>Kai Tano Bague</h3>
-                    <p class="member-role">Lead Web Designer</p>
-                    <p class="member-program">Programs: Computer Science, Data Science and Mathematics minor</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        NK
-                    </div>
-                    <h3>Nika Kavianitabar</h3>
-                    <p class="member-role">Systems Integration Lead</p>
-                    <p class="member-program">Programs: Physics</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-photo">
-                        TK
-                    </div>
-                    <h3>Thaddeus Kobylarz</h3>
-                    <p class="member-role">Research Lead</p>
-                    <p class="member-program">Programs: Astronomy and Physics</p>
+            <div class="team-grid" id="teamGrid">
+                <!-- Team members will be loaded from website-data.json -->
+                <div class="loading-placeholder">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading team members...</p>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
@@ -408,6 +282,7 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <script src="website-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
