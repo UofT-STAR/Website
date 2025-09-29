@@ -84,20 +84,20 @@ const websiteData = {
       status: "In Progress",
       statusClass: "active"
     },
-    {
-      title: "Avionics Systems",
-      icon: "fas fa-microchip",
-      description: "Flight computers, telemetry, and ground control software using C/C++ and Python with simulation and Hardware-in-the-Loop testing.",
-      status: "In Progress",
-      statusClass: "active"
-    },
-    {
-      title: "Structures & Propulsion",
-      icon: "fas fa-tools",
-      description: "Airframe design, composite structures, motor integration, thrust characterization, and recovery/VTOL hardware development.",
-      status: "In Progress",
-      statusClass: "active"
-    }
+    // {
+    //   title: "Avionics Systems",
+    //   icon: "fas fa-microchip",
+    //   description: "Flight computers, telemetry, and ground control software using C/C++ and Python with simulation and Hardware-in-the-Loop testing.",
+    //   status: "In Progress",
+    //   statusClass: "active"
+    // },
+    // {
+    //   title: "Structures & Propulsion",
+    //   icon: "fas fa-tools",
+    //   description: "Airframe design, composite structures, motor integration, thrust characterization, and recovery/VTOL hardware development.",
+    //   status: "In Progress",
+    //   statusClass: "active"
+    // }
   ],
   features: [
     {
