@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UofT STAR Trivia - Test Your Space Knowledge!</title>
+    <link rel="icon" type="image/png" href="UTSTAR_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Global Stars Background -->
+    <div class="stars-background"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="UTSTAR_logo.png" alt="UofT STAR Logo" class="logo-img">
+                <span>UofT STAR</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#events" class="nav-link">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#team" class="nav-link">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="constitution.html" class="nav-link">Constitution</a>
+                </li>
+                <li class="nav-item">
+                    <a href="trivia.html" class="nav-link active">Trivia</a>
+                </li>
+                <li class="nav-item">
+                    <a href="trivia.html" class="nav-link active">Trivia</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Trivia Hero Section -->
+    <section class="hero trivia-hero">
+        <div class="hero-content">
+            <h1 class="hero-title">🚀 <span class="highlight">Space Trivia Challenge</span></h1>
+            <p class="hero-description">Test your knowledge of rockets, space exploration, and aerospace engineering! How well do you know the cosmos?</p>
+            <div class="trivia-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalQuestions">0</span>
+                    <span class="stat-label">Questions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="currentScore">0</span>
+                    <span class="stat-label">Score</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="currentQuestion">0</span>
+                    <span class="stat-label">Current</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trivia Game Section -->
+    <section id="trivia-game" class="section">
+        <div class="container">
+            <!-- Game Controls -->
+            <div class="trivia-controls">
+                <button id="startBtn" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Start Trivia
+                </button>
+                <button id="restartBtn" class="btn btn-secondary" style="display: none;">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+                <button id="nextBtn" class="btn btn-primary" style="display: none;">
+                    Next Question <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="trivia-progress" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">Question 1 of 10</span>
+                    <span id="timeLeft">30s</span>
+                </div>
+                <!-- Timer Progress Bar -->
+                <div class="timer-progress-container">
+                    <div class="timer-progress-bar">
+                        <div class="timer-progress-fill" id="timerProgressFill"></div>
+                    </div>
+                    <div class="timer-text">Time Remaining</div>
+                </div>
+            </div>
+
+            <!-- Question Display -->
+            <div class="trivia-question-container" id="questionContainer" style="display: none;">
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-category" id="questionCategory">General</div>
+                        <div class="question-difficulty" id="questionDifficulty">Easy</div>
+                    </div>
+                    <h2 class="question-text" id="questionText">Question will appear here...</h2>
+                    <div class="answers-grid" id="answersGrid">
+                        <!-- Answer options will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div class="trivia-results" id="resultsContainer" style="display: none;">
+                <div class="results-card">
+                    <div class="results-header">
+                        <i class="fas fa-trophy results-icon"></i>
+                        <h2>Quiz Complete!</h2>
+                    </div>
+                    <div class="results-stats">
+                        <div class="result-stat">
+                            <span class="result-number" id="finalScore">0</span>
+                            <span class="result-label">Final Score</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="result-number" id="correctAnswers">0</span>
+                            <span class="result-label">Correct</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="result-number" id="totalTime">0</span>
+                            <span class="result-label">Time (s)</span>
+                        </div>
+                    </div>
+                    <div class="results-message" id="resultsMessage">
+                        Great job exploring the cosmos!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="UTSTAR_logo.png" alt="UofT STAR Logo" class="footer-logo-img">
+                    <span>UofT STAR</span>
+                </div>
+                
+                <div class="footer-info">
+                    <div class="footer-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="location-text">
+                            <span>Bahen Centre for Information Technology</span>
+                            <small>University of Toronto</small>
+                        </div>
+                    </div>
+                    <div class="footer-map">
+                        <div class="map-button" onclick="window.open('https://www.google.com/maps/place/Bahen+Centre+for+Information+Technology/@43.6597267,-79.3994284,17z/data=!3m1!4b1!4m6!3m5!1s0x882b34c75165c957:0x6459384147b4b67b!8m2!3d43.6597267!4d-79.3972397!16s%2Fm%2F0h3p4d0', '_blank')">
+                            <div class="map-preview">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>View on Google Maps</span>
+                                <small>Click to open location</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:info.utstar@gmail.com" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
+                    <a href="https://forms.gle/isJRaBi8EYFYcJYL7" target="_blank" rel="noopener"><i class="fas fa-rocket"></i></a>
+                </div>
+            </div>
+            <p>&copy; 2025 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="trivia-questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
