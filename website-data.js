@@ -4,16 +4,16 @@
 const websiteData = {
   teamMembers: [
     {
-      name: "Faredoon Dastur",
-      role: "President & Founder",
-      program: "Programs: Physics and Mathematics",
-      initials: "FHD"
+      name: "Thaddeus Kobylarz",
+      role: "President",
+      program: "Programs: Astronomy and Physics",
+      initials: "TJMPK-III"
     },
     {
-      name: "Kevin Chen",
+      name: "Zagrous Ghodsian",
       role: "Vice President",
-      program: "Program: Mathematics",
-      initials: "KC"
+      program: "Program: Physics and Mathematics minor",
+      initials: "ZG"
     },
     {
       name: "Ashish Abbur Venkata Kumar",
@@ -34,22 +34,16 @@ const websiteData = {
       initials: "TC"
     },
     {
-      name: "Michael Bai",
-      role: "Testing & Safety Lead",
-      program: "Program: Applied Mathematics: Statistics",
-      initials: "MB"
-    },
-    {
-      name: "Zagrous Ghodsian",
-      role: "Media & Outreach Team Lead",
-      program: "Program: Physics and Mathematics minor",
-      initials: "ZG"
-    },
-    {
       name: "Joshua Chen",
       role: "Finance Team Lead",
       program: "Programs: Computer Science, Management and Economics minor",
       initials: "JC"
+    },
+    {
+      name: "Anastasia Butnariu",
+      role: "Media & Outreach Team Lead",
+      program: "Programs: Mechanical Engineering",
+      initials: "AB"
     },
     {
       name: "Inba Thiyagarajan",
@@ -68,12 +62,6 @@ const websiteData = {
       role: "Systems Integration Lead",
       program: "Programs: Physics",
       initials: "NK"
-    },
-    {
-      name: "Thaddeus Kobylarz",
-      role: "Research Lead",
-      program: "Programs: Astronomy and Physics",
-      initials: "TK"
     }
   ],
   projects: [
