@@ -897,6 +897,12 @@ function loadTeamProfilePictures() {
       };
       
       img.src = imagePath;
+      if (fullName == "Joshua Chen") {
+        member.addEventListener('mousedown', () => {
+          let sound = new Audio('TeamExecs/joshua_money.mp3');
+          sound.play();
+        }) 
+      }
     }
     
     // Start trying to load images
@@ -1456,4 +1462,6 @@ document.addEventListener('keydown', (e) => {
     
     konamiCode = [];
   }
+
+  
 });
