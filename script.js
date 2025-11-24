@@ -377,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setupConstitutionSectionObserver();
   
   // Initialize team profile pictures
+  const sound = new Audio('TeamExecs/joshua_money.mp3'); // Relevant soundeffect (this is the only sound in the entire website.
   loadTeamProfilePictures();
   
   // Initialize trivia game (only on trivia page)
@@ -897,6 +898,11 @@ function loadTeamProfilePictures() {
       };
       
       img.src = imagePath;
+      if (fullName == "Joshua Chen") {
+        member.addEventListener('pointerdown', () => {
+          sound.play();
+        }) 
+      }
     }
     
     // Start trying to load images
