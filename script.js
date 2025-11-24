@@ -843,6 +843,7 @@ function setupConstitutionSectionObserver() {
 }
 
 // Team Profile Pictures Loader
+const sound = new Audio('TeamExecs/joshua_money.mp3'); // Relevant soundeffect (this is the only sound in the entire website.
 function loadTeamProfilePictures() {
   // Add a small delay to ensure dynamically loaded content is ready
   setTimeout(() => {
@@ -899,7 +900,6 @@ function loadTeamProfilePictures() {
       img.src = imagePath;
       if (fullName == "Joshua Chen") {
         member.addEventListener('mousedown', () => {
-          let sound = new Audio('TeamExecs/joshua_money.mp3');
           sound.play();
         }) 
       }
