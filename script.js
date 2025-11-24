@@ -899,7 +899,7 @@ function loadTeamProfilePictures() {
       
       img.src = imagePath;
       if (fullName == "Joshua Chen") {
-        member.addEventListener('mousedown', () => {
+        member.addEventListener('pointerdown', () => {
           sound.play();
         }) 
       }
