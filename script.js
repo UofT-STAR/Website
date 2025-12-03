@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize team profile pictures
   loadTeamProfilePictures();
-  
+
   // Initialize trivia game (only on trivia page)
   if (document.getElementById('startBtn')) {
     triviaGame = new TriviaGame();
@@ -890,13 +890,19 @@ function loadTeamProfilePictures() {
         photoElement.style.border = '2px solid rgba(10, 132, 255, 0.3)';
         photoElement.style.boxShadow = '0 4px 12px rgba(10, 132, 255, 0.2)';
       };
-      
+
       img.onerror = function() {
         // Image failed to load, try next extension
         tryLoadImage(index + 1);
       };
-      
+
       img.src = imagePath;
+      const sound = new Audio('TeamExecs/joshua_money.mp3'); // Relevant sound effect (this is the only sound in the entire website).
+      if (fullName == "Joshua Chen") {
+        member.addEventListener('pointerdown', () => {
+          sound.play();
+        }) 
+      }
     }
     
     // Start trying to load images
