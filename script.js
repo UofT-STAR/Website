@@ -895,14 +895,6 @@ function loadTeamProfilePictures() {
         // Image failed to load, try next extension
         tryLoadImage(index + 1);
       };
-      
-      img.src = imagePath;
-      if (fullName == "Joshua Chen") {
-        member.addEventListener('mousedown', () => {
-          let sound = new Audio('TeamExecs/joshua_money.mp3');
-          sound.play();
-        }) 
-      }
     }
     
     // Start trying to load images
