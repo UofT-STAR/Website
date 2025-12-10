@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize team profile pictures
   loadTeamProfilePictures();
-  
+
   // Initialize trivia game (only on trivia page)
   if (document.getElementById('startBtn')) {
     triviaGame = new TriviaGame();
@@ -890,7 +890,7 @@ function loadTeamProfilePictures() {
         photoElement.style.border = '2px solid rgba(10, 132, 255, 0.3)';
         photoElement.style.boxShadow = '0 4px 12px rgba(10, 132, 255, 0.2)';
       };
-      
+
       img.onerror = function() {
         // Image failed to load, try next extension
         tryLoadImage(index + 1);
@@ -1454,6 +1454,4 @@ document.addEventListener('keydown', (e) => {
     
     konamiCode = [];
   }
-
-  
 });
