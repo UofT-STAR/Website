@@ -895,6 +895,8 @@ function loadTeamProfilePictures() {
         // Image failed to load, try next extension
         tryLoadImage(index + 1);
       };
+
+      img.src = imagePath; // Put the image path
     }
     
     // Start trying to load images
