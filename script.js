@@ -1369,9 +1369,10 @@ class WebsiteDataManager {
     // Clear existing content (including loading placeholder)
     projectsGrid.innerHTML = '';
     
-    this.data.projects.forEach(project => {
+    this.data.projects.forEach((project, index) => {
       const projectElement = document.createElement('div');
       projectElement.className = 'project-card';
+      projectElement.onclick = () => openProjectModal(index);
       projectElement.innerHTML = `
         <div class="project-icon">
           <i class="${project.icon}"></i>
@@ -1455,5 +1456,147 @@ document.addEventListener('keydown', (e) => {
     }, 4000);
     
     konamiCode = [];
+  }
+});
+
+// Project Modal Functionality
+let currentCarouselIndex = 0;
+let currentProjectImages = [];
+
+function openProjectModal(projectIndex) {
+  const project = websiteData.projects[projectIndex];
+  const modal = document.getElementById('projectModal');
+  
+  // Populate modal content
+  document.getElementById('modalIcon').className = project.icon;
+  document.getElementById('modalTitle').textContent = project.title;
+  document.getElementById('modalDescription').textContent = project.detailedDescription || project.description;
+  
+  const statusBadge = document.getElementById('modalStatus');
+  statusBadge.textContent = project.status;
+  statusBadge.className = `status-badge ${project.statusClass}`;
+  
+  // Populate details
+  const detailsContainer = document.getElementById('modalDetails');
+  if (project.details && project.details.length > 0) {
+    detailsContainer.innerHTML = `
+      <h3>Key Features & Objectives</h3>
+      <ul>
+        ${project.details.map(detail => `<li>${detail}</li>`).join('')}
+      </ul>
+    `;
+    detailsContainer.style.display = 'block';
+  } else {
+    detailsContainer.style.display = 'none';
+  }
+  
+  // Setup carousel
+  const carouselContainer = document.getElementById('modalCarousel');
+  if (project.carouselImages && project.carouselImages.length > 0) {
+    currentProjectImages = project.carouselImages;
+    currentCarouselIndex = 0;
+    
+    carouselContainer.innerHTML = `
+      <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+          ${project.carouselImages.map((img, index) => `
+            <div class="carousel-slide">
+              <img src="${img}" alt="${project.title} - Image ${index + 1}" />
+            </div>
+          `).join('')}
+        </div>
+        ${project.carouselImages.length > 1 ? `
+          <button class="carousel-button prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-button next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        ` : ''}
+      </div>
+      ${project.carouselImages.length > 1 ? `
+        <div class="carousel-indicators">
+          ${project.carouselImages.map((_, index) => `
+            <div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
+          `).join('')}
+        </div>
+      ` : ''}
+    `;
+    carouselContainer.style.display = 'block';
+  } else {
+    carouselContainer.style.display = 'none';
+  }
+  
+  // Show modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal() {
+  const modal = document.getElementById('projectModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  currentCarouselIndex = 0;
+  currentProjectImages = [];
+}
+
+function changeSlide(direction) {
+  currentCarouselIndex += direction;
+  
+  if (currentCarouselIndex < 0) {
+    currentCarouselIndex = currentProjectImages.length - 1;
+  } else if (currentCarouselIndex >= currentProjectImages.length) {
+    currentCarouselIndex = 0;
+  }
+  
+  updateCarousel();
+}
+
+function goToSlide(index) {
+  currentCarouselIndex = index;
+  updateCarousel();
+}
+
+function updateCarousel() {
+  const track = document.getElementById('carouselTrack');
+  const indicators = document.querySelectorAll('.carousel-indicator');
+  
+  if (track) {
+    track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
+  }
+  
+  indicators.forEach((indicator, index) => {
+    if (index === currentCarouselIndex) {
+      indicator.classList.add('active');
+    } else {
+      indicator.classList.remove('active');
+    }
+  });
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+  const modal = document.getElementById('projectModal');
+  if (event.target === modal) {
+    closeProjectModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeProjectModal();
+  }
+});
+
+// Add keyboard navigation for carousel
+document.addEventListener('keydown', function(event) {
+  const modal = document.getElementById('projectModal');
+  if (modal.classList.contains('active') && currentProjectImages.length > 1) {
+    if (event.key === 'ArrowLeft') {
+      changeSlide(-1);
+    } else if (event.key === 'ArrowRight') {
+      changeSlide(1);
+    }
   }
 });
