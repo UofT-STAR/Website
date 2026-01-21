@@ -74,7 +74,6 @@ const websiteData = {
       detailedDescription: "Our flagship project aims to demonstrate a model rocket capable of propulsive landing without the use of a parachute. This ambitious project showcases advanced thrust vector control, real-time guidance algorithms, and sophisticated navigation systems.",
       details: [
         "Thrust Vector Control (TVC) system for precise landing control",
-        "Custom flight computer with real-time sensor fusion",
         "Advanced guidance algorithms for autonomous landing",
         "Telemetry system for ground station monitoring",
         "Composite airframe optimized for weight and durability",
