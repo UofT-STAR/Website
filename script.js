@@ -834,7 +834,7 @@ function setupConstitutionSectionObserver() {
     threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
     rootMargin: '-100px 0px -100px 0px' // Account for navbar
   });
-  
+
   // Observe all sections
   sections.forEach(section => {
     observer.observe(section);
@@ -852,27 +852,27 @@ function loadTeamProfilePictures() {
   teamMembers.forEach(member => {
     const nameElement = member.querySelector('h3');
     const photoElement = member.querySelector('.member-photo');
-    
+
     if (!nameElement || !photoElement) return;
-    
+
     const fullName = nameElement.textContent.trim();
     const initials = photoElement.textContent.trim(); // Store original initials as fallback
-    
+
     // Convert name to filename format (remove spaces, keep camelCase)
     const filename = fullName.replace(/\s+/g, '');
-    
+
     // Try different image extensions
     const extensions = ['png', 'jpg', 'jpeg', 'webp'];
     let imageLoaded = false;
-    
+
     function tryLoadImage(index) {
       if (index >= extensions.length || imageLoaded) {
         return; // All extensions tried or image already loaded
       }
-      
+
       const ext = extensions[index];
-      const imagePath = `TeamExecs/${filename}.${ext}`;
-      
+      const imagePath = `Images/TeamExecs/${filename}.${ext}`;
+
       // Create a test image to check if file exists
       const img = new Image();
       
@@ -898,10 +898,10 @@ function loadTeamProfilePictures() {
 
       img.src = imagePath; // Put the image path
     }
-    
+
     // Start trying to load images
     tryLoadImage(0);
-    
+
     // Set a timeout fallback to ensure initials stay if no image loads
     setTimeout(() => {
       if (!imageLoaded) {
@@ -929,18 +929,18 @@ class TriviaGame {
     
     this.init();
   }
-  
+
   init() {
     // Only initialize if we're on the trivia page
     if (!document.getElementById('startBtn')) {
       return;
     }
-    
+
     this.loadQuestions();
     this.bindEvents();
     this.updateStats();
   }
-  
+
   async loadQuestions() {
     try {
       // Use globally loaded data from trivia-questions.js
@@ -986,14 +986,19 @@ class TriviaGame {
     const restartBtn = document.getElementById('restartBtn');
     const nextBtn = document.getElementById('nextBtn');
     
+    // Use arrow functions to preserve 'this' context
+    
+    // Start button initializes the game
     if (startBtn) {
       startBtn.addEventListener('click', () => this.startGame());
     }
-    
+
+    // Restart button resets the game to the initial state
     if (restartBtn) {
       restartBtn.addEventListener('click', () => this.restartGame());
     }
-    
+
+    // Next button brings to the next question
     if (nextBtn) {
       nextBtn.addEventListener('click', () => this.nextQuestion());
     }
@@ -1003,18 +1008,18 @@ class TriviaGame {
     const totalQuestionsEl = document.getElementById('totalQuestions');
     const currentScoreEl = document.getElementById('currentScore');
     const currentQuestionEl = document.getElementById('currentQuestion');
-    
+
     if (totalQuestionsEl) totalQuestionsEl.textContent = this.questions.length;
     if (currentScoreEl) currentScoreEl.textContent = this.score;
     if (currentQuestionEl) currentQuestionEl.textContent = this.currentQuestionIndex + 1;
   }
-  
+
   startGame() {
     if (this.questions.length === 0) {
       alert('Error: No trivia questions loaded. Please refresh the page.');
       return;
     }
-    
+
     this.currentQuestionIndex = 0;
     this.score = 0;
     this.correctAnswers = 0;
