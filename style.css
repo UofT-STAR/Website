@@ -82,17 +82,15 @@ html {
   pointer-events: none;
 }
 
-/* Responsive adjustments for banner and hero overlay */
-@media (min-width: 480px) {
+@media (max-width: 768px) {
   .banner {
-    margin-top: -1.5vh; /* Adjust for mobile navbar if needed */
+    margin-top: -10px; /* Adjust for mobile navbar if needed */
   }
 }
 
-/* Responsive adjustments for banner and hero overlay */
-@media (min-width: 769px) {
+@media (max-width: 480px) {
   .banner {
-    margin-top: 70px; /* Adjust for mobile navbar if needed */
+    margin-top: -1.5vh; /* Adjust for mobile navbar if needed */
   }
 }
 
@@ -343,16 +341,37 @@ html {
   z-index: 2;
 }
 
-@media (min-width: 480px) {
+@media (max-width: 1350px) {
   .hero {
-    margin-top: -18vh; /* Reduce overlay on smaller screens */
+    margin-top: -20vh; /* Reduce overlay on smaller screens */
     padding-top: 5vh; /* Adjust padding for mobile */
   }
 }
 
-@media (min-width: 769px) {
+@media (max-width: 983px) {
   .hero {
-    margin-top: -100vh; /* Reduce overlay on smaller screens */
+    margin-top: -15vh; /* Reduce overlay on smaller screens */
+    padding-top: 5vh; /* Adjust padding for mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    margin-top: -20vh; /* Reduce overlay on smaller screens */
+    padding-top: 5vh; /* Adjust padding for mobile */
+  }
+}
+
+@media (max-width: 590px) {
+  .hero {
+    margin-top: -15vh; /* Reduce overlay on smaller screens */
+    padding-top: 5vh; /* Adjust padding for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    margin-top: -18vh; /* Reduce overlay on smaller screens */
     padding-top: 5vh; /* Adjust padding for mobile */
   }
 }
