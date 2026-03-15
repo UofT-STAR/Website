@@ -59,16 +59,16 @@ const websiteData = {
     },
     {
       name: "Nika Kavianitabar",
-      role: "Systems Integration Lead",
+      role: "Member At Large",
       program: "Programs: Physics",
       initials: "NK"
     }
   ],
   projects: [
     {
-      title: "VTOL Demonstrator",
-      icon: "fas fa-rocket",
-      description: "A propulsively landing rocket without a parachute - our flagship project showcasing thrust vector control, guidance, and navigation systems.",
+      title: "Team-Built Flight Computer Demonstration",
+      icon: "fas fa-laptop-code",
+      description: "A Team designed and built flight computer spearheaded by our Avionics Team on an arduino platform. Dual deploy capable launching on a 3\" body with a 29mm motor.",
       status: "In Progress",
       statusClass: "active",
       detailedDescription: "Our flagship project aims to demonstrate a model rocket capable of propulsive landing without the use of a parachute. This ambitious project showcases advanced thrust vector control, real-time guidance algorithms, and sophisticated navigation systems.",
@@ -125,17 +125,17 @@ const websiteData = {
     {
       icon: "fas fa-rocket",
       title: "Rocket Development",
-      description: "Design and launch mid‑ to large‑scale model rockets showcasing unique technology"
+      description: "Design and launch medium and high power rockets of various different designs and purposes."
     },
     {
       icon: "fas fa-microchip",
       title: "Avionics & Software",
-      description: "Flight computers, telemetry, and software integration in C/C++ and Python"
+      description: "Team-designed and built flight computers. With telemetry and software coded in C/C++ and Python."
     },
     {
       icon: "fas fa-cogs",
-      title: "Structures & Propulsion",
-      description: "Composites, thrust characterization, recovery systems, and VTOL hardware"
+      title: "Aerodynamics, Mechanical Design, & Propulsion Systems",
+      description: "Custom designed rocketry parts, motor mounts, recovery systems, and both team-designed and kit based rockets."
     }
   ]
 };
