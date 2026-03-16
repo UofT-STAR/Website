@@ -1,5 +1,5 @@
 if (window.location.hostname.includes("github.io")) {
-  if (window.location.pathname === "Website") {
+  if (window.location.pathname === "Website" || window.location.pathname === "Website/") {
     window.location.replace("https://www.utstar.ca");
   } else {
     window.location.replace("https://www.utstar.ca" + window.location.pathname);
