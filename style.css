@@ -1884,9 +1884,12 @@ html, body {
 
 /* Trivia Page Styles */
 .trivia-hero {
-  min-height: 70vh;
+  position: relative;
+  width: 100%;
+  margin-top: 70px;
   display: flex;
-  align-items: center;
+  /*align-items: center;
+  flex-direction: x;*/
   text-align: center;
 }
 
@@ -1894,7 +1897,6 @@ html, body {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-top: 2rem;
 }
 
 .stat-item {
@@ -2097,6 +2099,7 @@ html, body {
   transition: all 0.3s ease;
   font-size: 1rem;
   text-align: left;
+  color: #ffffff;
   display: flex;
   align-items: center;
   gap: 1rem;
