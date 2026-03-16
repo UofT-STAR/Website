@@ -1,5 +1,9 @@
 if (window.location.hostname.includes("github.io")) {
-  window.location.replace("https://www.utstar.ca" + window.location.pathname);
+  if (window.location.pathname === "Website") {
+    window.location.replace("https://www.utstar.ca");
+  } else {
+    window.location.replace("https://www.utstar.ca" + window.location.pathname);
+  }
 }
 
 // Mobile Navigation Toggle
