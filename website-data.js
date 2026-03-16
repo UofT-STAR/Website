@@ -99,14 +99,14 @@ const websiteData = {
         "Introduction to flight preparation procedures"
       ],
       carouselImages: [
-        "Images/Carrousel1/1.jpg",
-        "Images/Carrousel1/2.jpg",
-        "Images/Carrousel1/3.jpg",
-        "Images/Carrousel1/4.jpg",
-        "Images/Carrousel1/5.jpg",
-        "Images/Carrousel1/6.jpg",
-        "Images/Carrousel1/7.jpg",
-        "Images/Carrousel1/8.jpg"
+        "Images/Carrousel1/1.webp",
+        "Images/Carrousel1/2.webp",
+        "Images/Carrousel1/3.webp",
+        "Images/Carrousel1/4.webp",
+        "Images/Carrousel1/5.webp",
+        "Images/Carrousel1/6.webp",
+        "Images/Carrousel1/7.webp",
+        "Images/Carrousel1/8.webp"
       ]
     }
     // {
