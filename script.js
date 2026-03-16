@@ -866,7 +866,7 @@ function loadTeamProfilePictures() {
     const filename = fullName.replace(/\s+/g, '');
 
     // Try different image extensions
-    const extensions = ['png', 'jpg', 'jpeg', 'webp'];
+    const extensions = ['webp', 'png', 'jpeg', 'jpg'];
     let imageLoaded = false;
 
     function tryLoadImage(index) {
