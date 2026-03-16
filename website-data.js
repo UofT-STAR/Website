@@ -71,13 +71,15 @@ const websiteData = {
       description: "A Team designed and built flight computer spearheaded by our Avionics Team on an arduino platform. Dual deploy capable launching on a 3\" body with a 29mm motor.",
       status: "In Progress",
       statusClass: "active",
-      detailedDescription: "Our flagship project aims to demonstrate a model rocket capable of propulsive landing without the use of a parachute. This ambitious project showcases advanced thrust vector control, real-time guidance algorithms, and sophisticated navigation systems.",
+        detailedDescription: "Our main project right now is quite ambitious.\n\
+        We are attempting to design and produce a flight computer capable of the dual-deploy recovery of a 3\" diameter rocket!\n\
+        This project is aimed at showcasing our skills in programming and software design as well as soldering and our abilities to construct our own hardware.",
       details: [
-        "Thrust Vector Control (TVC) system for precise landing control",
-        "Advanced guidance algorithms for autonomous landing",
-        "Telemetry system for ground station monitoring",
-        "Composite airframe optimized for weight and durability",
-        "High-precision IMU and GPS integration"
+        "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
+        "Capable of deploying gunpowder charges for dual-deploy recovery purposes",
+        "Wifi Capable for remote arming of charges",
+        "Radio Telemetry for accurate data collection on the rocket's position and acceleration",
+        "Successful demonstration of the computer's ability to execute the safe recovery of our rocket"
       ],
       carouselImages: []
     },
@@ -87,7 +89,8 @@ const websiteData = {
       description: "Fun, educational and creative workshop where our passionate club members assembled our rocket parts!",
       status: "Completed",
       statusClass: "completed",
-      detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry. This workshop provided practical experience in building and preparing rockets for flight.",
+      detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry.\n\
+      This workshop provided practical experience in building and preparing rockets for flight.",
       details: [
         "Hands-on experience with rocket assembly techniques",
         "Understanding of structural components and their functions",
