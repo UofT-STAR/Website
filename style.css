@@ -2935,6 +2935,7 @@ html {
   color: var(--muted);
   margin-bottom: 2rem;
   text-align: center;
+  white-space: pre-line;
 }
 
 /* Carousel Styles */
