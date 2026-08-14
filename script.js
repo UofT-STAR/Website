@@ -76,6 +76,81 @@ function updateActiveNavLink() {
 // Enhanced Navbar - Scroll Effects
 let lastScrollY = window.scrollY;
 const navbar = document.querySelector('.navbar');
+const heroSection = document.querySelector('.hero');
+const bannerSection = document.querySelector('.banner');
+const introScene = document.querySelector('.intro-scene');
+const pageReveal = document.querySelector('.page-reveal');
+
+// Intro scroll tuning values.
+// Edit these numbers to control how quickly text/page opacity changes with scroll.
+const INTRO_SCROLL_CONFIG = {
+  navbarOffsetPx: 70,
+  minTextRevealPx: 500,
+  textRevealViewportRatio: 0.2,
+  minPageFadePx: 120,
+  pageFadeViewportRatio: 0.8,
+  heroInteractiveThreshold: 0.85,
+  pageInteractiveThreshold: 0.01
+};
+
+function clamp01(value) {
+  return Math.max(0, Math.min(value, 1));
+}
+
+function getIntroScrollProgress(sceneScroll, viewportHeight, config = INTRO_SCROLL_CONFIG) {
+  // Phase 1 distance: scroll needed for hero text opacity to go 0 -> 1.
+  // Larger value = slower/fuller cinematic reveal.
+  const textRevealDistance = Math.max(
+    config.minTextRevealPx,
+    viewportHeight * config.textRevealViewportRatio
+  );
+
+  // Progress formula:
+  // progress = clamp(scrollSoFar / distance)
+  const textProgress = clamp01(sceneScroll / textRevealDistance);
+
+  // Phase 2 distance: additional scroll after text is fully visible
+  // for the rest of the page to fade in from 0 -> 1.
+  const pageFadeDistance = Math.max(
+    config.minPageFadePx,
+    viewportHeight * config.pageFadeViewportRatio
+  );
+
+  // Page reveal starts only after Phase 1 is complete.
+  // progress = clamp((scrollSoFar - phase1Distance) / phase2Distance)
+  const pageProgress = clamp01((sceneScroll - textRevealDistance) / pageFadeDistance);
+
+  return {
+    textProgress,
+    pageProgress,
+    textRevealDistance,
+    pageFadeDistance
+  };
+}
+
+function updateHeroReveal() {
+  if (!heroSection || !introScene) return;
+
+  const sceneRect = introScene.getBoundingClientRect();
+  const maxSceneScroll = Math.max(1, introScene.offsetHeight - window.innerHeight);
+
+  // sceneRect.top becomes negative as the sticky scene scrolls.
+  // Convert that to a positive "scroll progress inside scene" value and clamp.
+  const sceneScroll = clamp01((-sceneRect.top) / maxSceneScroll) * maxSceneScroll;
+
+  // accuracy by removing navbar height.
+  const viewportHeight = Math.max(1, window.innerHeight - INTRO_SCROLL_CONFIG.navbarOffsetPx);
+  const { textProgress, pageProgress } = getIntroScrollProgress(sceneScroll, viewportHeight);
+
+  heroSection.style.setProperty('--hero-reveal-progress', textProgress.toFixed(3));
+  introScene.style.setProperty('--hero-reveal-progress', textProgress.toFixed(3));
+  heroSection.classList.toggle('hero-interactive', textProgress > INTRO_SCROLL_CONFIG.heroInteractiveThreshold);
+
+  if (pageReveal) {
+    pageReveal.style.setProperty('--page-reveal-progress', pageProgress.toFixed(3));
+    pageReveal.classList.toggle('page-reveal-active', pageProgress > INTRO_SCROLL_CONFIG.pageInteractiveThreshold);
+  }
+}
 
 function handleNavbarScroll() {
   const currentScrollY = window.scrollY;
@@ -98,6 +173,7 @@ let ticking = false;
 
 function optimizedScrollHandler() {
   handleNavbarScroll();
+  updateHeroReveal();
   ticking = false;
 }
 
@@ -107,6 +183,16 @@ window.addEventListener('scroll', () => {
     ticking = true;
   }
 }, { passive: true });
+
+window.addEventListener('resize', updateHeroReveal);
+
+if (introScene && heroSection) {
+  document.body.classList.add('intro-enhanced');
+  if (pageReveal) {
+    pageReveal.style.setProperty('--page-reveal-progress', '0');
+  }
+  updateHeroReveal();
+}
 
 // Enhanced navbar button interactions
 document.querySelectorAll('.nav-link').forEach(link => {
@@ -211,12 +297,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     if (!href || href === '#') {
       return;
     }
+
+    // Intro scene special case:
+    // '#home' points to an absolutely-positioned hero inside a sticky scene,
+    // so scrollIntoView can produce incremental drift on repeated clicks.
+    // Force absolute top so every click lands at the same state.
+    if (href === '#home' && introScene) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      return;
+    }
     
     const target = document.querySelector(href);
     if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      // Use explicit offset scrolling to avoid sticky/positioned layout proble:s.
+      const navbarHeight = navbar ? navbar.offsetHeight : 0;
+      const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+      const scrollTop = Math.max(0, targetTop - navbarHeight);
+
+      window.scrollTo({
+        top: scrollTop,
+        behavior: 'smooth'
       });
     }
   });

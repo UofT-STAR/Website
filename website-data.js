@@ -10,59 +10,59 @@ const websiteData = {
       initials: "TJMPK-III"
     },
     {
-      name: "Zagrous Ghodsian",
+      name: "Nika Kavianitabar",
       role: "Vice President",
-      program: "Program: Physics and Mathematics minor",
-      initials: "ZG"
-    },
-    {
-      name: "Ashish Abbur Venkata Kumar",
-      role: "Propulsion Lead",
-      program: "Programs: Physics and Mathematics minor",
-      initials: "AK"
+      program: "Programs: Physics",
+      initials: "NK"
     },
     {
       name: "Andrew Miranda",
-      role: "Mechanical & Aerodynamics Lead",
+      role: "Director of Aerodynamics and Mechanics",
       program: "Programs: Astronomy, Physics and Mathematics minor",
       initials: "AM"
     },
     {
-      name: "Tymon Cui",
-      role: "Avionics Lead",
-      program: "Programs: Mathematics and Computer Science",
-      initials: "TC"
-    },
-    {
       name: "Joshua Chen",
-      role: "Finance Team Lead",
+      role: "Director of Finance",
       program: "Programs: Computer Science, Management and Economics minor",
       initials: "JC"
     },
     {
-      name: "Anastasia Butnariu",
-      role: "Media & Outreach Team Lead",
-      program: "Programs: Mechanical Engineering",
-      initials: "AB"
+      name: "Tymon Cui",
+      role: "Director of Avionics",
+      program: "Programs: Mathematics and Computer Science",
+      initials: "TC"
     },
     {
-      name: "Inba Thiyagarajan",
-      role: "Executive Secretary",
-      program: "Programs: Computer Science and Mathematics minor",
-      initials: "IT"
+      name: "Ashish Abbur Venkata Kumar",
+      role: "Director of Propulsion",
+      program: "Programs: Physics and Mathematics minor",
+      initials: "AK"
     },
     {
       name: "Kai Tano Bague",
-      role: "Lead Web Designer",
+      role: "Technical Director",
       program: "Programs: Computer Science, Data Science and Mathematics minor",
       initials: "KTB"
     },
     {
-      name: "Nika Kavianitabar",
-      role: "Member At Large",
-      program: "Programs: Physics",
-      initials: "NK"
-    }
+      name: "Anastasia Butnariu",
+      role: "Director of Outreach",
+      program: "Programs: Mechanical Engineering",
+      initials: "AB"
+    },
+    {
+      name: "Zagrous Ghodsian",
+      role: "Executive Secretary",
+      program: "Program: Physics and Mathematics minor",
+      initials: "ZG"
+    },
+    // {
+    //   name: "Inba Thiyagarajan",
+    //   role: "Executive Secretary",
+    //   program: "Programs: Computer Science and Mathematics minor",
+    //   initials: "IT"
+    // },
   ],
   projects: [
     {
