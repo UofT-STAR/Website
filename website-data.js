@@ -57,12 +57,12 @@ const websiteData = {
       program: "Program: Physics and Mathematics minor",
       initials: "ZG"
     },
-    // {
-    //   name: "Inba Thiyagarajan",
-    //   role: "Executive Secretary",
-    //   program: "Programs: Computer Science and Mathematics minor",
-    //   initials: "IT"
-    // },
+    {
+      name: "Jasmine Prete",
+      role: "Director of Recovery",
+      program: "Programs: Astronomy and Physics",
+      initials: "JP"
+    },
   ],
   projects: [
     {
