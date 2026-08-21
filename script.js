@@ -480,6 +480,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize back to top button for any page
   initBackToTopButton();
   
+  // Initialize footer map (Leaflet + OpenStreetMap)
+  initFooterMap();
+  
   // Initialize Constitution page features
   setupConstitutionSectionObserver();
   
@@ -1712,3 +1715,75 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+
+// Footer map: Leaflet + OpenStreetMap, no API key required.
+// Renders a live, draggable/zoomable map centered on the Bahen Centre,
+// with all built-in UI controls stripped except a small zoom control.
+function initFooterMap() {
+  const mapEl = document.getElementById('footer-map');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  const bahenCentre = [43.6596580, -79.3974008]; // bahen ip address (kidding it's just coords)
+
+  const map = L.map(mapEl, {
+    center: bahenCentre,
+    zoom: 16,
+    zoomControl: false,        // remove default +/- buttons (re-added smaller below)
+    attributionControl: true,  // required attribution, kept intentionally
+    dragging: true,
+    scrollWheelZoom: false,    // prevents the map from hijacking page scroll
+    doubleClickZoom: true,
+    touchZoom: true,
+    rotate: true,              // the rotation plugin
+    rotateControl: false,      // hide built-in drag to rotate button
+    bearing: 16               // align street grid to container edges (approximate)
+  });
+
+  // Re-enable scroll-zoom only once the user has clicked into the map
+  map.on('focus', () => map.scrollWheelZoom.enable());
+  map.on('blur', () => map.scrollWheelZoom.disable());
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  // Building outline, traced from OpenStreetMap data (way/141691917),
+  // styled to match OSM's own orange building highlight.
+  const bahenOutline = [ // thank u overpass-turbo.eu
+    [43.6594434, -79.3973235], [43.6594286, -79.3973966], [43.6595276, -79.3974328],
+    [43.6595585, -79.3972889], [43.6596427, -79.3968972], [43.6596665, -79.396907],
+    [43.6596943, -79.3969185], [43.6597084, -79.3968541], [43.6600352, -79.3969841],
+    [43.6600263, -79.3970247], [43.6600097, -79.3971007], [43.6600194, -79.3971044],
+    [43.6599854, -79.3972674], [43.6599818, -79.3972847], [43.6600388, -79.3973077],
+    [43.6600414, -79.397295], [43.6601144, -79.3973206], [43.6601547, -79.3971202],
+    [43.6601814, -79.3971329], [43.6602363, -79.3971591], [43.6602341, -79.3971741],
+    [43.660251, -79.3971812], [43.6602491, -79.3971904], [43.6602574, -79.3971939],
+    [43.6602252, -79.3973536], [43.6602197, -79.3973515], [43.6602008, -79.3974474],
+    [43.6599679, -79.3973534], [43.6599604, -79.3973894], [43.659828, -79.3973408],
+    [43.6596755, -79.3980536], [43.6596497, -79.3980433], [43.6594705, -79.397972],
+    [43.6594757, -79.3979447], [43.6594631, -79.3979401], [43.6594569, -79.397967],
+    [43.6594359, -79.3979587], [43.6594186, -79.3979518], [43.6594014, -79.3979449],
+    [43.6592391, -79.3978789], [43.6591596, -79.3978489], [43.6592283, -79.397538],
+    [43.659223, -79.3975353], [43.6592058, -79.3975225], [43.6591853, -79.3974956],
+    [43.6591717, -79.3974611], [43.6591666, -79.3974225], [43.6591703, -79.3973836],
+    [43.6591826, -79.3973483], [43.6592022, -79.3973199], [43.6591928, -79.3973166],
+    [43.6591954, -79.3973039], [43.6592499, -79.3973269], [43.6592519, -79.3973143],
+    [43.6592391, -79.3973089], [43.6592528, -79.3972486], [43.6594434, -79.3973235]
+  ];
+
+  const bahenAddress = 'Bahen Centre for Information Technology<br>40 St. George St, Toronto';
+
+  L.polygon(bahenOutline, {
+    color: '#e65c00',
+    weight: 3,
+    fillColor: '#ff7800',
+    fillOpacity: 0.4,
+    className: 'bahen-outline'
+  })
+  .addTo(map)
+    .bindTooltip('Bahen Centre for Information Technology', { sticky: true })
+    .bindPopup(bahenAddress);
+}

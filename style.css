@@ -1415,9 +1415,9 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   height: 200px;
   border-radius: 8px;
   overflow: hidden;
-  position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #ddd;
 }
 
 .footer-map:hover {
@@ -1425,13 +1425,17 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   box-shadow: 0 6px 20px rgba(10, 132, 255, 0.2);
 }
 
-.footer-map iframe {
-  position: absolute;
-  top: -140px;
-  left: -100px;
-  width: 520px;
-  height: 340px;
-  border: 0;
+/* Leaflet control styling to blend with dark footer */
+.footer-map .leaflet-control-zoom a {
+  color: #333;
+}
+
+.footer-map .leaflet-control-attribution {
+  font-size: 0.65rem;
+}
+
+.footer-map .bahen-outline {
+  cursor: pointer;
 }
 
 .footer-links {
@@ -1916,13 +1920,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   .footer-map {
     width: 260px;
     height: 160px;
-  }
-
-  .footer-map iframe {
-    top: -112px;
-    left: -80px;
-    width: 420px;
-    height: 272px;
   }
 }
 
