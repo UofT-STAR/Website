@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 </head>
 <body>
     <!-- Global Stars Background -->
@@ -278,22 +279,7 @@
                 </div>
                 
                 <div class="footer-info">
-                    <div class="footer-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div class="location-text">
-                            <span>Bahen Centre for Information Technology</span>
-                            <small>University of Toronto</small>
-                        </div>
-                    </div>
-                    <div class="footer-map">
-                        <div class="map-button" onclick="window.open('https://www.google.com/maps/place/Bahen+Centre+for+Information+Technology/@43.6597267,-79.3994284,17z/data=!3m1!4b1!4m6!3m5!1s0x882b34c75165c957:0x6459384147b4b67b!8m2!3d43.6597267!4d-79.3972397!16s%2Fm%2F0h3p4d0', '_blank')">
-                            <div class="map-preview">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>View on Google Maps</span>
-                                <small>Click to open location</small>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="footer-map" id="footer-map"></div>
                 </div>
                 
                 <div class="footer-social">
@@ -335,6 +321,8 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.7/dist/leaflet-rotate.js"></script>
     <script src="website-data.js"></script>
     <script src="script.js"></script>
 </body>
