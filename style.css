@@ -1411,8 +1411,11 @@ body.intro-enhanced .page-reveal.page-reveal-active {
 }
 
 .footer-map {
+  width: 320px;
+  height: 200px;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -1423,11 +1426,12 @@ body.intro-enhanced .page-reveal.page-reveal-active {
 }
 
 .footer-map iframe {
-  width: 320px;
-  height: 200px;
-  display: block;
+  position: absolute;
+  top: -140px;
+  left: -100px;
+  width: 520px;
+  height: 340px;
   border: 0;
-  border-radius: 8px;
 }
 
 .footer-links {
@@ -1909,9 +1913,16 @@ body.intro-enhanced .page-reveal.page-reveal-active {
     order: -1;
   }
 
-  .footer-map iframe {
+  .footer-map {
     width: 260px;
     height: 160px;
+  }
+
+  .footer-map iframe {
+    top: -112px;
+    left: -80px;
+    width: 420px;
+    height: 272px;
   }
 }
 
