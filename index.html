@@ -1,340 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Discord embed -->
-    <meta property="og:title" content="UofT STAR - University of Toronto Student Team for Amateur Rocketry">
-    <meta property="og:description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
-    <meta property="og:image" content="https://www.utstar.ca/Images/UTSTAR_logo.webp">
-    <meta property="og:url" content="https://www.utstar.ca">
-    <!-- Force big image in embed -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <!--               -->
-
-    <meta name="description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
-    
-    <title>UofT STAR - University of Toronto Student Team for Amateur Rocketry</title>
-    <link rel="icon" type="image/webp" href="Images/UTSTAR_logo.webp">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-</head>
-<body>
-    <!-- Global Stars Background -->
-    <div class="stars-background"></div>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="logo-img">
-                <span>UofT STAR</span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#events" class="nav-link">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#team" class="nav-link">Team</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
-                <!--
-                <li class="nav-item">
-                    <a href="constitution.html" class="nav-link">Constitution</a>
-                </li>
-                -->
-                <li class="nav-item">
-                    <a href="trivia.html" class="nav-link">Trivia</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-    <div class="intro-scene">
-        <div class="intro-pin">
-            <!-- Banner Section -->
-            <section class="banner">
-                <div class="banner-image">
-                    <img src="Images/LaunchGroupPic.jpeg" alt="UofT STAR Team Launch" style="background-attachment: fixed">
-                    <div class="banner-overlay"></div>
-                </div>
-            </section>
-
-            <!-- Hero Section -->
-            <section id="home" class="hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">University of Toronto<br><span class="highlight"><span class="acronym-initial">S</span>tudent <span class="acronym-initial">T</span>eam for <span class="acronym-initial">A</span>mateur <span class="acronym-initial">R</span>ocketry</span></h1>
-                    <p class="hero-description">We are a student-led team dedicated to the design, testing, and launch of model rockets, while fostering education in rocketry for all who are interested.
-                        We have a multitude of engineering divisions and are always welcome to new members.
-                        Click below to learn more!</p>
-                    <div class="hero-buttons">
-                        <a href="#about" class="btn btn-primary">Learn More</a>
-                        <a href="https://discord.gg/nNsQn5J4SU" class="btn btn-secondary" target="_blank" rel="noopener">Join Us</a>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <!-- Discord embed -->
+        <meta content="UofT STAR - Home" property="og:title">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." property="og:description">
+        <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
+        <meta content="https://www.utstar.ca" property="og:url">
+        <!-- Force big image in embed -->
+        <meta content="summary_large_image" name="twitter:card">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." name="description">
+        <title>UofT STAR - Home</title>
+        <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body data-page="home">
+        <!-- Global Stars Background -->
+        <div class="stars-background"></div>
+        <!-- Navigation -->
+        <nav id="site-navbar"></nav>
+        <div class="intro-scene">
+            <div class="intro-pin">
+                <!-- Banner Section -->
+                <section class="banner">
+                    <div class="banner-image">
+                        <img alt="UofT STAR Team Launch" src="Images/LaunchGroupPic.jpeg" style="background-attachment: fixed">
+                        <div class="banner-overlay"></div>
                     </div>
-                </div>
-                <div class="hero-animation">
-                    <div class="planet planet-1"></div>
-                    <div class="planet planet-2"></div>
-                    <div class="planet planet-3"></div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <div class="page-reveal">
-
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About UofT STAR</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR). Our mission is to design and test team-built model rockets and educate and help new rocketeers progress in the hobby!
-                        <br>
-                        UofT STAR is the only rocketry team run by students of the Faculty of Arts & Science (FAS).
-                        Our goal is to be the go-to rocketry team for anybody in the University looking to learn about or find a community for rocketeers.
-                        Students who want hands-on experience in CAD, solid rocket propulsion, and flight computers or avionics will find just that on our team!
-                    </p>
-                    <div class="features" id="featuresGrid">
-                        <!-- Features will be loaded from website-data.json -->
-                        <div class="loading-placeholder">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <p>Loading features...</p>
+                </section>
+                <!-- Hero Section -->
+                <section class="hero" id="home">
+                    <div class="hero-content">
+                        <h1 class="hero-title">University of Toronto<br><span class="highlight"><span class="acronym-initial">S</span>tudent <span class="acronym-initial">T</span>eam for <span class="acronym-initial">A</span>mateur <span class="acronym-initial">R</span>ocketry</span></h1>
+                        <p class="hero-description">
+                            We are a student-led team dedicated to the design, testing, and launch of model rockets, while fostering education in rocketry for all who are interested.
+                            We have a multitude of engineering divisions and are always welcome to new members.
+                            Click below to learn more!
+                        </p>
+                        <div class="hero-buttons">
+                            <a class="btn btn-primary" href="about.html">Learn More</a>
+                            <a class="btn btn-secondary" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank">Join Us</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Removed President's Message Section
-    <!- President's Message Section ->
-    <section id="presidents-message" class="section">
-        <div class="container">
-            <h2 class="section-title">President's Message</h2>
-            <div class="about-content">
-                <div class="about-text" style="text-align: center; max-width: 900px; margin: 0 auto;">
-                    <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 3rem; backdrop-filter: blur(10px);">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: 700;">
-                            <i class="fas fa-user-astronaut"></i>
-                        </div>
-                        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">Hi there! I am <b>Faredoon Dastur</b>, the President and Founder of the U of T Student Team for Amateur Rocketry (UofT STAR). As a second‑year Math and Physics double‑major with a serious interest in spaceflight and model rocketry, I decided to take my hobby one notch higher by assembling a team of students who share my passion. I am thrilled to have an executive committee of eight students who are competent and committed to achieving our project goals.</p>
-                        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">UofT STAR is the only rocketry team run by students of the Faculty of Arts & Science (FAS). Our vision is to become the go‑to rocketry team for FAS students and, eventually, the wider university. Students who want hands‑on experience in CAD and solid modeling, fluid dynamics, propulsion, and avionics will find our team a great fit—without compromising academic commitments.</p>
-                        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">Our mission is to design, test, and launch mid‑ to large‑scale model rockets, each showcasing a unique technology. Our first project aims to demonstrate a model rocket that can <em style="color: var(--accent);">propulsively land without a parachute</em>. We welcome all experience levels. We'd love to have you on board!</p>
-                        <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-                            <a href="https://discord.gg/nNsQn5J4SU" class="btn btn-primary" target="_blank" rel="noopener">Join Our Discord</a>
-                            <a href="https://www.instagram.com/uoftstar/" class="btn btn-secondary" target="_blank" rel="noopener">Follow @uoftstar</a>
-                        </div>
+                    <div class="hero-animation">
+                        <div class="planet planet-1"></div>
+                        <div class="planet planet-2"></div>
+                        <div class="planet planet-3"></div>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
-    </section>
-    -->
-
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-        <div class="container">
-            <h2 class="section-title">Project List</h2>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Projects will be loaded from website-data.json -->
-                <div class="loading-placeholder">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading projects...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Events Section -->
-    <section id="events" class="section">
-        <div class="container">
-            <h2 class="section-title">Get Involved</h2>
-            <div class="about-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <div class="about-text">
-                    <p>
-                        We're always open to new members and recruit throughout the year. No prior experience required! We're looking for anybody interested in model rocketry, engineering, or design!
-                        <br>
-                        <br>
-                        Interested in joining our community? Check out our socials or head on over to our discord linked below to fill out an application to join today!
-                    </p>
-                    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-                        <a href="https://discord.gg/nNsQn5J4SU" class="btn btn-primary" target="_blank" rel="noopener">Join Here!</a>
-                        <a href="https://www.instagram.com/uoftstar/" class="btn btn-secondary" target="_blank" rel="noopener">Follow @uoftstar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="section">
-        <div class="container">
-            <h2 class="section-title">Leadership Team</h2>
-            <div class="team-grid" id="teamGrid">
-                <!-- Team members will be loaded from website-data.json -->
-                <div class="loading-placeholder">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading team members...</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 2rem;">
-                <p style="color: var(--muted);">We're a diverse group of students spanning physics, engineering, computer science, and more. Our executive committee leads various subsystems while fostering a collaborative learning environment.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Connect With UofT STAR</h3>
-                    <p>Have questions about joining our team or want to learn more about our projects? We'd love to hear from you!</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>utstar@studentorg.utoronto.ca</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>University of Toronto, Faculty of Arts & Science</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-users"></i>
-                            <span>Open to all UofT students - all experience levels welcome</span>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/uoftstar/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                        <a href="mailto:utstar@studentorg.utoronto.ca" class="social-link"><i class="fas fa-envelope"></i></a>
-                        <a href="https://discord.gg/nNsQn5J4SU" class="social-link" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Select Your Program(s):</label>
-                            <div class="checkbox-group">
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="program[]" value="physics">
-                                    <span class="checkmark"></span>
-                                    <span>Physics & Astronomy</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="program[]" value="mathematics">
-                                    <span class="checkmark"></span>
-                                    <span>Mathematics</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="program[]" value="computer-science">
-                                    <span class="checkmark"></span>
-                                    <span>Computer Science</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="program[]" value="engineering">
-                                    <span class="checkmark"></span>
-                                    <span>Engineering</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="program[]" value="other">
-                                    <span class="checkmark"></span>
-                                    <span>Other(s)</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Tell us about your interests in rocketry and aerospace..." rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="footer-logo-img">
-                    <span>UofT STAR</span>
-                </div>
-                
-                <div class="footer-info">
-                    <div class="footer-map" id="footer-map"></div>
-                </div>
-                
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                    <a href="mailto:utstar@studentorg.utoronto.ca" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
-                    <a href="https://discord.gg/nNsQn5J4SU" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-            <p>&copy; 2026 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
-        </div>
-    </footer>
-    </div>
-
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </button>
-
-    <!-- Project Modal -->
-    <div id="projectModal" class="project-modal">
-        <div class="project-modal-content">
-            <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-            <div class="project-modal-body">
-                <div class="project-modal-icon">
-                    <i id="modalIcon"></i>
-                </div>
-                <h2 id="modalTitle"></h2>
-                <div class="project-modal-status">
-                    <span id="modalStatus" class="status-badge"></span>
-                </div>
-                <p id="modalDescription"></p>
-                <div id="modalCarousel" class="project-carousel">
-                    <!-- Carousel images will be loaded here -->
-                </div>
-                <div id="modalDetails" class="project-details">
-                    <!-- Additional project details will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.7/dist/leaflet-rotate.js"></script>
-    <script src="website-data.js"></script>
-    <script src="script.js"></script>
-</body>
+        <!-- Footer -->
+        <footer id="site-footer"></footer>
+        <!-- Back to Top Button -->
+        <!-- Project Modal -->
+        <script src="js/website-data.js"></script>
+        <script src="js/components.js"></script>
+        <script src="js/script.js"></script>
+    </body>
 </html>

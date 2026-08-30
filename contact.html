@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <!-- Discord embed -->
+        <meta content="UofT STAR - Contact" property="og:title">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." property="og:description">
+        <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
+        <meta content="https://www.utstar.ca/contact.html" property="og:url">
+        <!-- Force big image in embed -->
+        <meta content="summary_large_image" name="twitter:card">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." name="description">
+        <title>UofT STAR - Contact</title>
+        <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body data-page="contact">
+        <!-- Global Stars Background -->
+        <div class="stars-background"></div>
+        <!-- Navigation -->
+        <nav id="site-navbar"></nav>
+        <main class="standalone-page">
+            <!-- Contact Section -->
+            <section class="section" id="contact">
+                <div class="container">
+                    <h2 class="section-title">Contact Us</h2>
+                    <div class="contact-content">
+                        <div class="contact-info">
+                            <h3>Connect With UofT STAR</h3>
+                            <p>Have questions about joining our team or want to learn more about our projects? We'd love to hear from you!</p>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>utstar@studentorg.utoronto.ca</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>University of Toronto, Faculty of Arts &amp; Science</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Open to all UofT students - all experience levels welcome</span>
+                                </div>
+                            </div>
+                            <div class="social-links">
+                                <a class="social-link" href="https://www.instagram.com/uoftstar/" rel="noopener" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="social-link" href="mailto:utstar@studentorg.utoronto.ca"><i class="fas fa-envelope"></i></a>
+                                <a class="social-link" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank"><i class="fab fa-discord"></i></a>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <input id="name" name="name" placeholder="Your Name" required="" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <input id="email" name="email" placeholder="Your Email" required="" type="email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Your Program(s):</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item">
+                                            <input name="program[]" type="checkbox" value="physics"><span class="checkmark"></span>
+                                            <span>Physics &amp; Astronomy</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input name="program[]" type="checkbox" value="mathematics"><span class="checkmark"></span>
+                                            <span>Mathematics</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input name="program[]" type="checkbox" value="computer-science"><span class="checkmark"></span>
+                                            <span>Computer Science</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input name="program[]" type="checkbox" value="engineering"><span class="checkmark"></span>
+                                            <span>Engineering</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input name="program[]" type="checkbox" value="other"><span class="checkmark"></span>
+                                            <span>Other(s)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="message" name="message" placeholder="Tell us about your interests in rocketry and aerospace..." rows="4"></textarea>
+                                </div>
+                                <button class="btn btn-primary btn-full" type="submit">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer id="site-footer"></footer>
+        <!-- Back to Top Button -->
+        <!-- Project Modal -->
+        <script src="js/website-data.js"></script>
+        <script src="js/components.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

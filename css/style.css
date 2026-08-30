@@ -1943,12 +1943,10 @@ html, body {
 
 /* Trivia Page Styles */
 .trivia-hero {
-  position: relative;
   width: 100%;
-  margin-top: 70px;
   display: flex;
-  /*align-items: center;
-  flex-direction: x;*/
+  justify-content: center;
+  padding-bottom: 0;
   text-align: center;
 }
 
