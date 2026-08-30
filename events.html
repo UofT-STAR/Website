@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Discord embed -->
+    <meta property="og:title" content="UofT STAR - Events">
+    <meta property="og:description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
+    <meta property="og:image" content="https://www.utstar.ca/Images/UTSTAR_logo.webp">
+    <meta property="og:url" content="https://www.utstar.ca/events.html">
+    <!-- Force big image in embed -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <!--               -->
+
     <meta name="description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
-    <title>Events | UofT STAR</title>
+    
+    <title>UofT STAR - Events</title>
     <link rel="icon" type="image/webp" href="Images/UTSTAR_logo.webp">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +26,7 @@
     <!-- Global Stars Background -->
     <div class="stars-background"></div>
 
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -23,16 +35,32 @@
                 <span>UofT STAR</span>
             </div>
             <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
-                <li class="nav-item"><a href="events.html" class="nav-link">Events</a></li>
-                <li class="nav-item"><a href="team.html" class="nav-link">Team</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="projects.html" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="events.html" class="nav-link">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a href="team.html" class="nav-link">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </li>
                 <!--
-                <li class="nav-item"><a href="constitution.html" class="nav-link">Constitution</a></li>
+                <li class="nav-item">
+                    <a href="constitution.html" class="nav-link">Constitution</a>
+                </li>
                 -->
-                <li class="nav-item"><a href="trivia.html" class="nav-link">Trivia</a></li>
+                <li class="nav-item">
+                    <a href="trivia.html" class="nav-link">Trivia</a>
+                </li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -42,6 +70,8 @@
         </div>
     </nav>
 
+
+    <main class="standalone-page">
     <!-- Events Section -->
     <section id="events" class="section">
         <div class="container">
@@ -52,10 +82,10 @@
                         We're always open to new members and recruit throughout the year. No prior experience required! We're looking for anybody interested in model rocketry, engineering, or design!
                         <br>
                         <br>
-                        Interested in joining our community? Check out our socials or click on our Application form below so we can send you the link to our discord!
+                        Interested in joining our community? Check out our socials or head on over to our discord linked below to fill out an application to join today!
                     </p>
                     <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
-                        <a href="https://forms.gle/isJRaBi8EYFYcJYL7" class="btn btn-primary" target="_blank" rel="noopener">Apply to Join</a>
+                        <a href="https://discord.gg/nNsQn5J4SU" class="btn btn-primary" target="_blank" rel="noopener">Join Here!</a>
                         <a href="https://www.instagram.com/uoftstar/" class="btn btn-secondary" target="_blank" rel="noopener">Follow @uoftstar</a>
                     </div>
                 </div>
@@ -63,60 +93,63 @@
         </div>
     </section>
 
+    </main>
+
     <!-- Footer -->
     <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-logo">
-                        <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="footer-logo-img">
-                        <span>UofT STAR</span>
-                    </div>
-                    
-                    <div class="footer-info">
-                        <div class="footer-map" id="footer-map"></div>
-                    </div>
-                    
-                    <div class="footer-social">
-                        <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                        <a href="mailto:info.utstar@gmail.com" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
-                        <a href="https://forms.gle/isJRaBi8EYFYcJYL7" target="_blank" rel="noopener"><i class="fas fa-rocket"></i></a>
-                    </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="footer-logo-img">
+                    <span>UofT STAR</span>
                 </div>
-                <p>&copy; 2026 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
+                
+                <div class="footer-info">
+                    <div class="footer-map" id="footer-map"></div>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:utstar@studentorg.utoronto.ca" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
+                    <a href="https://discord.gg/nNsQn5J4SU" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
+                </div>
             </div>
-        </footer>
+            <p>&copy; 2026 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
+        </div>
+    </footer>
+    </div>
 
     <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
-            <i class="fas fa-chevron-up"></i>
-        </button>
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-    <!-- Project Modal (kept globally for current script compatibility) -->
+    <!-- Project Modal -->
     <div id="projectModal" class="project-modal">
-            <div class="project-modal-content">
-                <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-                <div class="project-modal-body">
-                    <div class="project-modal-icon">
-                        <i id="modalIcon"></i>
-                    </div>
-                    <h2 id="modalTitle"></h2>
-                    <div class="project-modal-status">
-                        <span id="modalStatus" class="status-badge"></span>
-                    </div>
-                    <p id="modalDescription"></p>
-                    <div id="modalCarousel" class="project-carousel">
-                        <!-- Carousel images will be loaded here -->
-                    </div>
-                    <div id="modalDetails" class="project-details">
-                        <!-- Additional project details will be loaded here -->
-                    </div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+            <div class="project-modal-body">
+                <div class="project-modal-icon">
+                    <i id="modalIcon"></i>
+                </div>
+                <h2 id="modalTitle"></h2>
+                <div class="project-modal-status">
+                    <span id="modalStatus" class="status-badge"></span>
+                </div>
+                <p id="modalDescription"></p>
+                <div id="modalCarousel" class="project-carousel">
+                    <!-- Carousel images will be loaded here -->
+                </div>
+                <div id="modalDetails" class="project-details">
+                    <!-- Additional project details will be loaded here -->
                 </div>
             </div>
         </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.7/dist/leaflet-rotate.js"></script>
-    <script src="website-data.js"></script>
+    <script src="js/website-data.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

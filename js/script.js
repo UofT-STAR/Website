@@ -6,50 +6,69 @@ if (window.location.hostname.includes("github.io")) {
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', (e) => {
-  e.preventDefault();
-  hamburger.classList.toggle('active');
-  navMenu.classList.toggle('active');
-});
+if (hamburger && navMenu) {
+  hamburger.addEventListener('click', (e) => {
+    e.preventDefault();
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+}
 
 // Close mobile menu when clicking on a nav link
 document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-  hamburger.classList.remove('active');
-  navMenu.classList.remove('active');
+  if (hamburger) hamburger.classList.remove('active');
+  if (navMenu) navMenu.classList.remove('active');
 }));
 
 // Close mobile menu when clicking on dropdown links (Constitution page)
 document.querySelectorAll('.dropdown-link').forEach(n => n.addEventListener('click', () => {
-  hamburger.classList.remove('active');
-  navMenu.classList.remove('active');
+  if (hamburger) hamburger.classList.remove('active');
+  if (navMenu) navMenu.classList.remove('active');
 }));
 
 // Enhanced Navbar - Active Section Highlighting
 function updateActiveNavLink() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
-  
+
+  navLinks.forEach(link => link.classList.remove('active'));
+
+  // Multi-page navigation: highlight the link whose HTML file matches
+  // the page currently being viewed. Treat the domain root as index.html.
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  let matchedPageLink = false;
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href') || '';
+    if (!href || href.startsWith('#') || /^(https?:|mailto:)/i.test(href)) return;
+
+    const linkFile = href.split('#')[0].split('?')[0].split('/').pop();
+    if (linkFile === currentFile) {
+      link.classList.add('active');
+      matchedPageLink = true;
+    }
+  });
+
+  // If this page uses in-page/hash navigation (for example the Constitution
+  // page), keep the original section-based highlighting behavior.
+  if (matchedPageLink || sections.length === 0) return;
+
   let current = '';
-  const scrollPos = window.scrollY + 100; // Offset for navbar height
-  
-  // Find the section that's currently most visible
+  const scrollPos = window.scrollY + 100;
+
   sections.forEach(section => {
     const sectionTop = section.offsetTop;
     const sectionHeight = section.clientHeight;
-    
     if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
       current = section.getAttribute('id');
     }
   });
 
-  // If no section detected, find the closest one
   if (!current) {
     let closest = null;
     let closestDistance = Infinity;
-    
     sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const distance = Math.abs(scrollPos - sectionTop);
+      const distance = Math.abs(scrollPos - section.offsetTop);
       if (distance < closestDistance) {
         closestDistance = distance;
         closest = section.getAttribute('id');
@@ -58,21 +77,15 @@ function updateActiveNavLink() {
     current = closest;
   }
 
-  // Map section IDs to navbar links (handle special cases)
   let targetLink = current;
-  if (current === 'presidents-message') {
-    targetLink = 'about'; // President's message should highlight "About" button
-  }
+  if (current === 'presidents-message') targetLink = 'about';
 
   navLinks.forEach(link => {
-    link.classList.remove('active');
-    const linkHref = link.getAttribute('href');
-    if (linkHref === `#${targetLink}`) {
+    if (link.getAttribute('href') === `#${targetLink}`) {
       link.classList.add('active');
     }
   });
 }
-
 // Enhanced Navbar - Scroll Effects
 let lastScrollY = window.scrollY;
 const navbar = document.querySelector('.navbar');
@@ -159,10 +172,12 @@ function handleNavbarScroll() {
   updateActiveNavLink();
   
   // Dynamic navbar styling based on scroll using classes
-  if (currentScrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
+  if (navbar) {
+    if (currentScrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
   }
   
   lastScrollY = currentScrollY;
@@ -251,42 +266,36 @@ document.head.appendChild(rippleStyle);
 // Add logo click animation with improved handling
 let logoAnimating = false;
 let currentRotation = 0;
+const navLogoElement = document.querySelector('.nav-logo');
+const logoImgElement = document.querySelector('.logo-img');
 
-document.querySelector('.nav-logo').addEventListener('click', () => {
-  if (!logoAnimating) {
-    logoAnimating = true;
-    const logoImg = document.querySelector('.logo-img');
-    
-    // Calculate next rotation to always go forward
-    currentRotation += 360;
-    
-    logoImg.style.transform = `rotate(${currentRotation}deg)`;
-    logoImg.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-    
-    setTimeout(() => {
-      logoAnimating = false;
-      // Keep the rotation state, don't reset
-    }, 800);
-  }
-});
+if (navLogoElement && logoImgElement) {
+  navLogoElement.addEventListener('click', () => {
+    if (!logoAnimating) {
+      logoAnimating = true;
+      currentRotation += 360;
+      logoImgElement.style.transform = `rotate(${currentRotation}deg)`;
+      logoImgElement.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      setTimeout(() => {
+        logoAnimating = false;
+      }, 800);
+    }
+  });
 
-// Fix hover interaction - don't interfere with click animation
-document.querySelector('.nav-logo').addEventListener('mouseenter', () => {
-  if (!logoAnimating) {
-    const logoImg = document.querySelector('.logo-img');
-    logoImg.style.transform = `rotate(${currentRotation}deg) scale(1.05)`;
-    logoImg.style.transition = 'transform 0.3s ease';
-  }
-});
+  navLogoElement.addEventListener('mouseenter', () => {
+    if (!logoAnimating) {
+      logoImgElement.style.transform = `rotate(${currentRotation}deg) scale(1.05)`;
+      logoImgElement.style.transition = 'transform 0.3s ease';
+    }
+  });
 
-document.querySelector('.nav-logo').addEventListener('mouseleave', () => {
-  if (!logoAnimating) {
-    const logoImg = document.querySelector('.logo-img');
-    logoImg.style.transform = `rotate(${currentRotation}deg)`;
-    logoImg.style.transition = 'transform 0.3s ease';
-  }
-});
-
+  navLogoElement.addEventListener('mouseleave', () => {
+    if (!logoAnimating) {
+      logoImgElement.style.transform = `rotate(${currentRotation}deg)`;
+      logoImgElement.style.transition = 'transform 0.3s ease';
+    }
+  });
+}
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -330,6 +339,10 @@ let navbarTicking = false;
 
 function updateNavbarStyle() {
   const navbar = document.querySelector('.navbar');
+  if (!navbar) {
+    navbarTicking = false;
+    return;
+  }
   if (window.scrollY > 100) {
     // Scrolled down - make navbar more solid and add glow effect
     navbar.style.background = 'rgba(13, 17, 23, 0.95)';
@@ -477,6 +490,9 @@ function handleOtherProgramSelection() {
 
 // Consolidated DOMContentLoaded handler
 document.addEventListener('DOMContentLoaded', function() {
+  // Set the active navbar item immediately on page load.
+  updateActiveNavLink();
+
   // Initialize back to top button for any page
   initBackToTopButton();
   
@@ -1402,8 +1418,10 @@ class WebsiteDataManager {
   }
   
   async init() {
-    // Only load data if we're on the main page
-    if (document.querySelector('.team-grid') || document.querySelector('.projects-grid')) {
+    // Load shared site data on whichever split page needs it.
+    if (document.getElementById('teamGrid') ||
+        document.getElementById('projectsGrid') ||
+        document.getElementById('featuresGrid')) {
       await this.loadData();
       this.populateContent();
     }
@@ -1649,6 +1667,7 @@ function openProjectModal(projectIndex) {
 
 function closeProjectModal() {
   const modal = document.getElementById('projectModal');
+  if (!modal) return;
   modal.classList.remove('active');
   document.body.style.overflow = '';
   currentCarouselIndex = 0;
@@ -1707,7 +1726,7 @@ document.addEventListener('keydown', function(event) {
 // Add keyboard navigation for carousel
 document.addEventListener('keydown', function(event) {
   const modal = document.getElementById('projectModal');
-  if (modal.classList.contains('active') && currentProjectImages.length > 1) {
+  if (modal && modal.classList.contains('active') && currentProjectImages.length > 1) {
     if (event.key === 'ArrowLeft') {
       changeSlide(-1);
     } else if (event.key === 'ArrowRight') {
