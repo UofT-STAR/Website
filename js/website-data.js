@@ -71,7 +71,7 @@ const websiteData = {
       description: "A Team designed and built flight computer spearheaded by our Avionics Team on an arduino platform. Dual deploy capable launching on a 3\" body with a 29mm motor.",
       status: "In Progress",
       statusClass: "active",
-        detailedDescription: "Our main project right now is quite ambitious.\n\
+      detailedDescription: "Our main project right now is quite ambitious.\n\
         We are attempting to design and produce a flight computer capable of the dual-deploy recovery of a 3\" diameter rocket!\n\
         This project is aimed at showcasing our skills in programming and software design as well as soldering and our abilities to construct our own hardware.",
       details: [

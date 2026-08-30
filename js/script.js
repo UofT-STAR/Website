@@ -1722,11 +1722,78 @@ document.addEventListener('keydown', function(event) {
 });
 
 // Footer map: Leaflet + OpenStreetMap, no API key required.
-// Renders a live, draggable/zoomable map centered on the Bahen Centre,
-// with all built-in UI controls stripped except a small zoom control.
-function initFooterMap() {
+// Leaflet is loaded here on demand so individual HTML pages do not need to
+// duplicate Leaflet <link>/<script> tags just because they share the footer.
+function loadExternalScript(src, id) {
+  return new Promise((resolve, reject) => {
+    const existing = document.getElementById(id);
+    if (existing) {
+      if (existing.dataset.loaded === 'true') {
+        resolve();
+        return;
+      }
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = src;
+    script.async = true;
+    script.addEventListener('load', () => {
+      script.dataset.loaded = 'true';
+      resolve();
+    }, { once: true });
+    script.addEventListener('error', reject, { once: true });
+    document.head.appendChild(script);
+  });
+}
+
+async function ensureFooterMapDependencies() {
+  if (!document.getElementById('leaflet-css')) {
+    const leafletCss = document.createElement('link');
+    leafletCss.id = 'leaflet-css';
+    leafletCss.rel = 'stylesheet';
+    leafletCss.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(leafletCss);
+  }
+
+  if (typeof window.L === 'undefined') {
+    await loadExternalScript(
+      'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+      'leaflet-js'
+    );
+  }
+
+  // Rotation is cosmetic. If the plugin is unavailable, the normal Leaflet
+  // map still works, so do not let a plugin failure break the footer.
+  if (!document.getElementById('leaflet-rotate-js')) {
+    try {
+      await loadExternalScript(
+        'https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.7/dist/leaflet-rotate.js',
+        'leaflet-rotate-js'
+      );
+    } catch (error) {
+      console.warn('Leaflet rotate plugin could not be loaded:', error);
+    }
+  }
+}
+
+// Renders a live, draggable/zoomable map centered on the Bahen Centre.
+async function initFooterMap() {
   const mapEl = document.getElementById('footer-map');
-  if (!mapEl || typeof L === 'undefined') return;
+  if (!mapEl || mapEl.dataset.mapInitialized === 'true') return;
+
+  try {
+    await ensureFooterMapDependencies();
+  } catch (error) {
+    console.warn('Footer map dependencies could not be loaded:', error);
+    return;
+  }
+
+  if (typeof window.L === 'undefined') return;
+  mapEl.dataset.mapInitialized = 'true';
 
   const bahenCentre = [43.6596580, -79.3974008]; // bahen ip address (kidding it's just coords)
 

@@ -1,158 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Discord embed -->
-    <meta property="og:title" content="UofT STAR - About">
-    <meta property="og:description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
-    <meta property="og:image" content="https://www.utstar.ca/Images/UTSTAR_logo.webp">
-    <meta property="og:url" content="https://www.utstar.ca/about.html">
-    <!-- Force big image in embed -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <!--               -->
-
-    <meta name="description" content="A student led team dedicated to model rockets, open to anyone regardless of major.">
-    
-    <title>UofT STAR - About</title>
-    <link rel="icon" type="image/webp" href="Images/UTSTAR_logo.webp">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-</head>
-<body data-page="about">
-    <!-- Global Stars Background -->
-    <div class="stars-background"></div>
-
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="logo-img">
-                <span>UofT STAR</span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link" data-page="home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link" data-page="about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="projects.html" class="nav-link" data-page="projects">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="events.html" class="nav-link" data-page="events">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a href="team.html" class="nav-link" data-page="team">Team</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
-                </li>
-                <!--
-                <li class="nav-item">
-                    <a href="constitution.html" class="nav-link">Constitution</a>
-                </li>
-                -->
-                <li class="nav-item">
-                    <a href="trivia.html" class="nav-link" data-page="trivia">Trivia</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
-
-
-    <main class="standalone-page">
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About UofT STAR</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR). Our mission is to design and test team-built model rockets and educate and help new rocketeers progress in the hobby!
-                        <br>
-                        UofT STAR is the only rocketry team run by students of the Faculty of Arts & Science (FAS).
-                        Our goal is to be the go-to rocketry team for anybody in the University looking to learn about or find a community for rocketeers.
-                        Students who want hands-on experience in CAD, solid rocket propulsion, and flight computers or avionics will find just that on our team!
-                    </p>
-                    <div class="features" id="featuresGrid">
-                        <!-- Features will be loaded from website-data.js -->
-                        <div class="loading-placeholder">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <p>Loading features...</p>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <!-- Discord embed -->
+        <meta content="UofT STAR - About" property="og:title">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." property="og:description">
+        <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
+        <meta content="https://www.utstar.ca/about.html" property="og:url">
+        <!-- Force big image in embed -->
+        <meta content="summary_large_image" name="twitter:card">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." name="description">
+        <title>UofT STAR - About</title>
+        <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body data-page="about">
+        <!-- Global Stars Background -->
+        <div class="stars-background"></div>
+        <!-- Navigation -->
+        <nav id="site-navbar"></nav>
+        <main class="standalone-page">
+            <!-- About Section -->
+            <section class="section" id="about">
+                <div class="container">
+                    <h2 class="section-title">About UofT STAR</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <p>
+                                We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR). Our mission is to design and test team-built model rockets and educate and help new rocketeers progress in the hobby!
+                                <br>
+                                UofT STAR is the only rocketry team run by students of the Faculty of Arts &amp; Science (FAS).
+                                Our goal is to be the go-to rocketry team for anybody in the University looking to learn about or find a community for rocketeers.
+                                Students who want hands-on experience in CAD, solid rocket propulsion, and flight computers or avionics will find just that on our team!
+                            </p>
+                            <div class="features" id="featuresGrid">
+                                <!-- Features will be loaded from website-data.js -->
+                                <div class="loading-placeholder">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Loading features...</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="Images/UTSTAR_logo.webp" alt="UofT STAR Logo" class="footer-logo-img">
-                    <span>UofT STAR</span>
-                </div>
-                
-                <div class="footer-info">
-                    <div class="footer-map" id="footer-map"></div>
-                </div>
-                
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/uoftstar/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                    <a href="mailto:utstar@studentorg.utoronto.ca" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
-                    <a href="https://discord.gg/nNsQn5J4SU" target="_blank" rel="noopener"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-            <p>&copy; 2026 University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </button>
-
-    <!-- Project Modal -->
-    <div id="projectModal" class="project-modal">
-        <div class="project-modal-content">
-            <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-            <div class="project-modal-body">
-                <div class="project-modal-icon">
-                    <i id="modalIcon"></i>
-                </div>
-                <h2 id="modalTitle"></h2>
-                <div class="project-modal-status">
-                    <span id="modalStatus" class="status-badge"></span>
-                </div>
-                <p id="modalDescription"></p>
-                <div id="modalCarousel" class="project-carousel">
-                    <!-- Carousel images will be loaded here -->
-                </div>
-                <div id="modalDetails" class="project-details">
-                    <!-- Additional project details will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.7/dist/leaflet-rotate.js"></script>
-    <script src="js/website-data.js"></script>
-    <script src="js/script.js"></script>
-</body>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer id="site-footer"></footer>
+        <!-- Back to Top Button -->
+        <!-- Project Modal -->
+        <script src="js/website-data.js"></script>
+        <script src="js/components.js"></script>
+        <script src="js/script.js"></script>
+    </body>
 </html>
