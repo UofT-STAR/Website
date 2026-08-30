@@ -17,6 +17,7 @@
     { page: 'projects', label: 'Projects', href: 'projects.html' },
     { page: 'events', label: 'Events', href: 'events.html' },
     { page: 'team', label: 'Team', href: 'team.html' },
+    { page: 'aiaa', label: 'AIAA', href: 'aiaa.html' },
     { page: 'join-us', label: 'Join Us', href: 'join-us.html' },
     { page: 'sponsors', label: 'Sponsors', href: 'sponsors.html' },
     { page: 'contact', label: 'Contact', href: 'contact.html' },
