@@ -26,33 +26,23 @@ document.querySelectorAll('.dropdown-link').forEach(n => n.addEventListener('cli
   if (navMenu) navMenu.classList.remove('active');
 }));
 
-// Enhanced Navbar - Active Section Highlighting
+// Enhanced Navbar - Active Page / Section Highlighting
 function updateActiveNavLink() {
-  const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
+  const currentPage = document.body.dataset.page;
 
-  navLinks.forEach(link => link.classList.remove('active'));
+  // Multi-page site: use explicit page IDs from the HTML instead of
+  // window.location.pathname. This survives custom domains, GitHub Pages
+  // subpaths, redirects, extensionless URLs, and trailing slashes.
+  if (currentPage) {
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.page === currentPage);
+    });
+    return;
+  }
 
-  // Multi-page navigation: highlight the link whose HTML file matches
-  // the page currently being viewed. Treat the domain root as index.html.
-  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-  let matchedPageLink = false;
-
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    if (!href || href.startsWith('#') || /^(https?:|mailto:)/i.test(href)) return;
-
-    const linkFile = href.split('#')[0].split('?')[0].split('/').pop();
-    if (linkFile === currentFile) {
-      link.classList.add('active');
-      matchedPageLink = true;
-    }
-  });
-
-  // If this page uses in-page/hash navigation (for example the Constitution
-  // page), keep the original section-based highlighting behavior.
-  if (matchedPageLink || sections.length === 0) return;
-
+  // Fallback for legacy/in-page pages that do not have data-page on <body>.
+  const sections = document.querySelectorAll('section[id]');
   let current = '';
   const scrollPos = window.scrollY + 100;
 
@@ -64,7 +54,7 @@ function updateActiveNavLink() {
     }
   });
 
-  if (!current) {
+  if (!current && sections.length) {
     let closest = null;
     let closestDistance = Infinity;
     sections.forEach(section => {
@@ -77,13 +67,9 @@ function updateActiveNavLink() {
     current = closest;
   }
 
-  let targetLink = current;
-  if (current === 'presidents-message') targetLink = 'about';
-
+  const targetLink = current === 'presidents-message' ? 'about' : current;
   navLinks.forEach(link => {
-    if (link.getAttribute('href') === `#${targetLink}`) {
-      link.classList.add('active');
-    }
+    link.classList.toggle('active', link.getAttribute('href') === `#${targetLink}`);
   });
 }
 // Enhanced Navbar - Scroll Effects
