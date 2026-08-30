@@ -1943,12 +1943,10 @@ html, body {
 
 /* Trivia Page Styles */
 .trivia-hero {
-  position: relative;
   width: 100%;
-  margin-top: 70px;
   display: flex;
-  /*align-items: center;
-  flex-direction: x;*/
+  justify-content: center;
+  padding-bottom: 0;
   text-align: center;
 }
 
@@ -3191,5 +3189,260 @@ html {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+
+/* Join Us and Sponsors pages */
+.page-intro {
+  max-width: 760px;
+  margin: -2rem auto 3rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.join-options-grid,
+.partner-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.join-option-card,
+.partner-card {
+  flex: 1 1 260px;
+  max-width: 340px;
+  min-height: 310px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.join-option-card:hover,
+.partner-card:hover {
+  transform: translateY(-8px);
+  background: var(--glass-hover);
+  border-color: rgba(255, 255, 255, .14);
+  box-shadow: 0 20px 40px rgba(10, 132, 255, 0.12);
+}
+
+.join-option-icon {
+  width: 84px;
+  height: 84px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  font-size: 2rem;
+}
+
+.join-option-card h3,
+.partner-section h3 {
+  color: var(--text-primary);
+}
+
+.join-option-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.join-option-card p,
+.partner-card > p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.join-option-card p {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.join-option-action {
+  margin-top: auto;
+}
+
+.join-option-disabled {
+  cursor: default;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.partner-section {
+  margin-top: 4rem;
+}
+
+.partner-section h3 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.partner-image,
+.sponsor-logo {
+  width: 110px;
+  height: 110px;
+  margin-bottom: 1.25rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.sponsor-logo {
+  width: 180px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.partner-image-placeholder,
+.sponsor-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.partner-card h4 {
+  margin-bottom: 0.4rem;
+  font-size: 1.25rem;
+}
+
+.partner-role {
+  margin-bottom: 0.25rem;
+  color: var(--accent-color) !important;
+  font-weight: 600;
+}
+
+.partner-meta {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.partner-link {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.empty-state {
+  width: 100%;
+  max-width: 620px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--panel);
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+}
+
+.empty-state i {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 2.3rem;
+}
+
+@media (min-width: 769px) {
+  .nav-container {
+    max-width: 1220px;
+  }
+
+  .nav-menu {
+    gap: 0.65rem;
+  }
+
+  .nav-link {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-intro {
+    margin-top: -1rem;
+  }
+
+  .join-option-card,
+  .partner-card {
+    flex-basis: 100%;
+    max-width: 420px;
+    min-height: 0;
+  }
+}
+
+
+/* The expanded navbar switches to the hamburger earlier so all tabs fit cleanly. */
+@media (max-width: 1120px) and (min-width: 769px) {
+  .hamburger {
+    display: flex;
+    z-index: 9999;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 90px;
+    right: -100%;
+    width: 280px;
+    height: auto;
+    max-height: calc(100vh - 120px);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0.8rem;
+    overflow-y: auto;
+    background: rgba(13, 13, 13, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9998;
+  }
+
+  .nav-menu.active {
+    right: 20px;
+  }
+
+  .nav-menu .nav-item {
+    width: 100%;
+    margin: 0;
+  }
+
+  .nav-menu .nav-link {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    text-align: center;
+  }
+
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active .bar:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .hamburger.active .bar:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
   }
 }
