@@ -1407,7 +1407,10 @@ class WebsiteDataManager {
     // Load shared site data on whichever split page needs it.
     if (document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
-        document.getElementById('featuresGrid')) {
+        document.getElementById('featuresGrid') ||
+        document.getElementById('joinOptionsGrid') ||
+        document.getElementById('mentorsGrid') ||
+        document.getElementById('sponsorsGrid')) {
       await this.loadData();
       this.populateContent();
     }
@@ -1454,6 +1457,9 @@ class WebsiteDataManager {
     this.populateTeamMembers();
     this.populateProjects();
     this.populateFeatures();
+    this.populateJoinOptions();
+    this.populateMentors();
+    this.populateSponsors();
   }
   
   populateTeamMembers() {
@@ -1522,6 +1528,109 @@ class WebsiteDataManager {
         <p>${feature.description}</p>
       `;
       featuresContainer.appendChild(featureElement);
+    });
+  }
+  
+  populateJoinOptions() {
+    const joinGrid = document.getElementById('joinOptionsGrid');
+    if (!joinGrid || !this.data.joinOptions) return;
+
+    joinGrid.innerHTML = '';
+
+    this.data.joinOptions.forEach(option => {
+      const card = document.createElement('article');
+      card.className = 'join-option-card';
+
+      const action = option.href
+        ? `<a class="btn btn-primary" href="${option.href}" target="_blank" rel="noopener">${option.actionLabel}</a>`
+        : `<span class="btn btn-secondary join-option-disabled" aria-disabled="true">${option.actionLabel}</span>`;
+
+      card.innerHTML = `
+        <div class="join-option-icon">
+          <i class="${option.icon}"></i>
+        </div>
+        <h3>${option.audience}</h3>
+        <p>${option.description}</p>
+        <div class="join-option-action">${action}</div>
+      `;
+      joinGrid.appendChild(card);
+    });
+  }
+
+  populateMentors() {
+    const mentorsGrid = document.getElementById('mentorsGrid');
+    if (!mentorsGrid || !this.data.mentors) return;
+
+    if (this.data.mentors.length === 0) {
+      mentorsGrid.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-user-astronaut"></i>
+          <p>Mentor profiles will appear here.</p>
+        </div>
+      `;
+      return;
+    }
+
+    mentorsGrid.innerHTML = '';
+    this.data.mentors.forEach(mentor => {
+      const card = document.createElement('article');
+      card.className = 'partner-card';
+      const image = mentor.image
+        ? `<img class="partner-image" src="${mentor.image}" alt="${mentor.name}">`
+        : `<div class="partner-image partner-image-placeholder"><i class="fas fa-user"></i></div>`;
+      const organization = mentor.organization ? `<p class="partner-meta">${mentor.organization}</p>` : '';
+      const bio = mentor.bio ? `<p>${mentor.bio}</p>` : '';
+      const website = mentor.website
+        ? `<a class="partner-link" href="${mentor.website}" target="_blank" rel="noopener">Learn more <i class="fas fa-arrow-up-right-from-square"></i></a>`
+        : '';
+
+      card.innerHTML = `
+        ${image}
+        <h4>${mentor.name}</h4>
+        <p class="partner-role">${mentor.role || 'Mentor'}</p>
+        ${organization}
+        ${bio}
+        ${website}
+      `;
+      mentorsGrid.appendChild(card);
+    });
+  }
+
+  populateSponsors() {
+    const sponsorsGrid = document.getElementById('sponsorsGrid');
+    if (!sponsorsGrid || !this.data.sponsors) return;
+
+    if (this.data.sponsors.length === 0) {
+      sponsorsGrid.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-handshake"></i>
+          <p>Sponsor profiles will appear here.</p>
+        </div>
+      `;
+      return;
+    }
+
+    sponsorsGrid.innerHTML = '';
+    this.data.sponsors.forEach(sponsor => {
+      const card = document.createElement('article');
+      card.className = 'partner-card sponsor-card';
+      const logo = sponsor.logo
+        ? `<img class="sponsor-logo" src="${sponsor.logo}" alt="${sponsor.name} logo">`
+        : `<div class="sponsor-logo sponsor-logo-placeholder"><i class="fas fa-building"></i></div>`;
+      const level = sponsor.level ? `<p class="partner-role">${sponsor.level}</p>` : '';
+      const description = sponsor.description ? `<p>${sponsor.description}</p>` : '';
+      const website = sponsor.website
+        ? `<a class="partner-link" href="${sponsor.website}" target="_blank" rel="noopener">Visit website <i class="fas fa-arrow-up-right-from-square"></i></a>`
+        : '';
+
+      card.innerHTML = `
+        ${logo}
+        <h4>${sponsor.name}</h4>
+        ${level}
+        ${description}
+        ${website}
+      `;
+      sponsorsGrid.appendChild(card);
     });
   }
 }

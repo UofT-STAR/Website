@@ -140,6 +140,54 @@ const websiteData = {
       title: "Aerodynamics, Mechanical Design, & Propulsion Systems",
       description: "Custom designed rocketry parts, motor mounts, recovery systems, and both team-designed and kit based rockets."
     }
+  ],
+
+  // Join Us cards. Add or edit options here instead of changing join-us.html.
+  joinOptions: [
+    {
+      audience: "Students",
+      icon: "fas fa-user-graduate",
+      description: "UofT students can join our community through Discord and learn how to get involved with the team.",
+      actionLabel: "Join Our Discord",
+      href: "https://discord.gg/nNsQn5J4SU"
+    },
+    {
+      audience: "Mentors",
+      icon: "fas fa-chalkboard-teacher",
+      description: "Information for prospective mentors will be added here once the mentorship process is finalized.",
+      actionLabel: "Coming Soon",
+      href: null
+    },
+    {
+      audience: "Sponsors",
+      icon: "fas fa-handshake",
+      description: "Information for prospective sponsors will be added here once the sponsorship process is finalized.",
+      actionLabel: "Coming Soon",
+      href: null
+    }
+  ],
+
+  // Add mentors here. Copy the example object and remove the // markers.
+  mentors: [
+    // {
+    //   name: "Mentor Name",
+    //   role: "Mentor",
+    //   organization: "Organization or affiliation",
+    //   bio: "Short mentor description.",
+    //   image: "Images/Mentors/example.webp",
+    //   website: "https://example.com"
+    // }
+  ],
+
+  // Add sponsors here. Copy the example object and remove the // markers.
+  sponsors: [
+    // {
+    //   name: "Sponsor Name",
+    //   level: "Sponsor level or category",
+    //   description: "Short sponsor description.",
+    //   logo: "Images/Sponsors/example.webp",
+    //   website: "https://example.com"
+    // }
   ]
 };
 
