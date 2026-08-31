@@ -13,17 +13,19 @@
 
   const NAV_ITEMS = [
     { page: 'home', label: 'Home', href: 'index.html' },
-    { page: 'about', label: 'About', href: 'about.html' },
     { page: 'projects', label: 'Projects', href: 'projects.html' },
     { page: 'events', label: 'Events', href: 'events.html' },
     { page: 'leadership', label: 'Leadership', href: 'leadership.html' },
     { page: 'aiaa', label: 'AIAA', href: 'aiaa.html' },
-    { page: 'join-us', label: 'Join Us', href: 'join-us.html' },
+    { page: 'events', label: 'Events', href: 'events.html' },
     { page: 'sponsors', label: 'Sponsors', href: 'sponsors.html' },
+    { page: 'team', label: 'Team', href: 'team.html' },
+    { page: 'about', label: 'About Us', href: 'about.html' },
     { page: 'contact', label: 'Contact', href: 'contact.html' },
+    { page: 'join-us', label: 'Join Us', href: 'join-us.html' },
     // Re-enable when wanted:
     // { page: 'constitution', label: 'Constitution', href: 'Constitution.html' },
-    { page: 'trivia', label: 'Trivia', href: 'trivia.html' }
+    //{ page: 'trivia', label: 'Trivia', href: 'trivia.html' }
   ];
 
   function renderNavbar() {
