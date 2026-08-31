@@ -16,7 +16,7 @@
     { page: 'about', label: 'About', href: 'about.html' },
     { page: 'projects', label: 'Projects', href: 'projects.html' },
     { page: 'events', label: 'Events', href: 'events.html' },
-    { page: 'team', label: 'Team', href: 'team.html' },
+    { page: 'leadership', label: 'Leadership', href: 'leadership.html' },
     { page: 'aiaa', label: 'AIAA', href: 'aiaa.html' },
     { page: 'join-us', label: 'Join Us', href: 'join-us.html' },
     { page: 'sponsors', label: 'Sponsors', href: 'sponsors.html' },
@@ -64,22 +64,30 @@
     footer.innerHTML = `
       <div class="container">
         <div class="footer-content">
-          <div class="footer-logo">
-            <img src="${SITE.logo}" alt="UofT STAR Logo" class="footer-logo-img">
-            <span>${SITE.name}</span>
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <img src="${SITE.logo}" alt="UofT STAR Logo" class="footer-logo-img">
+              <span>${SITE.name}</span>
+            </div>
+            <p class="footer-blurb">
+              Learn the basics or continue your rocketry journey with us, we're happy to have you aboard no matter your experience level!
+            </p>
           </div>
 
           <div class="footer-info">
             <div class="footer-map" id="footer-map"></div>
           </div>
 
-          <div class="footer-social">
-            <a href="${SITE.instagram}" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="mailto:${SITE.email}" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            <a href="${SITE.discord}" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+          <div class="footer-social-group">
+            <p class="footer-social-title">Join Us!</p>
+            <div class="footer-social">
+              <a href="${SITE.instagram}" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="mailto:${SITE.email}" aria-label="Email"><i class="fas fa-envelope"></i></a>
+              <a href="${SITE.discord}" target="_blank" rel="noopener" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            </div>
           </div>
         </div>
-        <p>&copy; ${SITE.copyrightYear} University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
+        <p class="footer-copyright">&copy; ${SITE.copyrightYear} University of Toronto Student Team for Amateur Rocketry. All rights reserved.</p>
       </div>
     `;
 
