@@ -1007,7 +1007,7 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   margin-right: 0.5rem;
 }
 
-/* Team Section */
+/* Leadership Section */
 .team-grid {
   display: flex;
   flex-wrap: wrap;
@@ -1087,6 +1087,211 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   font-size: 0.875rem;
   line-height: 1.4;
   min-height: 2.4rem;
+}
+
+
+.leadership-card {
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
+.leadership-card:focus-visible {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.25), 0 20px 40px rgba(10, 132, 255, 0.12);
+}
+
+.leadership-card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.leadership-card:hover .leadership-card-action,
+.leadership-card:focus-visible .leadership-card-action {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.leadership-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.leadership-modal.active {
+  display: flex;
+}
+
+.leadership-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+}
+
+.leadership-modal-content {
+  position: relative;
+  z-index: 1;
+  width: min(820px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2.75rem;
+  background: linear-gradient(135deg, rgba(10, 11, 20, 0.97), rgba(20, 25, 40, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+  animation: slideInUp 0.35s ease;
+}
+
+.leadership-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.leadership-modal-close:hover,
+.leadership-modal-close:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--accent);
+  transform: rotate(90deg);
+  outline: none;
+}
+
+.leadership-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-right: 3rem;
+  margin-bottom: 2rem;
+}
+
+.leadership-modal-photo {
+  flex: 0 0 auto;
+  width: 120px;
+  height: 120px;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.leadership-modal-heading h2 {
+  margin-bottom: 0.45rem;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.leadership-modal-heading .member-role,
+.leadership-modal-heading .member-program {
+  min-height: 0;
+}
+
+.leadership-modal-sections {
+  display: grid;
+  gap: 1rem;
+}
+
+.leadership-detail-section {
+  padding: 1.35rem 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.leadership-detail-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.leadership-detail-section h3 i {
+  color: var(--accent);
+}
+
+.leadership-detail-section p,
+.leadership-contact-empty {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.leadership-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.leadership-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.leadership-contact-link:hover,
+.leadership-contact-link:focus-visible {
+  transform: translateY(-2px);
+  background: var(--glass-hover);
+  border-color: rgba(10, 132, 255, 0.45);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .leadership-modal {
+    padding: 1rem;
+  }
+
+  .leadership-modal-content {
+    padding: 4rem 1.25rem 1.5rem;
+  }
+
+  .leadership-modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-right: 0;
+  }
+
+  .leadership-modal-photo {
+    width: 96px;
+    height: 96px;
+  }
+
+  .leadership-modal-heading h2 {
+    font-size: 1.6rem;
+  }
 }
 
 /* Contact Section */
