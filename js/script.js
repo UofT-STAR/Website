@@ -568,6 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize back to top button for any page
   initBackToTopButton();
+  initLeadershipModal();
   
   // Initialize footer map (Leaflet + OpenStreetMap)
   initFooterMap();
@@ -1492,7 +1493,8 @@ class WebsiteDataManager {
   
   async init() {
     // Load shared site data on whichever split page needs it.
-    if (document.getElementById('teamGrid') ||
+    if (document.getElementById('leadershipGrid') ||
+        document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
         document.getElementById('featuresGrid') ||
         document.getElementById('joinOptionsGrid') ||
@@ -1541,7 +1543,7 @@ class WebsiteDataManager {
   populateContent() {
     if (!this.data) return;
     
-    this.populateTeamMembers();
+    this.populateLeadershipMembers();
     this.populateProjects();
     this.populateFeatures();
     this.populateJoinOptions();
@@ -1549,16 +1551,19 @@ class WebsiteDataManager {
     this.populateSponsors();
   }
   
-  populateTeamMembers() {
-    const teamGrid = document.getElementById('teamGrid');
-    if (!teamGrid || !this.data.teamMembers) return;
-    
-    // Clear existing content (including loading placeholder)
-    teamGrid.innerHTML = '';
-    
-    this.data.teamMembers.forEach(member => {
-      const memberElement = document.createElement('div');
-      memberElement.className = 'team-member';
+  populateLeadershipMembers() {
+    const leadershipGrid = document.getElementById('leadershipGrid') || document.getElementById('teamGrid');
+    if (!leadershipGrid || !this.data.teamMembers) return;
+
+    // Clear existing content (including loading placeholder).
+    leadershipGrid.innerHTML = '';
+
+    this.data.teamMembers.forEach((member, index) => {
+      const memberElement = document.createElement('article');
+      memberElement.className = 'team-member leadership-card';
+      memberElement.setAttribute('role', 'button');
+      memberElement.setAttribute('tabindex', '0');
+      memberElement.setAttribute('aria-label', `View profile for ${member.name}`);
       memberElement.innerHTML = `
         <div class="member-photo">
           ${member.initials}
@@ -1566,11 +1571,24 @@ class WebsiteDataManager {
         <h3>${member.name}</h3>
         <p class="member-role">${member.role}</p>
         <p class="member-program">${member.program}</p>
+        <span class="leadership-card-action">
+          View Profile <i class="fas fa-arrow-right"></i>
+        </span>
       `;
-      teamGrid.appendChild(memberElement);
+
+      const openProfile = () => openLeadershipModal(index);
+      memberElement.addEventListener('click', openProfile);
+      memberElement.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openProfile();
+        }
+      });
+
+      leadershipGrid.appendChild(memberElement);
     });
-    
-    // Load profile pictures after team members are populated
+
+    // Load profile pictures after leadership cards are populated.
     loadTeamProfilePictures();
   }
   
@@ -1777,6 +1795,115 @@ document.addEventListener('keydown', (e) => {
 // Project Modal Functionality
 let currentCarouselIndex = 0;
 let currentProjectImages = [];
+
+function getLeadershipMember(memberIndex) {
+  const members = window.websiteData?.teamMembers;
+  if (!Array.isArray(members)) return null;
+  return members[memberIndex] || null;
+}
+
+function setLeadershipModalPhoto(photoElement, member) {
+  if (!photoElement || !member) return;
+
+  photoElement.style.backgroundImage = '';
+  photoElement.style.backgroundSize = '';
+  photoElement.style.backgroundPosition = '';
+  photoElement.style.backgroundRepeat = '';
+  photoElement.textContent = member.initials || '';
+
+  const filename = member.name.replace(/\s+/g, '');
+  const extensions = ['webp', 'png', 'jpeg', 'jpg'];
+
+  function tryExtension(index) {
+    if (index >= extensions.length) return;
+
+    const imagePath = `Images/TeamExecs/${filename}.${extensions[index]}`;
+    const image = new Image();
+
+    image.onload = () => {
+      photoElement.style.backgroundImage = `url('${imagePath}')`;
+      photoElement.style.backgroundSize = 'cover';
+      photoElement.style.backgroundPosition = 'center';
+      photoElement.style.backgroundRepeat = 'no-repeat';
+      photoElement.textContent = '';
+    };
+
+    image.onerror = () => tryExtension(index + 1);
+    image.src = imagePath;
+  }
+
+  tryExtension(0);
+}
+
+function openLeadershipModal(memberIndex) {
+  const modal = document.getElementById('leadershipModal');
+  const member = getLeadershipMember(memberIndex);
+  if (!modal || !member) return;
+
+  const nameElement = document.getElementById('leadershipModalName');
+  const roleElement = document.getElementById('leadershipModalRole');
+  const programElement = document.getElementById('leadershipModalProgram');
+  const bioElement = document.getElementById('leadershipModalBio');
+  const motivationElement = document.getElementById('leadershipModalMotivation');
+  const contactElement = document.getElementById('leadershipModalContact');
+  const photoElement = document.getElementById('leadershipModalPhoto');
+
+  if (nameElement) nameElement.textContent = member.name;
+  if (roleElement) roleElement.textContent = member.role;
+  if (programElement) programElement.textContent = member.program;
+  if (bioElement) bioElement.textContent = member.bio || 'A short bio will be added soon.';
+  if (motivationElement) motivationElement.textContent = member.motivation || 'Their UofT STAR motivation will be added soon.';
+
+  if (contactElement) {
+    const contact = member.contact || {};
+    const links = [];
+
+    if (contact.email) {
+      links.push(`<a class="leadership-contact-link" href="mailto:${contact.email}"><i class="fas fa-envelope"></i> Email</a>`);
+    }
+
+    if (contact.linkedin) {
+      links.push(`<a class="leadership-contact-link" href="${contact.linkedin}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>`);
+    }
+
+    contactElement.innerHTML = links.length
+      ? links.join('')
+      : '<span class="leadership-contact-empty">Public contact information will be added soon.</span>';
+  }
+
+  setLeadershipModalPhoto(photoElement, member);
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+
+  const closeButton = modal.querySelector('.leadership-modal-close');
+  if (closeButton) closeButton.focus();
+}
+
+function closeLeadershipModal() {
+  const modal = document.getElementById('leadershipModal');
+  if (!modal) return;
+
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+function initLeadershipModal() {
+  const modal = document.getElementById('leadershipModal');
+  if (!modal) return;
+
+  modal.querySelectorAll('[data-close-leadership-modal]').forEach(element => {
+    element.addEventListener('click', closeLeadershipModal);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal.classList.contains('active')) {
+      closeLeadershipModal();
+    }
+  });
+}
 
 function openProjectModal(projectIndex) {
   const project = websiteData.projects[projectIndex];
