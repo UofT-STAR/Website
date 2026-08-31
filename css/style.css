@@ -60,8 +60,17 @@ html {
 
 /* Scroll-driven intro scene (index page) */
 .intro-scene {
+  --primary-enter-progress: 0;
+  --primary-exit-progress: 0;
+  --primary-content-opacity: 0;
+  --video-progress: 0;
+  --secondary-enter-progress: 0;
+  --secondary-content-opacity: 0;
+  --intro-overlay-opacity: 0.2;
+  --primary-translate-y: 40px;
+  --secondary-translate-y: 40px;
   position: relative;
-  height: 220vh;
+  height: 430vh;
 }
 
 .intro-pin {
@@ -83,32 +92,69 @@ html {
   aspect-ratio: auto;
 }
 
+.intro-scene .home-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.intro-scene .home-media-photo {
+  opacity: calc(1 - var(--video-progress));
+}
+
+.intro-scene .home-media-video {
+  opacity: var(--video-progress);
+  background: #000;
+}
+
 .intro-scene .banner-overlay {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.45) 52%, rgba(0, 0, 0, 0.2) 100%);
-  opacity: calc(var(--hero-reveal-progress, 0) * 0.9);
-  transition: opacity 0.2s linear;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.14) 0%,
+    rgba(0, 0, 0, 0.78) 54%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
+  opacity: var(--intro-overlay-opacity);
 }
 
 .intro-scene .hero {
-  --hero-reveal-progress: 0;
   padding-top: 0;
   z-index: 2;
 }
 
-.intro-scene .hero-content {
-  opacity: var(--hero-reveal-progress);
-  transform: translateY(calc(40px * (1 - var(--hero-reveal-progress))));
-  transition: opacity 0.15s linear, transform 0.15s linear;
-  pointer-events: none;
+.intro-scene .hero-copy-stage {
+  width: 100%;
+  display: grid;
+  align-items: center;
 }
 
-.intro-scene .hero.hero-interactive .hero-content {
+.intro-scene .hero-content {
+  grid-area: 1 / 1;
+  width: 100%;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.intro-scene .hero-content-primary {
+  opacity: var(--primary-content-opacity);
+  transform: translateY(var(--primary-translate-y));
+}
+
+.intro-scene .hero-content-secondary {
+  opacity: var(--secondary-content-opacity);
+  transform: translateY(var(--secondary-translate-y));
+}
+
+.intro-scene .hero-content.is-interactive {
   pointer-events: auto;
 }
 
+/* The decorative planets belong to the photo chapter and leave with it. */
 .intro-scene .hero-animation {
-  opacity: calc(0.2 + (var(--hero-reveal-progress) * 0.8));
-  transition: opacity 0.2s linear;
+  opacity: calc(1 - var(--video-progress));
 }
 
 .page-reveal {
@@ -157,7 +203,7 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   }
 
   .intro-scene {
-    height: 210vh;
+    height: 410vh;
   }
 }
 
@@ -167,7 +213,7 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   }
 
   .intro-scene {
-    height: 200vh;
+    height: 400vh;
   }
 }
 
