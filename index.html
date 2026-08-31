@@ -24,27 +24,43 @@
         <nav id="site-navbar"></nav>
         <div class="intro-scene">
             <div class="intro-pin">
-                <!-- Banner Section -->
+                <!-- Pinned Home Media: photo first, then video -->
                 <section class="banner">
                     <div class="banner-image">
-                        <img alt="UofT STAR Team Launch" src="Images/LaunchGroupPic.jpeg" style="background-attachment: fixed">
+                        <img class="home-media home-media-photo" alt="UofT STAR Team Launch" src="Images/LaunchGroupPic.jpeg">
+                        <!-- Put your home video at Videos/HomeHero.mp4, or change the source below. -->
+                        <video class="home-media home-media-video" id="homeHeroVideo" muted playsinline loop preload="auto" poster="Images/LaunchGroupPic.jpeg">
+                            <source src="Videos/launch-desktop.mp4" type="video/mp4">
+                        </video>
                         <div class="banner-overlay"></div>
                     </div>
                 </section>
-                <!-- Hero Section -->
+
+                <!-- Scroll-controlled copy layered over the pinned media -->
                 <section class="hero" id="home">
-                    <div class="hero-content">
-                        <h1 class="hero-title">University of Toronto<br><span class="highlight"><span class="acronym-initial">S</span>tudent <span class="acronym-initial">T</span>eam for <span class="acronym-initial">A</span>mateur <span class="acronym-initial">R</span>ocketry</span></h1>
-                        <p class="hero-description">
-                            We are a student-led team dedicated to the design, testing, and launch of model rockets, while fostering education in rocketry for all who are interested.
-                            We have a multitude of engineering divisions and are always welcome to new members.
-                            Click below to learn more!
-                        </p>
-                        <div class="hero-buttons">
-                            <a class="btn btn-primary" href="about.html">Learn More</a>
-                            <a class="btn btn-secondary" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank">Join Us</a>
+                    <div class="hero-copy-stage">
+                        <div class="hero-content hero-content-primary">
+                            <h1 class="hero-title">University of Toronto<br><span class="highlight"><span class="acronym-initial">S</span>tudent <span class="acronym-initial">T</span>eam for <span class="acronym-initial">A</span>mateur <span class="acronym-initial">R</span>ocketry</span></h1>
+                            <p class="hero-description">
+                                We are a student-led team dedicated to the design, testing, and launch of model rockets, while fostering education in rocketry for all who are interested.
+                                We have a multitude of engineering divisions and are always welcome to new members.
+                                Click below to learn more!
+                            </p>
+                            <div class="hero-buttons">
+                                <a class="btn btn-primary" href="about.html">Learn More</a>
+                                <a class="btn btn-secondary" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank">Join Us</a>
+                            </div>
+                        </div>
+
+                        <!-- Replace this copy whenever you decide what the video should say. -->
+                        <div class="hero-content hero-content-secondary">
+                            <h2 class="hero-title">Built by Students.<br><span class="highlight">Made to Fly.</span></h2>
+                            <p class="hero-description">
+                                From design and testing to launch day, UofT STAR turns ideas into hardware and gives students a place to build, learn, and fly together.
+                            </p>
                         </div>
                     </div>
+
                     <div class="hero-animation">
                         <div class="planet planet-1"></div>
                         <div class="planet planet-2"></div>
