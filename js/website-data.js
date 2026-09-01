@@ -38,8 +38,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "andrew.miranda@mail.utoronto.ca",
+        linkedin: "www.linkedin.com/in/andrew-miranda-69a0301ab"
       }
     },
     {
