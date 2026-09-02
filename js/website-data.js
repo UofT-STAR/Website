@@ -250,7 +250,7 @@ const websiteData = {
     {
       icon: "fas fa-rocket",
       title: "Rocket Development",
-      description: "Design and launch medium and high power rockets of various different designs and purposes."
+      description: "Design and launch high power rockets ranging from L1 certification flights to massive multi-month club wide rocketry projects."
     },
     {
       icon: "fas fa-microchip",
@@ -299,6 +299,14 @@ const websiteData = {
     //   image: "Images/Mentors/example.webp",
     //   website: "https://example.com"
     // }
+    {
+       name: "Sawyer Shaw",
+       role: "Peer Mentor",
+       organization: "Ascendant Research Group",
+       bio: "Sawyer is a Third Year student at Rensselaer Polytechnic Institute pursuing a degree in Aerospace Engineering. He is currently the Propulsion Engineer for Ascendant Research Group in their current space-shot project and has provided our team with an amazing amount of guidance throughout the past year in climbing the ladder of High Power Rocketry.",
+       image: "Images/Mentors/example.webp",
+       website: "https://www.linkedin.com/in/sawyer-shaw/"
+     }
   ],
 
   // Add sponsors here. Copy the example object and remove the // markers.
