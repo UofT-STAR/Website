@@ -33,13 +33,13 @@ const websiteData = {
     {
       name: "Andrew Miranda",
       role: "Director of Aerodynamics and Mechanics",
-      program: "Programs: Astronomy, Physics and Mathematics minor",
+      program: "Programs: Astronomy and Physics, Mathematics minor",
       initials: "AM",
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "andrew.miranda@mail.utoronto.ca",
+        linkedin: "www.linkedin.com/in/andrew-miranda-69a0301ab"
       }
     },
     {
