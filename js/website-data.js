@@ -11,11 +11,11 @@ const websiteData = {
       role: "President",
       program: "Programs: Astronomy and Physics",
       initials: "TJMPK-III",
-      bio: "",
-      motivation: "",
+      bio: "Hi! I'm Thaddeus and I am a third year student in the Astronomy & Physics specialist program. I'm currently working on my L2 Certification project and have been doing rocketry for almost 4 years now!",
+      motivation: "I think what motivates me most in this club is being able to share my love for rocketry. There is nothing that is more fulfilling than being able to introduce people to something that I love so much and seeing them fall in love with it too.",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "thaddeus.kobylarz@mail.utoronto.ca",
+        linkedin: "www.linkedin.com/in/thaddeus-kobylarz-62aa232b0"
       }
     },
     {
@@ -138,17 +138,17 @@ const websiteData = {
     technicalNote: {
       prefix: "Our team is currently working on a build for a ",
       emphasis: "two stage capable solid rocket launch platform",
-      suffix: " capable of mounting two 75mm motors"
+      suffix: " capable of mounting two 54mm motors"
     },
     missionNote: {
       prefix: "",
-      emphasis: "The end goal is to construct a launch system capable of handling the forces of M-O class rocket motors",
+      emphasis: "The end goal is to construct a launch system capable of handling the forces of supersonic flight",
       suffix: " as a demonstration of our club's ability to partake in major events including Launch Canada 2027."
     },
     specs: [
       {
         eyebrow: "Propulsion",
-        value: "2 x 75 mm",
+        value: "2 x 54 mm",
         label: "motor mounts",
         featured: true
       },
@@ -169,14 +169,33 @@ const websiteData = {
 
   projects: [
     {
-      title: "Team-Built Flight Computer Demonstration",
-      icon: "fas fa-laptop-code",
-      description: "A Team designed and built flight computer spearheaded by our Avionics Team on an arduino platform. Dual deploy capable launching on a 3\" body with a 29mm motor.",
+      title: "Two Stage Launch Vehicle",
+      icon: "fa-solid fa-shuttle-space",
+      description: "A high power launch vehicle mounting 2 x 54mm motors across two stages. The end goal being to ensure that both 4\" stages are dual-deploy recoverable consistently by Launch Canada 2027.",
       status: "In Progress",
       statusClass: "active",
-      detailedDescription: "Our main project right now is quite ambitious.\n\
-        We are attempting to design and produce a flight computer capable of the dual-deploy recovery of a 3\" diameter rocket!\n\
-        This project is aimed at showcasing our skills in programming and software design as well as soldering and our abilities to construct our own hardware.",
+      detailedDescription: "This project is meant to be the culmination of everything that we have worked on in rocketry so far. We are constructing\n\
+        a 7\' 8\" fully composite rocket which will mount multiple flight computers in order to ensure the safe recovery of each stage of the\n\
+        rocket. The main design challenge for this project will be the rigorous designing & testing of our avionics to ensure the rocket stages & recovers properly.\n\
+        As we progress in the design & construction phases this page will be updated with more details on the project as well as photos of our work!",
+      details: [
+        "2 x 54 mm motor mount capabilities",
+        "7,500+ ft projected altitude",
+        "4 Flight Computers for Recovery & Redundancy",
+        "Full fiberglass body capable of enduring the forces of supersonic flight",
+      ],
+      carouselImages: []
+    },
+    {
+      title: "Team-Built Flight Computer Demonstration",
+      icon: "fas fa-laptop-code",
+      description: "A home-bult flight computer designed and built by our Avionics Team on an arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
+      status: "Completed",
+      statusClass: "completed",
+      detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us.\n\
+        We spent the spring designing and producing a flight computer capable of dual-deploy recovery of a 3\" diameter mid-power rocket!\n\
+        This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved \n\
+        programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
       details: [
         "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
         "Capable of deploying gunpowder charges for dual-deploy recovery purposes",
@@ -189,7 +208,7 @@ const websiteData = {
     {
       title: "Rocket Assembly Workshop",
       icon: "fas fa-chalkboard-teacher",
-      description: "Fun, educational and creative workshop where our passionate club members assembled our rocket parts!",
+      description: "A Fun, educational, and creative workshop where our passionate club members assembled our rocket parts!",
       status: "Completed",
       statusClass: "completed",
       detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry.\n\
