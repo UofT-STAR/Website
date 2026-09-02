@@ -372,7 +372,6 @@ if (navLogoElement && logoImgElement) {
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    e.preventDefault();
     const href = this.getAttribute('href');
     
     // Skip if href is just '#' or empty
