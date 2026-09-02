@@ -128,6 +128,45 @@ const websiteData = {
     },
   ],
 
+  // Featured project shown on the homepage.
+  // Edit this object to change the spotlight without touching index.html.
+  homeProjectSpotlight: {
+    status: "Active Build",
+    title: "Two-Stage Launch Vehicle",
+    lede: "Target altitude",
+    callout: "7,500+ feet",
+    technicalNote: {
+      prefix: "Our team is currently working on a build for a ",
+      emphasis: "two stage capable solid rocket launch platform",
+      suffix: " capable of mounting two 75mm motors"
+    },
+    missionNote: {
+      prefix: "",
+      emphasis: "The end goal is to construct a launch system capable of handling the forces of M-O class rocket motors",
+      suffix: " as a demonstration of our club's ability to partake in major events including Launch Canada 2027."
+    },
+    specs: [
+      {
+        eyebrow: "Propulsion",
+        value: "2 x 75 mm",
+        label: "motor mounts",
+        featured: true
+      },
+      {
+        eyebrow: "Motor Configuration",
+        value: "TBD",
+        label: "TBD"
+      },
+      {
+        eyebrow: "Mission",
+        value: "LC 2027",
+        label: "Target for a reliable platform"
+      },
+    ],
+    actionLabel: "Explore the build",
+    href: "projects.html"
+  },
+
   projects: [
     {
       title: "Team-Built Flight Computer Demonstration",
