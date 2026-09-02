@@ -304,7 +304,7 @@ const websiteData = {
        role: "Peer Mentor",
        organization: "Ascendant Research Group",
        bio: "Sawyer is a Third Year student at Rensselaer Polytechnic Institute pursuing a degree in Aerospace Engineering. He is currently the Propulsion Engineer for Ascendant Research Group in their current space-shot project and has provided our team with an amazing amount of guidance throughout the past year in climbing the ladder of High Power Rocketry.",
-       image: "Images/Mentors/example.webp",
+       image: "Images/Sawyer_shaw.webp",
        website: "https://www.linkedin.com/in/sawyer-shaw/"
      }
   ],
