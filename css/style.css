@@ -3622,12 +3622,12 @@ html {
 .partner-role {
   margin-bottom: 0.25rem;
   color: var(--accent-color) !important;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .partner-meta {
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
 }
 
 .partner-link {
