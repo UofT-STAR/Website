@@ -3511,7 +3511,7 @@ html {
 .join-option-card,
 .partner-card {
   flex: 1 1 260px;
-  max-width: 340px;
+  max-width: 680px;
   min-height: 310px;
   padding: 2rem;
   display: flex;
@@ -3589,8 +3589,8 @@ html {
 
 .partner-image,
 .sponsor-logo {
-  width: 110px;
-  height: 110px;
+  width: 330px;
+  height: 330px;
   margin-bottom: 1.25rem;
   object-fit: cover;
   border-radius: 50%;
@@ -3622,12 +3622,12 @@ html {
 .partner-role {
   margin-bottom: 0.25rem;
   color: var(--accent-color) !important;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .partner-meta {
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
 }
 
 .partner-link {
