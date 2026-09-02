@@ -11,11 +11,11 @@ const websiteData = {
       role: "President",
       program: "Programs: Astronomy and Physics",
       initials: "TJMPK-III",
-      bio: "",
-      motivation: "",
+      bio: "Hi! I'm Thaddeus and I am a third year student in the Astronomy & Physics specialist program. I'm currently working on my L2 Certification project and have been doing rocketry for almost 4 years now!",
+      motivation: "I think what motivates me most in this club is being able to share my love for rocketry. There is nothing that is more fulfilling than being able to introduce people to something that I love so much and seeing them fall in love with it too.",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "thaddeus.kobylarz@mail.utoronto.ca",
+        linkedin: "www.linkedin.com/in/thaddeus-kobylarz-62aa232b0"
       }
     },
     {
