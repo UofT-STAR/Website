@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <!-- Discord embed -->
+        <meta content="UofT STAR - Leadership" property="og:title">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." property="og:description">
+        <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
+        <meta content="https://www.utstar.ca/leadership.html" property="og:url">
+        <!-- Force big image in embed -->
+        <meta content="summary_large_image" name="twitter:card">
+        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." name="description">
+        <title>UofT STAR - Leadership</title>
+        <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body data-page="leadership">
+        <!-- Global Stars Background -->
+        <div class="stars-background"></div>
+        <!-- Navigation -->
+        <nav id="site-navbar"></nav>
+        <main class="standalone-page">
+            <!-- Leadership Section -->
+            <section class="section" id="leadership">
+                <div class="container">
+                    <h2 class="section-title">Leadership</h2>
+                    <div class="team-grid" id="leadershipGrid">
+                        <!-- Leadership profiles will be loaded from website-data.js -->
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading leadership profiles...</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p style="color: var(--muted);">Meet the students leading UofT STAR. Select any profile to learn more about their role, background, motivation, and available contact information.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Leadership Profile Modal -->
+        <div class="leadership-modal" id="leadershipModal" aria-hidden="true">
+            <div class="leadership-modal-backdrop" data-close-leadership-modal></div>
+            <div class="leadership-modal-content" role="dialog" aria-modal="true" aria-labelledby="leadershipModalName">
+                <button class="leadership-modal-close" type="button" data-close-leadership-modal aria-label="Close leadership profile">
+                    &times;
+                </button>
+                <div class="leadership-modal-header">
+                    <div class="member-photo leadership-modal-photo" id="leadershipModalPhoto"></div>
+                    <div class="leadership-modal-heading">
+                        <h2 id="leadershipModalName"></h2>
+                        <p class="member-role" id="leadershipModalRole"></p>
+                        <p class="member-program" id="leadershipModalProgram"></p>
+                    </div>
+                </div>
+                <div class="leadership-modal-sections">
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-user"></i> Short Bio</h3>
+                        <p id="leadershipModalBio"></p>
+                    </section>
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-rocket"></i> Why UofT STAR?</h3>
+                        <p id="leadershipModalMotivation"></p>
+                    </section>
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-address-card"></i> Contact</h3>
+                        <div class="leadership-contact-links" id="leadershipModalContact"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer id="site-footer"></footer>
+        <!-- Back to Top Button -->
+        <!-- Project Modal -->
+        <script src="js/website-data.js"></script>
+        <script src="js/components.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

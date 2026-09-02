@@ -80,51 +80,99 @@ const bannerSection = document.querySelector('.banner');
 const introScene = document.querySelector('.intro-scene');
 const pageReveal = document.querySelector('.page-reveal');
 
-// Intro scroll tuning values.
-// Edit these numbers to control how quickly text/page opacity changes with scroll.
+// Home intro sequence. Each value is a normalized point (0 -> 1) inside
+// the pinned scroll scene. Changing these values changes the timing without
+// requiring any CSS offsets or extra spacer elements.
 const INTRO_SCROLL_CONFIG = {
-  navbarOffsetPx: 70,
-  minTextRevealPx: 500,
-  textRevealViewportRatio: 0.2,
-  minPageFadePx: 120,
-  pageFadeViewportRatio: 0.8,
-  heroInteractiveThreshold: 0.85,
+  primaryRevealStart: 0.06,
+  primaryRevealEnd: 0.18,
+  primaryHoldEnd: 0.38,
+  primaryFadeEnd: 0.46,
+  mediaTransitionEnd: 0.60,
+  secondaryRevealStart: 0.66,
+  secondaryRevealEnd: 0.78,
+  interactiveThreshold: 0.85,
   pageInteractiveThreshold: 0.01
 };
+
+const homeHeroVideo = document.getElementById('homeHeroVideo');
+const primaryHeroContent = document.querySelector('.hero-content-primary');
+const secondaryHeroContent = document.querySelector('.hero-content-secondary');
+let homeVideoStarted = false;
 
 function clamp01(value) {
   return Math.max(0, Math.min(value, 1));
 }
 
-function getIntroScrollProgress(sceneScroll, viewportHeight, config = INTRO_SCROLL_CONFIG) {
-  // Phase 1 distance: scroll needed for hero text opacity to go 0 -> 1.
-  // Larger value = slower/fuller cinematic reveal.
-  const textRevealDistance = Math.max(
-    config.minTextRevealPx,
-    viewportHeight * config.textRevealViewportRatio
+function rangeProgress(value, start, end) {
+  if (end <= start) return value >= end ? 1 : 0;
+  return clamp01((value - start) / (end - start));
+}
+
+function getIntroStageProgress(sceneProgress, config = INTRO_SCROLL_CONFIG) {
+  const primaryEnter = rangeProgress(
+    sceneProgress,
+    config.primaryRevealStart,
+    config.primaryRevealEnd
   );
 
-  // Progress formula:
-  // progress = clamp(scrollSoFar / distance)
-  const textProgress = clamp01(sceneScroll / textRevealDistance);
-
-  // Phase 2 distance: additional scroll after text is fully visible
-  // for the rest of the page to fade in from 0 -> 1.
-  const pageFadeDistance = Math.max(
-    config.minPageFadePx,
-    viewportHeight * config.pageFadeViewportRatio
+  // The first copy stays perfectly still and fully visible during the hold.
+  const primaryExit = rangeProgress(
+    sceneProgress,
+    config.primaryHoldEnd,
+    config.primaryFadeEnd
   );
 
-  // Page reveal starts only after Phase 1 is complete.
-  // progress = clamp((scrollSoFar - phase1Distance) / phase2Distance)
-  const pageProgress = clamp01((sceneScroll - textRevealDistance) / pageFadeDistance);
+  // The image begins changing only after the first copy has faded away.
+  const videoProgress = rangeProgress(
+    sceneProgress,
+    config.primaryFadeEnd,
+    config.mediaTransitionEnd
+  );
+
+  // Give the bare video a short beat before revealing the second copy.
+  const secondaryEnter = rangeProgress(
+    sceneProgress,
+    config.secondaryRevealStart,
+    config.secondaryRevealEnd
+  );
 
   return {
-    textProgress,
-    pageProgress,
-    textRevealDistance,
-    pageFadeDistance
+    primaryEnter,
+    primaryExit,
+    primaryOpacity: primaryEnter * (1 - primaryExit),
+    videoProgress,
+    secondaryEnter,
+    secondaryOpacity: secondaryEnter
   };
+}
+
+function updateHomeVideoPlayback(videoProgress) {
+  if (!homeHeroVideo) return;
+
+  if (videoProgress > 0.02) {
+    if (!homeVideoStarted) {
+      homeVideoStarted = true;
+      const playPromise = homeHeroVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Muted inline video normally autoplays, but the visual transition
+          // still works with the poster if a browser blocks playback.
+        });
+      }
+    }
+    return;
+  }
+
+  if (homeVideoStarted) {
+    homeHeroVideo.pause();
+    homeVideoStarted = false;
+    try {
+      homeHeroVideo.currentTime = 0;
+    } catch (error) {
+      // Some browsers do not allow seeking until video metadata is available.
+    }
+  }
 }
 
 function updateHeroReveal() {
@@ -132,22 +180,61 @@ function updateHeroReveal() {
 
   const sceneRect = introScene.getBoundingClientRect();
   const maxSceneScroll = Math.max(1, introScene.offsetHeight - window.innerHeight);
+  const sceneScroll = Math.max(0, Math.min(-sceneRect.top, maxSceneScroll));
+  const sceneProgress = clamp01(sceneScroll / maxSceneScroll);
 
-  // sceneRect.top becomes negative as the sticky scene scrolls.
-  // Convert that to a positive "scroll progress inside scene" value and clamp.
-  const sceneScroll = clamp01((-sceneRect.top) / maxSceneScroll) * maxSceneScroll;
+  const {
+    primaryEnter,
+    primaryExit,
+    primaryOpacity,
+    videoProgress,
+    secondaryEnter,
+    secondaryOpacity
+  } = getIntroStageProgress(sceneProgress);
 
-  // accuracy by removing navbar height.
-  const viewportHeight = Math.max(1, window.innerHeight - INTRO_SCROLL_CONFIG.navbarOffsetPx);
-  const { textProgress, pageProgress } = getIntroScrollProgress(sceneScroll, viewportHeight);
+  const overlayProgress = Math.max(
+    primaryOpacity,
+    secondaryOpacity,
+    videoProgress * 0.5
+  );
+  const overlayOpacity = 0.2 + (overlayProgress * 0.75);
+  const primaryTranslateY = (40 * (1 - primaryEnter)) - (24 * primaryExit);
+  const secondaryTranslateY = 40 * (1 - secondaryEnter);
 
-  heroSection.style.setProperty('--hero-reveal-progress', textProgress.toFixed(3));
-  introScene.style.setProperty('--hero-reveal-progress', textProgress.toFixed(3));
-  heroSection.classList.toggle('hero-interactive', textProgress > INTRO_SCROLL_CONFIG.heroInteractiveThreshold);
+  introScene.style.setProperty('--primary-enter-progress', primaryEnter.toFixed(3));
+  introScene.style.setProperty('--primary-exit-progress', primaryExit.toFixed(3));
+  introScene.style.setProperty('--primary-content-opacity', primaryOpacity.toFixed(3));
+  introScene.style.setProperty('--video-progress', videoProgress.toFixed(3));
+  introScene.style.setProperty('--secondary-enter-progress', secondaryEnter.toFixed(3));
+  introScene.style.setProperty('--secondary-content-opacity', secondaryOpacity.toFixed(3));
+  introScene.style.setProperty('--intro-overlay-opacity', overlayOpacity.toFixed(3));
+  introScene.style.setProperty('--primary-translate-y', `${primaryTranslateY.toFixed(1)}px`);
+  introScene.style.setProperty('--secondary-translate-y', `${secondaryTranslateY.toFixed(1)}px`);
 
+  if (primaryHeroContent) {
+    primaryHeroContent.classList.toggle(
+      'is-interactive',
+      primaryOpacity > INTRO_SCROLL_CONFIG.interactiveThreshold
+    );
+  }
+
+  if (secondaryHeroContent) {
+    secondaryHeroContent.classList.toggle(
+      'is-interactive',
+      secondaryOpacity > INTRO_SCROLL_CONFIG.interactiveThreshold
+    );
+  }
+
+  updateHomeVideoPlayback(videoProgress);
+
+  // Kept for compatibility with any page that still uses the older page-reveal wrapper.
   if (pageReveal) {
+    const pageProgress = rangeProgress(sceneProgress, 0.88, 1);
     pageReveal.style.setProperty('--page-reveal-progress', pageProgress.toFixed(3));
-    pageReveal.classList.toggle('page-reveal-active', pageProgress > INTRO_SCROLL_CONFIG.pageInteractiveThreshold);
+    pageReveal.classList.toggle(
+      'page-reveal-active',
+      pageProgress > INTRO_SCROLL_CONFIG.pageInteractiveThreshold
+    );
   }
 }
 
@@ -481,6 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize back to top button for any page
   initBackToTopButton();
+  initLeadershipModal();
   
   // Initialize footer map (Leaflet + OpenStreetMap)
   initFooterMap();
@@ -1405,7 +1493,8 @@ class WebsiteDataManager {
   
   async init() {
     // Load shared site data on whichever split page needs it.
-    if (document.getElementById('teamGrid') ||
+    if (document.getElementById('leadershipGrid') ||
+        document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
         document.getElementById('featuresGrid') ||
         document.getElementById('joinOptionsGrid') ||
@@ -1454,7 +1543,7 @@ class WebsiteDataManager {
   populateContent() {
     if (!this.data) return;
     
-    this.populateTeamMembers();
+    this.populateLeadershipMembers();
     this.populateProjects();
     this.populateFeatures();
     this.populateJoinOptions();
@@ -1462,16 +1551,19 @@ class WebsiteDataManager {
     this.populateSponsors();
   }
   
-  populateTeamMembers() {
-    const teamGrid = document.getElementById('teamGrid');
-    if (!teamGrid || !this.data.teamMembers) return;
-    
-    // Clear existing content (including loading placeholder)
-    teamGrid.innerHTML = '';
-    
-    this.data.teamMembers.forEach(member => {
-      const memberElement = document.createElement('div');
-      memberElement.className = 'team-member';
+  populateLeadershipMembers() {
+    const leadershipGrid = document.getElementById('leadershipGrid') || document.getElementById('teamGrid');
+    if (!leadershipGrid || !this.data.teamMembers) return;
+
+    // Clear existing content (including loading placeholder).
+    leadershipGrid.innerHTML = '';
+
+    this.data.teamMembers.forEach((member, index) => {
+      const memberElement = document.createElement('article');
+      memberElement.className = 'team-member leadership-card';
+      memberElement.setAttribute('role', 'button');
+      memberElement.setAttribute('tabindex', '0');
+      memberElement.setAttribute('aria-label', `View profile for ${member.name}`);
       memberElement.innerHTML = `
         <div class="member-photo">
           ${member.initials}
@@ -1479,11 +1571,24 @@ class WebsiteDataManager {
         <h3>${member.name}</h3>
         <p class="member-role">${member.role}</p>
         <p class="member-program">${member.program}</p>
+        <span class="leadership-card-action">
+          View Profile <i class="fas fa-arrow-right"></i>
+        </span>
       `;
-      teamGrid.appendChild(memberElement);
+
+      const openProfile = () => openLeadershipModal(index);
+      memberElement.addEventListener('click', openProfile);
+      memberElement.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openProfile();
+        }
+      });
+
+      leadershipGrid.appendChild(memberElement);
     });
-    
-    // Load profile pictures after team members are populated
+
+    // Load profile pictures after leadership cards are populated.
     loadTeamProfilePictures();
   }
   
@@ -1690,6 +1795,115 @@ document.addEventListener('keydown', (e) => {
 // Project Modal Functionality
 let currentCarouselIndex = 0;
 let currentProjectImages = [];
+
+function getLeadershipMember(memberIndex) {
+  const members = window.websiteData?.teamMembers;
+  if (!Array.isArray(members)) return null;
+  return members[memberIndex] || null;
+}
+
+function setLeadershipModalPhoto(photoElement, member) {
+  if (!photoElement || !member) return;
+
+  photoElement.style.backgroundImage = '';
+  photoElement.style.backgroundSize = '';
+  photoElement.style.backgroundPosition = '';
+  photoElement.style.backgroundRepeat = '';
+  photoElement.textContent = member.initials || '';
+
+  const filename = member.name.replace(/\s+/g, '');
+  const extensions = ['webp', 'png', 'jpeg', 'jpg'];
+
+  function tryExtension(index) {
+    if (index >= extensions.length) return;
+
+    const imagePath = `Images/TeamExecs/${filename}.${extensions[index]}`;
+    const image = new Image();
+
+    image.onload = () => {
+      photoElement.style.backgroundImage = `url('${imagePath}')`;
+      photoElement.style.backgroundSize = 'cover';
+      photoElement.style.backgroundPosition = 'center';
+      photoElement.style.backgroundRepeat = 'no-repeat';
+      photoElement.textContent = '';
+    };
+
+    image.onerror = () => tryExtension(index + 1);
+    image.src = imagePath;
+  }
+
+  tryExtension(0);
+}
+
+function openLeadershipModal(memberIndex) {
+  const modal = document.getElementById('leadershipModal');
+  const member = getLeadershipMember(memberIndex);
+  if (!modal || !member) return;
+
+  const nameElement = document.getElementById('leadershipModalName');
+  const roleElement = document.getElementById('leadershipModalRole');
+  const programElement = document.getElementById('leadershipModalProgram');
+  const bioElement = document.getElementById('leadershipModalBio');
+  const motivationElement = document.getElementById('leadershipModalMotivation');
+  const contactElement = document.getElementById('leadershipModalContact');
+  const photoElement = document.getElementById('leadershipModalPhoto');
+
+  if (nameElement) nameElement.textContent = member.name;
+  if (roleElement) roleElement.textContent = member.role;
+  if (programElement) programElement.textContent = member.program;
+  if (bioElement) bioElement.textContent = member.bio || 'A short bio will be added soon.';
+  if (motivationElement) motivationElement.textContent = member.motivation || 'Their UofT STAR motivation will be added soon.';
+
+  if (contactElement) {
+    const contact = member.contact || {};
+    const links = [];
+
+    if (contact.email) {
+      links.push(`<a class="leadership-contact-link" href="mailto:${contact.email}"><i class="fas fa-envelope"></i> Email</a>`);
+    }
+
+    if (contact.linkedin) {
+      links.push(`<a class="leadership-contact-link" href="${contact.linkedin}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>`);
+    }
+
+    contactElement.innerHTML = links.length
+      ? links.join('')
+      : '<span class="leadership-contact-empty">Public contact information will be added soon.</span>';
+  }
+
+  setLeadershipModalPhoto(photoElement, member);
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+
+  const closeButton = modal.querySelector('.leadership-modal-close');
+  if (closeButton) closeButton.focus();
+}
+
+function closeLeadershipModal() {
+  const modal = document.getElementById('leadershipModal');
+  if (!modal) return;
+
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+function initLeadershipModal() {
+  const modal = document.getElementById('leadershipModal');
+  if (!modal) return;
+
+  modal.querySelectorAll('[data-close-leadership-modal]').forEach(element => {
+    element.addEventListener('click', closeLeadershipModal);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal.classList.contains('active')) {
+      closeLeadershipModal();
+    }
+  });
+}
 
 function openProjectModal(projectIndex) {
   const project = websiteData.projects[projectIndex];

@@ -2,68 +2,132 @@
 // This works with file:// protocol unlike JSON fetch
 
 const websiteData = {
+  // Leadership profiles.
+  // Fill in bio, motivation, and whichever contact links each person wants public.
+  // Empty fields are handled gracefully by the Leadership profile modal.
   teamMembers: [
     {
       name: "Thaddeus Kobylarz",
       role: "President",
       program: "Programs: Astronomy and Physics",
-      initials: "TJMPK-III"
+      initials: "TJMPK-III",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Nika Kavianitabar",
       role: "Vice President",
       program: "Programs: Physics",
-      initials: "NK"
+      initials: "NK",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Andrew Miranda",
       role: "Director of Aerodynamics and Mechanics",
       program: "Programs: Astronomy, Physics and Mathematics minor",
-      initials: "AM"
+      initials: "AM",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Joshua Chen",
       role: "Director of Finance",
       program: "Programs: Computer Science, Management and Economics minor",
-      initials: "JC"
+      initials: "JC",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Tymon Cui",
       role: "Director of Avionics",
       program: "Programs: Mathematics and Computer Science",
-      initials: "TC"
+      initials: "TC",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Ashish Abbur Venkata Kumar",
       role: "Director of Propulsion",
       program: "Programs: Physics and Mathematics minor",
-      initials: "AK"
+      initials: "AK",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Kai Tano Bague",
       role: "Technical Director",
       program: "Programs: Computer Science, Data Science and Mathematics minor",
-      initials: "KTB"
+      initials: "KTB",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Anastasia Butnariu",
       role: "Director of Outreach",
       program: "Programs: Mechanical Engineering",
-      initials: "AB"
+      initials: "AB",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Zagrous Ghodsian",
       role: "Executive Secretary",
       program: "Program: Physics and Mathematics minor",
-      initials: "ZG"
+      initials: "ZG",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
     {
       name: "Jasmine Prete",
       role: "Director of Recovery",
       program: "Programs: Astronomy and Physics",
-      initials: "JP"
+      initials: "JP",
+      bio: "",
+      motivation: "",
+      contact: {
+        email: "",
+        linkedin: ""
+      }
     },
   ],
+
   projects: [
     {
       title: "Team-Built Flight Computer Demonstration",
