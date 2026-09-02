@@ -1499,7 +1499,8 @@ class WebsiteDataManager {
         document.getElementById('featuresGrid') ||
         document.getElementById('joinOptionsGrid') ||
         document.getElementById('mentorsGrid') ||
-        document.getElementById('sponsorsGrid')) {
+        document.getElementById('sponsorsGrid') ||
+        document.getElementById('homeProjectSpotlightContent')) {
       await this.loadData();
       this.populateContent();
     }
@@ -1549,8 +1550,76 @@ class WebsiteDataManager {
     this.populateJoinOptions();
     this.populateMentors();
     this.populateSponsors();
+    this.populateHomeProjectSpotlight();
   }
-  
+
+  populateHomeProjectSpotlight() {
+    const container = document.getElementById('homeProjectSpotlightContent');
+    const project = this.data.homeProjectSpotlight;
+    if (!container || !project) return;
+
+    const specs = Array.isArray(project.specs) ? project.specs : [];
+    const featuredSpec = specs.find(spec => spec.featured) || specs[0];
+    const secondarySpecs = specs.filter(spec => spec !== featuredSpec);
+
+    const featuredSpecMarkup = featuredSpec ? `
+      <div class="home-project-readout-primary">
+        <span class="home-project-spec-eyebrow">${featuredSpec.eyebrow}</span>
+        <strong>${featuredSpec.value}</strong>
+        <span class="home-project-spec-label">${featuredSpec.label}</span>
+      </div>
+    ` : '';
+
+    const secondarySpecsMarkup = secondarySpecs.map((spec, index) => `
+      <div class="home-project-readout-secondary${index === 0 ? ' is-first' : ''}">
+        <span class="home-project-spec-eyebrow">${spec.eyebrow}</span>
+        <strong>${spec.value}</strong>
+        <span class="home-project-spec-label">${spec.label}</span>
+      </div>
+    `).join('');
+
+    const technicalNote = project.technicalNote || {};
+    const missionNote = project.missionNote || {};
+
+    const actionMarkup = project.href
+      ? `<a class="home-project-cta" href="${project.href}">${project.actionLabel || 'View Project'} <span aria-hidden="true">→</span></a>`
+      : '';
+
+    container.innerHTML = `
+      <div class="home-project-kicker">
+        <span class="home-project-kicker-dot"></span>
+        ${project.status || 'Featured Project'}
+      </div>
+
+      <h2 class="home-project-title">${project.title}</h2>
+
+      <div class="home-project-brief">
+        <div class="home-project-brief-lead">
+          <p class="home-project-lede">${project.lede || ''}</p>
+          <p class="home-project-callout">${project.callout || ''}</p>
+        </div>
+
+        <div class="home-project-brief-notes">
+          <p>
+            ${technicalNote.prefix || ''}<strong>${technicalNote.emphasis || ''}</strong>${technicalNote.suffix || ''}
+          </p>
+          <p>
+            ${missionNote.prefix || ''}<strong>${missionNote.emphasis || ''}</strong>${missionNote.suffix || ''}
+          </p>
+        </div>
+      </div>
+
+      <div class="home-project-readout">
+        ${featuredSpecMarkup}
+        <div class="home-project-readout-stack">
+          ${secondarySpecsMarkup}
+        </div>
+      </div>
+
+      <div class="home-project-action">${actionMarkup}</div>
+    `;
+  }
+
   populateLeadershipMembers() {
     const leadershipGrid = document.getElementById('leadershipGrid') || document.getElementById('teamGrid');
     if (!leadershipGrid || !this.data.teamMembers) return;
