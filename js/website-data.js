@@ -170,7 +170,7 @@ const websiteData = {
   projects: [
     {
       title: "Two Stage Launch Vehicle",
-      icon: "fas fa-two-stager",
+      icon: "fa-solid fa-shuttle-space",
       description: "A high power launch vehicle mounting 2 x 54mm motors across two stages. The end goal being to ensure that both 4\" stages are dual-deploy recoverable consistently by Launch Canada 2027.",
       status: "In Progress",
       statusClass: "active",
