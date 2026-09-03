@@ -15,7 +15,7 @@ const websiteData = {
       motivation: "I think what motivates me most in this club is being able to share my love for rocketry. There is nothing that is more fulfilling than being able to introduce people to something that I love so much and seeing them fall in love with it too.",
       contact: {
         email: "thaddeus.kobylarz@mail.utoronto.ca",
-        linkedin: "www.linkedin.com/in/thaddeus-kobylarz-62aa232b0"
+        linkedin: "https://www.linkedin.com/in/thaddeus-kobylarz-62aa232b0"
       }
     },
     {
@@ -23,11 +23,13 @@ const websiteData = {
       role: "Vice President",
       program: "Programs: Physics",
       initials: "NK",
-      bio: "",
-      motivation: "",
+      bio: "Hello! I am a third year physics spec and data science student. My current hobbies are obviously rocketry \
+            and reading books! I am looking forward to work as hard as I could along passionate people !",
+      motivation: "I learned and gained so much knowledge along the way.Utstar taught me team work, discipline, to be \
+                    ambitious and most importantly to be curious.",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "nika.kavianitabar@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/nika-kavianitabar-08285a2b2/"
       }
     },
     {
@@ -39,7 +41,7 @@ const websiteData = {
       motivation: "",
       contact: {
         email: "andrew.miranda@mail.utoronto.ca",
-        linkedin: "www.linkedin.com/in/andrew-miranda-69a0301ab"
+        linkedin: "https://www.linkedin.com/in/andrew-miranda-69a0301ab"
       }
     },
     {
