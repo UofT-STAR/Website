@@ -4002,3 +4002,472 @@ html {
     margin-top: 2.6rem;
   }
 }
+
+/* =========================================================
+   Homepage secondary navigation
+   ========================================================= */
+.home-pathways {
+  padding-top: 1rem;
+  padding-bottom: 7rem;
+}
+
+.home-pathways-heading {
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+
+.home-pathways-eyebrow,
+.about-page-eyebrow,
+.organization-branch-eyebrow {
+  margin-bottom: 0.55rem;
+  color: #4da3ff;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.home-pathways-heading h2 {
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.home-pathways-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.home-pathway {
+  min-width: 0;
+  min-height: 220px;
+  padding: 1.55rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.13);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.home-pathway:last-child {
+  border-right: 0;
+}
+
+.home-pathway:hover,
+.home-pathway:focus-visible {
+  background: rgba(10, 132, 255, 0.08);
+  outline: none;
+}
+
+.home-pathway:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(77, 163, 255, 0.65);
+}
+
+.home-pathway-index {
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.home-pathway-copy {
+  min-width: 0;
+}
+
+.home-pathway-copy h3 {
+  margin-bottom: 0.65rem;
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.home-pathway-copy p {
+  max-width: 30ch;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.home-pathway-arrow {
+  justify-self: end;
+  color: #4da3ff;
+  font-size: 1.6rem;
+  transition: transform 0.25s ease;
+}
+
+.home-pathway:hover .home-pathway-arrow,
+.home-pathway:focus-visible .home-pathway-arrow {
+  transform: translateX(7px);
+}
+
+/* =========================================================
+   About hub: Organization + Leadership
+   ========================================================= */
+#organization,
+#leadership {
+  scroll-margin-top: 90px;
+}
+
+.about-overview {
+  padding-bottom: 4rem;
+}
+
+.about-page-eyebrow {
+  text-align: center;
+}
+
+.about-page-title {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: clamp(2.7rem, 7vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.about-page-lede {
+  max-width: 650px;
+  margin: 1.5rem auto 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.about-page-nav {
+  max-width: 780px;
+  margin: 3.5rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.about-page-nav a {
+  min-width: 0;
+  padding: 1.1rem 1.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.13);
+  transition: background 0.2s ease;
+}
+
+.about-page-nav a:last-child {
+  border-right: 0;
+}
+
+.about-page-nav a:hover,
+.about-page-nav a:focus-visible {
+  background: rgba(10, 132, 255, 0.08);
+  outline: none;
+}
+
+.about-page-nav span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.about-page-nav strong {
+  min-width: 0;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.about-page-nav i {
+  color: #4da3ff;
+  transition: transform 0.2s ease;
+}
+
+.about-page-nav a:hover i,
+.about-page-nav a:focus-visible i {
+  transform: translateY(4px);
+}
+
+.about-organization {
+  padding-top: 5rem;
+}
+
+.organization-stack {
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.organization-branch {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 2rem;
+  padding: 3.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.organization-branch-marker {
+  padding-top: 0.35rem;
+  color: rgba(148, 163, 184, 0.55);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.organization-branch-content {
+  max-width: 880px;
+}
+
+.organization-branch-content > h3 {
+  margin-bottom: 1.2rem;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.organization-branch-content > p:not(.organization-branch-eyebrow) {
+  max-width: 760px;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.organization-features {
+  justify-content: flex-start;
+  margin: 2.5rem 0 2rem;
+}
+
+.organization-branch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+  padding-bottom: 0.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 650;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(77, 163, 255, 0.55);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.organization-branch-link span {
+  color: #4da3ff;
+  transition: transform 0.2s ease;
+}
+
+.organization-branch-link:hover,
+.organization-branch-link:focus-visible {
+  color: #fff;
+  border-color: #4da3ff;
+  outline: none;
+}
+
+.organization-branch-link:hover span,
+.organization-branch-link:focus-visible span {
+  transform: translateX(5px);
+}
+
+.organization-branch-aiaa {
+  padding-bottom: 4.5rem;
+}
+
+.about-leadership {
+  padding-top: 5rem;
+}
+
+.leadership-section-intro {
+  max-width: 720px;
+  margin: -2rem auto 3rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   Upcoming events stack
+   ========================================================= */
+.events-upcoming-section {
+  padding-bottom: 3rem;
+}
+
+.events-section-intro {
+  max-width: 720px;
+  margin: -2rem auto 3rem;
+  color: var(--muted);
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.event-item-wip {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.event-item-wip:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.event-item-wip .event-date .day {
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+
+.event-item-wip .event-date .month {
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+}
+
+.event-wip-label {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  color: #9fcaff;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.legacy-redirect {
+  min-height: 100vh;
+  padding: 2rem;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+/* =========================================================
+   Responsive additions
+   ========================================================= */
+@media (max-width: 900px) {
+  .home-pathways-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-pathway {
+    min-height: 0;
+    padding: 1.35rem 0.5rem;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    align-items: start;
+    gap: 0.85rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  }
+
+  .home-pathway:last-child {
+    border-bottom: 0;
+  }
+
+  .home-pathway-copy p {
+    max-width: 52ch;
+  }
+
+  .home-pathway-arrow {
+    align-self: center;
+    padding-top: 0.2rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .about-page-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .about-page-nav a {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  }
+
+  .about-page-nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .organization-branch {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 2.8rem 0;
+  }
+
+  .organization-branch-marker {
+    padding-top: 0;
+  }
+
+}
+
+@media (max-width: 520px) {
+  .home-pathways {
+    padding-bottom: 5rem;
+  }
+
+  .home-pathway {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    padding: 1.2rem 0.15rem;
+  }
+
+  .home-pathway-copy h3 {
+    font-size: 1.1rem;
+  }
+
+  .home-pathway-copy p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+}
+
+
+/* About > Organization > Rocketry feature grid.
+   Explicitly scoped so large organization headings never leak into feature cards. */
+#featuresGrid.organization-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+#featuresGrid.organization-features .feature {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  padding: 1.6rem 1.25rem;
+}
+
+#featuresGrid.organization-features .feature h3 {
+  font-size: 1.2rem !important;
+  line-height: 1.25 !important;
+  letter-spacing: normal !important;
+  margin-bottom: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+#featuresGrid.organization-features .feature p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+#featuresGrid.organization-features .feature i {
+  font-size: 2.35rem;
+  margin-bottom: 0.9rem;
+}
+
+@media (max-width: 820px) {
+  #featuresGrid.organization-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  #featuresGrid.organization-features {
+    grid-template-columns: 1fr;
+  }
+}
