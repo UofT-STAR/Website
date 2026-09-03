@@ -187,6 +187,30 @@ const websiteData = {
       carouselImages: []
     },
     {
+      title: "L1 Certification Programs",
+      icon: "fa-solid fa-certificate",
+      description: "Our year round flagship rocketry program dedicated towards educating new rocketeers in the basics of high power rocketry and earning them their Level 1 Certification!",
+      status: "In Progress",
+      statusClass: "active",
+      detailedDescription: "This is the premier way for new members in our club to learn, engage with, and become familiar with High Power Rocketry.\n\
+        We run this program in batches of students year round. Where, over the course of a month or two, Executives lead small groups through presentations and workshops\n\
+        in preparing students for their own certification launch. Students will learn the basic physical principles behind rocketry, the safety and precautions necessary,\n\
+        the tools and skillset for building their own rocket, and everything else they need to build and successfully fly their first high power rocket!",
+      details: [
+        "Learn the skills necessary for independent rocketry",
+        "Earn a certification you can be proud of",
+        "Meet new people who share your love for engineering & design!",
+        "Fast-track yourself to be able to have the knowhow to contribute the most to the development of team projects",
+      ],
+      carouselImages: [
+        "Images/cert1.webp",
+        "Images/cert2.webp",
+        "Images/cert3.webp",
+        "Images/cert4.webp",
+        "Images/cert5.webp",
+      ]
+    },
+    {
       title: "Team-Built Flight Computer Demonstration",
       icon: "fas fa-laptop-code",
       description: "A home-bult flight computer designed and built by our Avionics Team on an arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
