@@ -16,42 +16,191 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+        <style>
+            /* About page: keep the data-driven Rocketry feature cards compact.
+               Scoped here so unrelated About headings can never affect them. */
+            #featuresGrid.organization-features {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1.5rem;
+                width: 100%;
+                align-items: stretch;
+            }
+
+            #featuresGrid.organization-features .feature {
+                width: 100%;
+                min-width: 0;
+                max-width: none;
+                padding: 1.6rem 1.25rem;
+            }
+
+            #featuresGrid.organization-features .feature h3 {
+                font-size: 1.2rem !important;
+                line-height: 1.25 !important;
+                letter-spacing: normal !important;
+                margin-bottom: 0.8rem;
+                overflow-wrap: anywhere;
+            }
+
+            #featuresGrid.organization-features .feature p {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+
+            #featuresGrid.organization-features .feature i {
+                font-size: 2.35rem;
+                margin-bottom: 0.9rem;
+            }
+
+            @media (max-width: 820px) {
+                #featuresGrid.organization-features {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+            }
+
+            @media (max-width: 560px) {
+                #featuresGrid.organization-features {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
     </head>
     <body data-page="about">
         <!-- Global Stars Background -->
         <div class="stars-background"></div>
         <!-- Navigation -->
         <nav id="site-navbar"></nav>
+
         <main class="standalone-page">
-            <!-- About Section -->
-            <section class="section" id="about">
+            <!-- About Intro -->
+            <section class="section about-overview" id="about">
                 <div class="container">
-                    <h2 class="section-title">About UofT STAR</h2>
-                    <div class="about-content">
-                        <div class="about-text">
-                            <p>
-                                We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR). Our mission is to design and test team-built model rockets and educate and help new rocketeers progress in the hobby!
-                                <br>
-                                UofT STAR is the only rocketry team run by students of the Faculty of Arts &amp; Science (FAS).
-                                Our goal is to be the go-to rocketry team for anybody in the University looking to learn about or find a community for rocketeers.
-                                Students who want hands-on experience in CAD, solid rocket propulsion, and flight computers or avionics will find just that on our team!
-                            </p>
-                            <div class="features" id="featuresGrid">
-                                <!-- Features will be loaded from website-data.js -->
-                                <div class="loading-placeholder">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                    <p>Loading features...</p>
+                    <p class="about-page-eyebrow">About UofT STAR</p>
+                    <h1 class="about-page-title">One team, two ways to explore it.</h1>
+                    <p class="about-page-lede">
+                        Learn how UofT STAR is organized, then meet the students responsible for leading the team.
+                    </p>
+
+                    <div class="about-page-nav" aria-label="About page sections">
+                        <a href="#organization">
+                            <span>01</span>
+                            <strong>Organization</strong>
+                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                        <a href="#leadership">
+                            <span>02</span>
+                            <strong>Leadership</strong>
+                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Organization Section -->
+            <section class="section about-organization" id="organization">
+                <div class="container">
+                    <h2 class="section-title">Organization</h2>
+
+                    <div class="organization-stack">
+                        <article class="organization-branch organization-branch-rocketry">
+                            <div class="organization-branch-marker">01</div>
+                            <div class="organization-branch-content">
+                                <p class="organization-branch-eyebrow">Core Organization</p>
+                                <h3>Rocketry</h3>
+                                <p>
+                                    We are the University of Toronto Student Team for Amateur Rocketry (UofT STAR / UTSTAR).
+                                    Our mission is to design and test team-built model rockets and educate and help new rocketeers progress in the hobby.
+                                </p>
+                                <p>
+                                    UofT STAR is the only rocketry team run by students of the Faculty of Arts &amp; Science (FAS).
+                                    Our goal is to be the go-to rocketry team for anybody at the University looking to learn about or find a community for rocketeers.
+                                </p>
+
+                                <div class="features organization-features" id="featuresGrid">
+                                    <!-- Features will be loaded from website-data.js -->
+                                    <div class="loading-placeholder">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <p>Loading features...</p>
+                                    </div>
                                 </div>
+
+                                <a class="organization-branch-link" href="projects.html">
+                                    Explore our rocketry work <span aria-hidden="true">&rarr;</span>
+                                </a>
                             </div>
+                        </article>
+
+                        <article class="organization-branch organization-branch-aiaa">
+                            <div class="organization-branch-marker">02</div>
+                            <div class="organization-branch-content">
+                                <p class="organization-branch-eyebrow">Subdivision</p>
+                                <h3>AIAA</h3>
+                                <p>
+                                    UofT STAR's AIAA subdivision has its own space for information, activities, and future updates.
+                                    Visit the AIAA page to follow that side of the organization.
+                                </p>
+                                <a class="organization-branch-link" href="aiaa.html">
+                                    Visit AIAA <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leadership Section -->
+            <section class="section about-leadership" id="leadership">
+                <div class="container">
+                    <h2 class="section-title">Leadership</h2>
+                    <p class="leadership-section-intro">
+                        Meet the students leading UofT STAR. Select any profile to learn more about their role, background, motivation, and available contact information.
+                    </p>
+                    <div class="team-grid" id="leadershipGrid">
+                        <!-- Leadership profiles will be loaded from website-data.js -->
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading leadership profiles...</p>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+
+        <!-- Leadership Profile Modal -->
+        <div class="leadership-modal" id="leadershipModal" aria-hidden="true">
+            <div class="leadership-modal-backdrop" data-close-leadership-modal></div>
+            <div class="leadership-modal-content" role="dialog" aria-modal="true" aria-labelledby="leadershipModalName">
+                <button class="leadership-modal-close" type="button" data-close-leadership-modal aria-label="Close leadership profile">
+                    &times;
+                </button>
+                <div class="leadership-modal-header">
+                    <div class="member-photo leadership-modal-photo" id="leadershipModalPhoto"></div>
+                    <div class="leadership-modal-heading">
+                        <h2 id="leadershipModalName"></h2>
+                        <p class="member-role" id="leadershipModalRole"></p>
+                        <p class="member-program" id="leadershipModalProgram"></p>
+                    </div>
+                </div>
+                <div class="leadership-modal-sections">
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-user"></i> Short Bio</h3>
+                        <p id="leadershipModalBio"></p>
+                    </section>
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-rocket"></i> Why UofT STAR?</h3>
+                        <p id="leadershipModalMotivation"></p>
+                    </section>
+                    <section class="leadership-detail-section">
+                        <h3><i class="fas fa-address-card"></i> Contact</h3>
+                        <div class="leadership-contact-links" id="leadershipModalContact"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer id="site-footer"></footer>
-        <!-- Back to Top Button -->
-        <!-- Project Modal -->
         <script src="js/website-data.js"></script>
         <script src="js/components.js"></script>
         <script src="js/script.js"></script>
