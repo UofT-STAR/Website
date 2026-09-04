@@ -385,6 +385,13 @@ const websiteData = {
     //   logo: "Images/Sponsors/example.webp",
     //   website: "https://example.com"
     // }
+    {
+       name: "Solidworks",
+       level: "Club Sponsor",
+       description: "",
+       logo: "Images/Solidworks_Logo.webp",
+       website: "https://www.solidworks.com/"
+     }
   ]
 };
 
