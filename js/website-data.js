@@ -389,7 +389,7 @@ const websiteData = {
        name: "Solidworks",
        level: "Club Sponsor",
        description: "",
-       logo: "Images/Solidworks_Logo.webp",
+       logo: "Images/SolidWorks_Logo.webp",
        website: "https://www.solidworks.com/"
      }
   ]
