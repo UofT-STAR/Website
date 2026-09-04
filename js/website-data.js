@@ -278,19 +278,38 @@ const websiteData = {
   subteams: [
     {
       name: "Aerodynamics / Mechanics",
-      description: "Aerodynamics/Mechanics Team text"
-    },
-    {
-      name: "Propulsion",
-      description: "Propulsion Team text"
+      icon: "fas fa-wind",
+      description: "Our Aero/Mech team is principally concerned with the function and design of the air frames of each of \
+      our rockets. They do the most hands on work of any of our sub-teams on our main project rockets and also hold the \
+      responsibility alongside propulsion of accurately simulating our rocket to ensure that it deploys correctly during \
+      launch."
     },
     {
       name: "Avionics",
-      description: "Avionics Team text"
+      icon: "fas fa-microchip",
+      description: "Our Avionics team handles all of the aspects of the flight computers which we launch with our rockets. \
+      At the level of rocketry that our team works with, Avionics is all but required to ensure that we are able to \
+      detonate black powder charges or stage our rockets successfully for recovery. This team works on both assembling \
+      and testing home-built flight computers as well as commercial off the shelf ones depending on the needs of the \
+      project."
+    },
+    {
+      name: "Propulsion",
+      icon: "fas fa-fire",
+      description: "Our Propulsion team works on the assembly of our motor mounts as well as the selection of which \
+      rocketry motors we will utilize for our projects during the design phase. The team works alongside the Aero/Mech \
+      team to ensure that the rocket is able to withstand the intense forces of launch through simulations as well as \
+      ensuring that the correct materials and procedures are used in the construction of the rocket."
     },
     {
       name: "Recovery",
-      description: "Recovery Team text"
+      icon: "fas fa-parachute-box",
+      description: "Our Recovery team is our newest yet still critically important sub-team. This team works primarily \
+      with ensuring that our parachutes and related recovery hardware are able to handle the heat and forces of \
+      deployment charges as well as making sure that our parachutes deploy properly and correctly when they need to. \
+      This involves a decent amount of cooperation with our Avionics team and plenty of on the ground testing before \
+      launch day to ensure that our charges, chutes, and avionics can properly work together to ensure a successful \
+      recovery."
     }
   ],
 

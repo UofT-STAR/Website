@@ -4485,18 +4485,19 @@ html {
 }
 
 .subteams-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
   gap: 1px;
   width: 100%;
   margin-top: 2.25rem;
-  padding: 1px;
-  background: rgba(10, 132, 255, 0.28);
-  border: 1px solid rgba(10, 132, 255, 0.28);
+  background: transparent;
 }
 
 .subteam-panel {
   position: relative;
+  flex: 0 1 calc((100% - 2px) / 2);
   min-width: 0;
   min-height: 255px;
   padding: 1.35rem;
@@ -4504,12 +4505,39 @@ html {
   flex-direction: column;
   justify-content: space-between;
   background: #0d1422;
-  border: 0;
+  border: 1px solid rgba(10, 132, 255, 0.28);
   border-radius: 0;
   box-shadow: none;
   overflow: hidden;
   animation: none;
   transition: background 180ms ease;
+}
+
+.subteam-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.subteam-panel-icon {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  flex: 0 0 2.8rem;
+  color: var(--accent);
+  font-size: 1.45rem;
+  border-left: 1px solid rgba(10, 132, 255, 0.42);
+  border-bottom: 1px solid rgba(10, 132, 255, 0.42);
+  transition: color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.subteam-panel:hover .subteam-panel-icon,
+.subteam-panel:focus-within .subteam-panel-icon {
+  color: #ffffff;
+  background: rgba(10, 132, 255, 0.12);
+  transform: translate(-2px, 2px);
 }
 
 .subteam-panel::after {
@@ -4558,10 +4586,13 @@ html {
 .subteam-panel h4 {
   margin: 0 0 0.85rem;
   color: var(--ink);
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-size: clamp(1.2rem, 1.75vw, 1.6rem);
   font-weight: 650;
-  line-height: 1.08;
-  overflow-wrap: anywhere;
+  line-height: 1.12;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
 }
 
 .subteam-panel p {
@@ -4572,26 +4603,27 @@ html {
 }
 
 @media (max-width: 720px) {
-  .subteams-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .subteam-panel {
+    flex-basis: calc((100% - 1px) / 2);
     min-height: 220px;
   }
 }
 
 @media (max-width: 520px) {
-  .subteams-grid {
-    grid-template-columns: 1fr;
-  }
-
   .subteam-panel {
+    flex-basis: 100%;
     min-height: 0;
     padding: 1.25rem;
   }
 
+  .subteam-panel-icon {
+    width: 2.55rem;
+    height: 2.55rem;
+    flex-basis: 2.55rem;
+    font-size: 1.25rem;
+  }
+
   .subteam-panel-body {
-    margin-top: 2rem;
+    margin-top: 1.65rem;
   }
 }

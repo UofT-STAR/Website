@@ -1715,8 +1715,16 @@ class WebsiteDataManager {
     this.data.subteams.forEach((subteam, index) => {
       const panel = document.createElement('article');
       panel.className = 'subteam-panel';
+
+      const iconMarkup = subteam.icon
+        ? `<div class="subteam-panel-icon" aria-hidden="true"><i class="${subteam.icon}"></i></div>`
+        : '';
+
       panel.innerHTML = `
-        <div class="subteam-panel-index">${String(index + 1).padStart(2, '0')}</div>
+        <div class="subteam-panel-header">
+          <div class="subteam-panel-index">${String(index + 1).padStart(2, '0')}</div>
+          ${iconMarkup}
+        </div>
         <div class="subteam-panel-body">
           <span class="subteam-panel-label">Technical Subteam</span>
           <h4>${subteam.name}</h4>
