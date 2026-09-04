@@ -1496,6 +1496,7 @@ class WebsiteDataManager {
         document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
         document.getElementById('featuresGrid') ||
+        document.getElementById('subteamsGrid') ||
         document.getElementById('joinOptionsGrid') ||
         document.getElementById('mentorsGrid') ||
         document.getElementById('sponsorsGrid') ||
@@ -1546,6 +1547,7 @@ class WebsiteDataManager {
     this.populateLeadershipMembers();
     this.populateProjects();
     this.populateFeatures();
+    this.populateSubteams();
     this.populateJoinOptions();
     this.populateMentors();
     this.populateSponsors();
@@ -1704,6 +1706,27 @@ class WebsiteDataManager {
     });
   }
   
+  populateSubteams() {
+    const subteamsGrid = document.getElementById('subteamsGrid');
+    if (!subteamsGrid || !Array.isArray(this.data.subteams)) return;
+
+    subteamsGrid.innerHTML = '';
+
+    this.data.subteams.forEach((subteam, index) => {
+      const panel = document.createElement('article');
+      panel.className = 'subteam-panel';
+      panel.innerHTML = `
+        <div class="subteam-panel-index">${String(index + 1).padStart(2, '0')}</div>
+        <div class="subteam-panel-body">
+          <span class="subteam-panel-label">Technical Subteam</span>
+          <h4>${subteam.name}</h4>
+          <p>${subteam.description || ''}</p>
+        </div>
+      `;
+      subteamsGrid.appendChild(panel);
+    });
+  }
+
   populateJoinOptions() {
     const joinGrid = document.getElementById('joinOptionsGrid');
     if (!joinGrid || !this.data.joinOptions) return;

@@ -272,6 +272,28 @@ const websiteData = {
     //   statusClass: "active"
     // }
   ],
+
+  // Rocketry Division subteams shown on about.html.
+  // Add, remove, or reorder objects here; the About-page grid adapts automatically.
+  subteams: [
+    {
+      name: "Aerodynamics / Mechanics",
+      description: "Aerodynamics/Mechanics Team text"
+    },
+    {
+      name: "Propulsion",
+      description: "Propulsion Team text"
+    },
+    {
+      name: "Avionics",
+      description: "Avionics Team text"
+    },
+    {
+      name: "Recovery",
+      description: "Recovery Team text"
+    }
+  ],
+
   features: [
     {
       icon: "fas fa-rocket",
