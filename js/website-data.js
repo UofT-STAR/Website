@@ -189,6 +189,42 @@ const websiteData = {
       carouselImages: []
     },
     {
+      title: "Team-Built Flight Computer Demonstration",
+      icon: "fas fa-laptop-code",
+      description: "A home-bult flight computer designed and built by our Avionics Team on an arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
+      status: "Completed",
+      statusClass: "completed",
+      detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us.\n\
+        We spent the spring designing and producing a flight computer capable of dual-deploy recovery of a 3\" diameter mid-power rocket!\n\
+        This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved \n\
+        programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
+      details: [
+        "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
+        "Capable of deploying gunpowder charges for dual-deploy recovery purposes",
+        "Wifi Capable for remote arming of charges",
+        "Radio Telemetry for accurate data collection on the rocket's position and acceleration",
+        "Successful demonstration of the computer's ability to execute the safe recovery of our rocket"
+      ],
+      carouselImages: []
+    },
+    // {
+    //   title: "Avionics Systems",
+    //   icon: "fas fa-microchip",
+    //   description: "Flight computers, telemetry, and ground control software using C/C++ and Python with simulation and Hardware-in-the-Loop testing.",
+    //   status: "In Progress",
+    //   statusClass: "active"
+    // },
+    // {
+    //   title: "Structures & Propulsion",
+    //   icon: "fas fa-tools",
+    //   description: "Airframe design, composite structures, motor integration, thrust characterization, and recovery/VTOL hardware development.",
+    //   status: "In Progress",
+    //   statusClass: "active"
+    // }
+  ],
+
+  programs: [
+    {
       title: "L1 Certification Programs",
       icon: "fa-solid fa-certificate",
       description: "Our year round flagship rocketry program dedicated towards educating new rocketeers in the basics of high power rocketry and earning them their Level 1 Certification!",
@@ -211,25 +247,6 @@ const websiteData = {
         "Images/cert4.webp",
         "Images/cert5.webp",
       ]
-    },
-    {
-      title: "Team-Built Flight Computer Demonstration",
-      icon: "fas fa-laptop-code",
-      description: "A home-bult flight computer designed and built by our Avionics Team on an arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
-      status: "Completed",
-      statusClass: "completed",
-      detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us.\n\
-        We spent the spring designing and producing a flight computer capable of dual-deploy recovery of a 3\" diameter mid-power rocket!\n\
-        This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved \n\
-        programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
-      details: [
-        "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
-        "Capable of deploying gunpowder charges for dual-deploy recovery purposes",
-        "Wifi Capable for remote arming of charges",
-        "Radio Telemetry for accurate data collection on the rocket's position and acceleration",
-        "Successful demonstration of the computer's ability to execute the safe recovery of our rocket"
-      ],
-      carouselImages: []
     },
     {
       title: "Rocket Assembly Workshop",
@@ -256,22 +273,49 @@ const websiteData = {
         "Images/Carrousel1/7.webp",
         "Images/Carrousel1/8.webp"
       ]
-    }
+    },
     // {
-    //   title: "Avionics Systems",
-    //   icon: "fas fa-microchip",
-    //   description: "Flight computers, telemetry, and ground control software using C/C++ and Python with simulation and Hardware-in-the-Loop testing.",
-    //   status: "In Progress",
-    //   statusClass: "active"
-    // },
-    // {
-    //   title: "Structures & Propulsion",
-    //   icon: "fas fa-tools",
-    //   description: "Airframe design, composite structures, motor integration, thrust characterization, and recovery/VTOL hardware development.",
-    //   status: "In Progress",
-    //   statusClass: "active"
+    //     title: "Program Name",
+    //     icon: "fas fa-graduation-cap",
+    //     description: "Short description shown on the card.",
+
+    //     status: "Active",
+    //     statusClass: "active",
+
+    //     detailedDescription:
+    //         "Longer description shown when the program is opened.",
+
+    //     details: [
+    //         "First program detail",
+    //         "Second program detail"
+    //     ],
+
+    //     carouselImages: [
+    //         "Images/Programs/example-1.webp"
+    //     ]
     // }
-  ],
+],
+
+  outreachEvents: [
+  // Example: copy this object for each outreach event and replace the values.
+  {
+    title: "Event Name",
+    icon: "fas fa-users",
+    description: "Short card description shown on events.html.",
+    status: "Upcoming",
+    statusClass: "active",
+    detailedDescription: "Longer description shown when the card is opened.",
+    detailsHeading: "Event Highlights & Details", // optional
+    details: [
+      "First detail",
+      "Second detail"
+    ],
+    carouselImages: [
+      "Images/Outreach/example-1.webp",
+      "Images/Outreach/example-2.webp"
+    ]
+  }
+],
 
   // Rocketry Division subteams shown on about.html.
   // Add, remove, or reorder objects here; the About-page grid adapts automatically.

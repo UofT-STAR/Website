@@ -1495,6 +1495,8 @@ class WebsiteDataManager {
     if (document.getElementById('leadershipGrid') ||
         document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
+        document.getElementById('programsGrid') ||
+        document.getElementById('outreachEventsGrid') ||
         document.getElementById('featuresGrid') ||
         document.getElementById('subteamsGrid') ||
         document.getElementById('joinOptionsGrid') ||
@@ -1546,6 +1548,8 @@ class WebsiteDataManager {
     
     this.populateLeadershipMembers();
     this.populateProjects();
+    this.populatePrograms();
+    this.populateOutreachEvents();
     this.populateFeatures();
     this.populateSubteams();
     this.populateJoinOptions();
@@ -1663,27 +1667,78 @@ class WebsiteDataManager {
   }
   
   populateProjects() {
-    const projectsGrid = document.getElementById('projectsGrid');
-    if (!projectsGrid || !this.data.projects) return;
-    
-    // Clear existing content (including loading placeholder)
-    projectsGrid.innerHTML = '';
-    
-    this.data.projects.forEach((project, index) => {
-      const projectElement = document.createElement('div');
-      projectElement.className = 'project-card';
-      projectElement.onclick = () => openProjectModal(index);
-      projectElement.innerHTML = `
-        <div class="project-icon">
-          <i class="${project.icon}"></i>
-        </div>
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <div class="project-status">
-          <span class="status-badge ${project.statusClass}">${project.status}</span>
+    this.populateProjectStyleCollection(
+      'projectsGrid',
+      this.data.projects,
+      'projects',
+      'No projects have been added yet.'
+    );
+  }
+
+  populatePrograms() {
+    this.populateProjectStyleCollection(
+      'programsGrid',
+      this.data.programs,
+      'programs',
+      'No programs have been added yet.'
+    );
+  }
+
+  populateOutreachEvents() {
+    this.populateProjectStyleCollection(
+      'outreachEventsGrid',
+      this.data.outreachEvents,
+      'outreachEvents',
+      'No outreach events have been added yet.'
+    );
+  }
+
+  // Shared renderer for Projects and any other content that uses project cards.
+  populateProjectStyleCollection(gridId, items, collectionKey, emptyMessage) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+
+    // Clear existing content (including loading placeholder).
+    grid.innerHTML = '';
+
+    if (!Array.isArray(items) || items.length === 0) {
+      grid.innerHTML = `
+        <div class="loading-placeholder">
+          <i class="fas fa-calendar-plus"></i>
+          <p>${emptyMessage}</p>
         </div>
       `;
-      projectsGrid.appendChild(projectElement);
+      return;
+    }
+
+    items.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `View details for ${item.title}`);
+
+      const openCard = () => openProjectModal(index, collectionKey);
+      card.addEventListener('click', openCard);
+      card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openCard();
+        }
+      });
+
+      card.innerHTML = `
+        <div class="project-icon">
+          <i class="${item.icon || 'fas fa-rocket'}"></i>
+        </div>
+        <h3>${item.title}</h3>
+        <p>${item.description || ''}</p>
+        <div class="project-status">
+          <span class="status-badge ${item.statusClass || ''}">${item.status || ''}</span>
+        </div>
+      `;
+
+      grid.appendChild(card);
     });
   }
   
@@ -2004,26 +2059,64 @@ function initLeadershipModal() {
   });
 }
 
-function openProjectModal(projectIndex) {
-  const project = websiteData.projects[projectIndex];
-  const modal = document.getElementById('projectModal');
-  
-  // Populate modal content
-  document.getElementById('modalIcon').className = project.icon;
-  document.getElementById('modalTitle').textContent = project.title;
-  document.getElementById('modalDescription').textContent = project.detailedDescription || project.description;
+function ensureProjectModal() {
+  let modal = document.getElementById('projectModal');
+  if (modal) return modal;
+
+  modal = document.createElement('div');
+  modal.className = 'project-modal';
+  modal.id = 'projectModal';
+  modal.innerHTML = `
+    <div class="project-modal-content">
+      <button class="project-modal-close" type="button" onclick="closeProjectModal()" aria-label="Close details">×</button>
+      <div class="project-modal-body">
+        <div class="project-modal-icon">
+          <i id="modalIcon"></i>
+        </div>
+        <h2 id="modalTitle"></h2>
+        <div class="project-modal-status">
+          <span class="status-badge" id="modalStatus"></span>
+        </div>
+        <p id="modalDescription"></p>
+        <div class="project-carousel" id="modalCarousel"></div>
+        <div class="project-details" id="modalDetails"></div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function openProjectModal(itemIndex, collectionKey = 'projects') {
+  const data = window.websiteData || (websiteDataManager && websiteDataManager.data);
+  const collection = data && Array.isArray(data[collectionKey]) ? data[collectionKey] : [];
+  const item = collection[itemIndex];
+  if (!item) return;
+
+  const modal = ensureProjectModal();
+
+  // Add modal content. Projects and outreach events use the same template.
+  document.getElementById('modalIcon').className = item.icon || 'fas fa-rocket';
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalDescription').textContent = item.detailedDescription || item.description || '';
   
   const statusBadge = document.getElementById('modalStatus');
-  statusBadge.textContent = project.status;
-  statusBadge.className = `status-badge ${project.statusClass}`;
+  statusBadge.textContent = item.status || '';
+  statusBadge.className = `status-badge ${item.statusClass || ''}`;
+  statusBadge.style.display = item.status ? '' : 'none';
   
-  // Populate details
+  // Add details
   const detailsContainer = document.getElementById('modalDetails');
-  if (project.details && project.details.length > 0) {
+  if (item.details && item.details.length > 0) {
+    const defaultHeading = collectionKey === 'outreachEvents'
+      ? 'Event Highlights & Details'
+      : collectionKey === 'programs'
+        ? 'Program Details & Objectives'
+        : 'Key Features & Objectives';
     detailsContainer.innerHTML = `
-      <h3>Key Features & Objectives</h3>
+      <h3>${item.detailsHeading || defaultHeading}</h3>
       <ul>
-        ${project.details.map(detail => `<li>${detail}</li>`).join('')}
+        ${item.details.map(detail => `<li>${detail}</li>`).join('')}
       </ul>
     `;
     detailsContainer.style.display = 'block';
@@ -2033,20 +2126,20 @@ function openProjectModal(projectIndex) {
   
   // Setup carousel
   const carouselContainer = document.getElementById('modalCarousel');
-  if (project.carouselImages && project.carouselImages.length > 0) {
-    currentProjectImages = project.carouselImages;
+  if (item.carouselImages && item.carouselImages.length > 0) {
+    currentProjectImages = item.carouselImages;
     currentCarouselIndex = 0;
     
     carouselContainer.innerHTML = `
       <div class="carousel-container">
         <div class="carousel-track" id="carouselTrack">
-          ${project.carouselImages.map((img, index) => `
+          ${item.carouselImages.map((img, index) => `
             <div class="carousel-slide">
-              <img src="${img}" alt="${project.title} - Image ${index + 1}" />
+              <img src="${img}" alt="${item.title} - Image ${index + 1}" />
             </div>
           `).join('')}
         </div>
-        ${project.carouselImages.length > 1 ? `
+        ${item.carouselImages.length > 1 ? `
           <button class="carousel-button prev" onclick="changeSlide(-1)">
             <i class="fas fa-chevron-left"></i>
           </button>
@@ -2055,9 +2148,9 @@ function openProjectModal(projectIndex) {
           </button>
         ` : ''}
       </div>
-      ${project.carouselImages.length > 1 ? `
+      ${item.carouselImages.length > 1 ? `
         <div class="carousel-indicators">
-          ${project.carouselImages.map((_, index) => `
+          ${item.carouselImages.map((_, index) => `
             <div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
           `).join('')}
         </div>
@@ -2065,6 +2158,8 @@ function openProjectModal(projectIndex) {
     `;
     carouselContainer.style.display = 'block';
   } else {
+    currentProjectImages = [];
+    carouselContainer.innerHTML = '';
     carouselContainer.style.display = 'none';
   }
   
