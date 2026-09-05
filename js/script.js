@@ -1525,7 +1525,7 @@ class WebsiteDataManager {
       const emailText = publicEmail || 'Contact via club inbox';
       const emailClass = publicEmail ? 'executive-contact-link' : 'executive-contact-link is-fallback';
       const linkedInMarkup = linkedIn
-        ? `<a class="executive-contact-link" href="${linkedIn}" target="_blank" rel="noopener"><i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>`
+        ? `<a class="executive-contact-link" href="${linkedIn}" target="_blank" rel="noopener"><i class="fab fa-linkedin" aria-hidden="true"></i></a>`
         : '';
 
       card.innerHTML = `
