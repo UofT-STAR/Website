@@ -4638,7 +4638,7 @@ html {
 }
 
 .contact-section-intro {
-  max-width: 760px;
+  max-width: 800px;
   margin: -2rem auto 3.25rem;
   color: var(--muted);
   font-size: 1.02rem;
