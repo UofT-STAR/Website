@@ -241,11 +241,11 @@ const websiteData = {
         "Fast-track yourself to be able to have the knowhow to contribute the most to the development of team projects",
       ],
       carouselImages: [
-        "Images/cert1.webp",
-        "Images/cert2.webp",
-        "Images/cert3.webp",
-        "Images/cert4.webp",
-        "Images/cert5.webp",
+        "Images/CertProgram/cert1.webp",
+        "Images/CertProgram/cert2.webp",
+        "Images/CertProgram/cert3.webp",
+        "Images/CertProgram/cert4.webp",
+        "Images/CertProgram/cert5.webp",
       ]
     },
     {
@@ -418,7 +418,7 @@ const websiteData = {
        role: "Peer Mentor",
        organization: "Ascendant Research Group",
        bio: "Sawyer is a Third Year student at Rensselaer Polytechnic Institute pursuing a degree in Aerospace Engineering. He is currently the Propulsion Engineer for Ascendant Research Group in their current space-shot project and has provided our team with an amazing amount of guidance throughout the past year in climbing the ladder of High Power Rocketry.",
-       image: "Images/Sawyer_shaw.webp",
+       image: "Images/MentorSponsor/Sawyer_shaw.webp",
        website: "https://www.linkedin.com/in/sawyer-shaw/"
      }
   ],
@@ -436,7 +436,7 @@ const websiteData = {
        name: "Solidworks",
        level: "Club Sponsor",
        description: "",
-       logo: "Images/SolidWorks_Logo.webp",
+       logo: "Images/MentorSponsor/SolidWorks_Logo.webp",
        website: "https://www.solidworks.com/"
      }
   ]
