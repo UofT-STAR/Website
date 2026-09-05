@@ -266,7 +266,7 @@
             setStatus(
                 "success",
                 '<i class="fas fa-circle-check" aria-hidden="true"></i>' +
-                "<span><strong>Transmission sent.</strong> Your message was delivered to UofT STAR.</span>"
+                "<span><strong>Transmission sent.</strong> We will respond to your message as soon as possible!</span>"
             );
         } catch (error) {
             console.error("STAR contact submission failed:", error);
