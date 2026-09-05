@@ -3630,6 +3630,10 @@ html {
   font-size: 1.25rem;
 }
 
+.partner-index {
+  display: none;
+}
+
 .partner-link {
   margin-top: auto;
   padding-top: 1.25rem;
@@ -4625,5 +4629,432 @@ html {
 
   .subteam-panel-body {
     margin-top: 1.65rem;
+  }
+}
+
+/* Swiss International catalogue — sponsors.html only */
+body[data-page="sponsors"] {
+  --swiss-ink: var(--ink);
+  --swiss-muted: var(--muted);
+  --swiss-rule: var(--border);
+  --swiss-accent: var(--accent);
+  --swiss-panel: var(--panel);
+  font-family: "Inter Tight", Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body[data-page="sponsors"] .swiss-page {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-page="sponsors"] .swiss-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 100%;
+  background: var(--swiss-accent);
+  pointer-events: none;
+}
+
+body[data-page="sponsors"] .section {
+  padding: 5.5rem 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-page="sponsors"] .swiss-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem 0 2rem;
+}
+
+body[data-page="sponsors"] .swiss-kicker {
+  margin: 0;
+  color: var(--swiss-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+body[data-page="sponsors"] .swiss-hero {
+  padding-top: 8.5rem;
+  padding-bottom: 4.5rem;
+  border-bottom: 1px solid var(--swiss-rule);
+}
+
+body[data-page="sponsors"] .swiss-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.55fr);
+  gap: 2.5rem 3rem;
+  align-items: end;
+}
+
+body[data-page="sponsors"] .swiss-hero-copy {
+  grid-column: 1;
+}
+
+body[data-page="sponsors"] .swiss-hero h1 {
+  margin: 0.85rem 0 1.25rem;
+  max-width: 14ch;
+  color: var(--swiss-ink);
+  font-size: clamp(3.2rem, 8vw, 6.4rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+body[data-page="sponsors"] .swiss-lede {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--swiss-muted);
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+body[data-page="sponsors"] .swiss-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid var(--swiss-rule);
+}
+
+body[data-page="sponsors"] .swiss-toc a {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.85rem 0 0.85rem 1rem;
+  color: var(--swiss-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--swiss-rule);
+  transition: background-color 0.16s linear, color 0.16s linear;
+}
+
+body[data-page="sponsors"] .swiss-toc a:last-child {
+  border-bottom: 0;
+}
+
+body[data-page="sponsors"] .swiss-toc a:hover,
+body[data-page="sponsors"] .swiss-toc a:focus-visible {
+  color: var(--swiss-accent);
+  background: var(--glass);
+}
+
+body[data-page="sponsors"] .swiss-toc span {
+  color: var(--swiss-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+body[data-page="sponsors"] .swiss-census {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 2.75rem;
+  align-items: baseline;
+  grid-column: 1 / -1;
+  margin: 2.5rem 0 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--swiss-rule);
+  color: var(--swiss-ink);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+body[data-page="sponsors"] .swiss-census-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+body[data-page="sponsors"] .swiss-census-label {
+  color: var(--swiss-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body[data-page="sponsors"] .swiss-chapter {
+  border-bottom: 1px solid var(--swiss-rule);
+}
+
+body[data-page="sponsors"] .swiss-chapter-head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 0.5rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+body[data-page="sponsors"] .swiss-chapter-head .swiss-kicker {
+  grid-column: 1 / -1;
+}
+
+body[data-page="sponsors"] .swiss-chapter-head h2 {
+  margin: 0;
+  color: var(--swiss-ink);
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+body[data-page="sponsors"] .swiss-chapter-note {
+  margin: 0;
+  align-self: end;
+  color: var(--swiss-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+body[data-page="sponsors"] .partner-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  justify-content: stretch;
+}
+
+body[data-page="sponsors"] .partner-card,
+body[data-page="sponsors"] .partner-card.sponsor-card {
+  flex: none;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(140px, 180px) minmax(0, 1fr);
+  gap: 1.25rem 1.5rem;
+  align-items: start;
+  max-width: none;
+  min-height: 0;
+  padding: 1.75rem 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--swiss-rule);
+  border-radius: 0;
+  backdrop-filter: none;
+  transition: background-color 0.16s linear;
+}
+
+body[data-page="sponsors"] .partner-card:hover,
+body[data-page="sponsors"] .partner-card:focus-within {
+  transform: none;
+  background: var(--glass);
+  border-color: var(--swiss-rule);
+  box-shadow: none;
+}
+
+body[data-page="sponsors"] .partner-index {
+  display: block;
+  padding-top: 0.2rem;
+  color: var(--swiss-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+body[data-page="sponsors"] .partner-image,
+body[data-page="sponsors"] .sponsor-logo,
+body[data-page="sponsors"] .partner-image-placeholder,
+body[data-page="sponsors"] .sponsor-logo-placeholder {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  margin: 0;
+  object-fit: cover;
+  border: 1px solid var(--swiss-rule);
+  border-radius: 0;
+}
+
+body[data-page="sponsors"] .sponsor-logo,
+body[data-page="sponsors"] .sponsor-logo-placeholder {
+  object-fit: contain;
+  padding: 1rem;
+  background: var(--swiss-panel);
+}
+
+body[data-page="sponsors"] .partner-image-placeholder,
+body[data-page="sponsors"] .sponsor-logo-placeholder {
+  color: var(--swiss-accent);
+  background: var(--swiss-panel);
+}
+
+body[data-page="sponsors"] .partner-copy {
+  min-width: 0;
+}
+
+body[data-page="sponsors"] .partner-card h4 {
+  margin: 0 0 0.4rem;
+  color: var(--swiss-ink);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+body[data-page="sponsors"] .partner-role {
+  margin-bottom: 0.55rem;
+  color: var(--accent-color) !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body[data-page="sponsors"] .partner-meta {
+  margin-bottom: 0.85rem;
+  color: var(--swiss-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+body[data-page="sponsors"] .partner-card p,
+body[data-page="sponsors"] .partner-copy > p {
+  color: var(--swiss-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+body[data-page="sponsors"] .partner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.1rem;
+  padding-top: 0;
+  color: var(--primary-color);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 2px solid var(--primary-color);
+  width: fit-content;
+  transition: color 0.16s linear, border-color 0.16s linear;
+}
+
+body[data-page="sponsors"] .partner-link:hover,
+body[data-page="sponsors"] .partner-link:focus-visible {
+  color: var(--swiss-accent);
+}
+
+body[data-page="sponsors"] .empty-state {
+  max-width: none;
+  padding: 2.5rem 0;
+  text-align: left;
+  color: var(--swiss-muted);
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--swiss-rule);
+  border-radius: 0;
+}
+
+body[data-page="sponsors"] .empty-state i {
+  color: var(--swiss-accent);
+}
+
+body[data-page="sponsors"] .loading-placeholder {
+  color: var(--swiss-muted);
+}
+
+body[data-page="sponsors"] .loading-placeholder i {
+  color: var(--swiss-accent);
+}
+
+body[data-page="sponsors"] .swiss-cta {
+  padding-bottom: 6.5rem;
+}
+
+body[data-page="sponsors"] .swiss-cta-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 2rem 3rem;
+  align-items: end;
+  margin-top: 1.25rem;
+}
+
+body[data-page="sponsors"] .swiss-cta h2 {
+  margin: 0;
+  max-width: 10ch;
+  color: var(--swiss-ink);
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+body[data-page="sponsors"] .swiss-cta-copy p {
+  margin: 0 0 1.5rem;
+  color: var(--swiss-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+body[data-page="sponsors"] .swiss-cta-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.95rem 1.35rem;
+  color: #fff;
+  background: var(--primary-color);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--primary-color);
+  transition: background-color 0.16s linear, border-color 0.16s linear, box-shadow 0.16s linear;
+}
+
+body[data-page="sponsors"] .swiss-cta-link:hover,
+body[data-page="sponsors"] .swiss-cta-link:focus-visible {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(10, 132, 255, 0.28);
+}
+
+@media (max-width: 768px) {
+  body[data-page="sponsors"] .swiss-page::before {
+    width: 5px;
+  }
+
+  body[data-page="sponsors"] .swiss-hero,
+  body[data-page="sponsors"] .section {
+    padding: 4rem 0;
+  }
+
+  body[data-page="sponsors"] .swiss-hero {
+    padding-top: 7rem;
+  }
+
+  body[data-page="sponsors"] .swiss-hero-grid,
+  body[data-page="sponsors"] .swiss-chapter-head,
+  body[data-page="sponsors"] .swiss-cta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="sponsors"] .partner-card,
+  body[data-page="sponsors"] .partner-card.sponsor-card {
+    grid-template-columns: 2.4rem 1fr;
+  }
+
+  body[data-page="sponsors"] .partner-image,
+  body[data-page="sponsors"] .sponsor-logo,
+  body[data-page="sponsors"] .partner-image-placeholder,
+  body[data-page="sponsors"] .sponsor-logo-placeholder {
+    grid-column: 2;
+    max-width: 160px;
+    height: 160px;
+  }
+
+  body[data-page="sponsors"] .partner-copy {
+    grid-column: 1 / -1;
   }
 }

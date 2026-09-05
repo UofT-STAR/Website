@@ -13,48 +13,101 @@
         <title>UofT STAR - Sponsors & Mentors</title>
         <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
         <link href="css/style.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     </head>
     <body data-page="sponsors">
-        <!-- Global Stars Background -->
         <div class="stars-background"></div>
 
-        <!-- Navigation -->
         <nav id="site-navbar"></nav>
 
-        <main class="standalone-page">
-            <section class="section" id="sponsors">
-                <div class="container">
-                    <h2 class="section-title">Mentors &amp; Sponsors</h2>
-                    <p class="page-intro">
-                        These are the individuals and organizations that have helped UofT STAR grow as a club. We're extremely grateful for this support and could not have done it without any of the groups or people listed below! If you're interested in supporting us, head on over to the join page to see how you can help too!
-                    </p>
-
-                    <section class="partner-section" aria-labelledby="mentors-title">
-                        <h3 id="mentors-title">Mentors</h3>
-                        <div class="partner-grid" id="mentorsGrid">
-                            <div class="loading-placeholder">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <p>Loading mentors...</p>
-                            </div>
+        <main class="standalone-page swiss-page" id="catalogue">
+            <section class="section swiss-hero" id="intro" aria-labelledby="swiss-title">
+                <div class="swiss-shell">
+                    <div class="swiss-hero-grid">
+                        <p class="swiss-kicker">00 / Catalogue</p>
+                        <div class="swiss-hero-copy">
+                            <h1 id="swiss-title">Mentors &amp; Sponsors</h1>
+                            <p class="swiss-lede">
+                                These are the individuals and organizations that have helped UofT STAR grow as a club. We are extremely grateful for this support and could not have done it without any of the groups or people listed below.
+                            </p>
                         </div>
-                    </section>
+                        <nav class="swiss-toc" aria-label="Page contents">
+                            <a href="#mentors">
+                                <span>01</span>
+                                Mentors
+                            </a>
+                            <a href="#sponsors">
+                                <span>02</span>
+                                Sponsors
+                            </a>
+                            <a href="#support">
+                                <span>03</span>
+                                Support
+                            </a>
+                        </nav>
+                        <p class="swiss-census" aria-live="polite">
+                            <span class="swiss-census-item">
+                                <span id="mentorCount">—</span>
+                                <span class="swiss-census-label">Mentors</span>
+                            </span>
+                            <span class="swiss-census-item">
+                                <span id="sponsorCount">—</span>
+                                <span class="swiss-census-label">Sponsors</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-                    <section class="partner-section" aria-labelledby="sponsors-title">
-                        <h3 id="sponsors-title">Sponsors</h3>
-                        <div class="partner-grid" id="sponsorsGrid">
-                            <div class="loading-placeholder">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <p>Loading sponsors...</p>
-                            </div>
+            <section class="section swiss-chapter" id="mentors" aria-labelledby="mentors-title">
+                <div class="swiss-shell">
+                    <header class="swiss-chapter-head">
+                        <p class="swiss-kicker">01 / People</p>
+                        <h2 id="mentors-title">Mentors</h2>
+                        <p class="swiss-chapter-note">Living craft. Guidance given with precision.</p>
+                    </header>
+                    <div class="partner-grid" id="mentorsGrid">
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading mentors...</p>
                         </div>
-                    </section>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section swiss-chapter" id="sponsors" aria-labelledby="sponsors-title">
+                <div class="swiss-shell">
+                    <header class="swiss-chapter-head">
+                        <p class="swiss-kicker">02 / Institutions</p>
+                        <h2 id="sponsors-title">Sponsors</h2>
+                        <p class="swiss-chapter-note">Structural support. Tools that make the work possible.</p>
+                    </header>
+                    <div class="partner-grid" id="sponsorsGrid">
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading sponsors...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section swiss-cta" id="support" aria-labelledby="support-title">
+                <div class="swiss-shell">
+                    <p class="swiss-kicker">03 / Invitation</p>
+                    <div class="swiss-cta-grid">
+                        <h2 id="support-title">The field remains open.</h2>
+                        <div class="swiss-cta-copy">
+                            <p>
+                                If you are interested in supporting us—as a mentor, a sponsor, or a student—join the same ordered field of people who make this team possible.
+                            </p>
+                            <a class="swiss-cta-link" href="join-us.html">See how you can help</a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
 
-        <!-- Footer -->
         <footer id="site-footer"></footer>
 
         <script src="js/website-data.js"></script>

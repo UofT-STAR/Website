@@ -635,10 +635,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize smooth reveal animations for sections
   const sections = document.querySelectorAll('.section');
+  const isSwissSponsors = document.body.dataset.page === 'sponsors';
   sections.forEach(section => {
     section.style.opacity = '0';
-    section.style.transform = 'translateY(50px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    section.style.transform = isSwissSponsors ? 'translateY(16px)' : 'translateY(50px)';
+    section.style.transition = isSwissSponsors
+      ? 'opacity 0.28s linear, transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1)'
+      : 'opacity 0.8s ease, transform 0.8s ease';
     revealObserver.observe(section);
   });
 });
@@ -1556,6 +1559,18 @@ class WebsiteDataManager {
     this.populateMentors();
     this.populateSponsors();
     this.populateHomeProjectSpotlight();
+    this.updateSponsorsCensus();
+  }
+
+  updateSponsorsCensus() {
+    const mentorCount = document.getElementById('mentorCount');
+    const sponsorCount = document.getElementById('sponsorCount');
+    if (mentorCount) {
+      mentorCount.textContent = String((this.data.mentors || []).length).padStart(2, '0');
+    }
+    if (sponsorCount) {
+      sponsorCount.textContent = String((this.data.sponsors || []).length).padStart(2, '0');
+    }
   }
 
   populateHomeProjectSpotlight() {
@@ -1831,7 +1846,7 @@ class WebsiteDataManager {
     }
 
     mentorsGrid.innerHTML = '';
-    this.data.mentors.forEach(mentor => {
+    this.data.mentors.forEach((mentor, index) => {
       const card = document.createElement('article');
       card.className = 'partner-card';
       const image = mentor.image
@@ -1842,14 +1857,18 @@ class WebsiteDataManager {
       const website = mentor.website
         ? `<a class="partner-link" href="${mentor.website}" target="_blank" rel="noopener">Learn more <i class="fas fa-arrow-up-right-from-square"></i></a>`
         : '';
+      const entry = String(index + 1).padStart(2, '0');
 
       card.innerHTML = `
+        <span class="partner-index" aria-hidden="true">${entry}</span>
         ${image}
-        <h4>${mentor.name}</h4>
-        <p class="partner-role">${mentor.role || 'Mentor'}</p>
-        ${organization}
-        ${bio}
-        ${website}
+        <div class="partner-copy">
+          <h4>${mentor.name}</h4>
+          <p class="partner-role">${mentor.role || 'Mentor'}</p>
+          ${organization}
+          ${bio}
+          ${website}
+        </div>
       `;
       mentorsGrid.appendChild(card);
     });
@@ -1870,7 +1889,7 @@ class WebsiteDataManager {
     }
 
     sponsorsGrid.innerHTML = '';
-    this.data.sponsors.forEach(sponsor => {
+    this.data.sponsors.forEach((sponsor, index) => {
       const card = document.createElement('article');
       card.className = 'partner-card sponsor-card';
       const logo = sponsor.logo
@@ -1881,13 +1900,17 @@ class WebsiteDataManager {
       const website = sponsor.website
         ? `<a class="partner-link" href="${sponsor.website}" target="_blank" rel="noopener">Visit website <i class="fas fa-arrow-up-right-from-square"></i></a>`
         : '';
+      const entry = String(index + 1).padStart(2, '0');
 
       card.innerHTML = `
+        <span class="partner-index" aria-hidden="true">${entry}</span>
         ${logo}
-        <h4>${sponsor.name}</h4>
-        ${level}
-        ${description}
-        ${website}
+        <div class="partner-copy">
+          <h4>${sponsor.name}</h4>
+          ${level}
+          ${description}
+          ${website}
+        </div>
       `;
       sponsorsGrid.appendChild(card);
     });
