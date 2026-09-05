@@ -44,8 +44,37 @@
     }
 
     function selectedPrograms(form) {
+        const otherProgram = form.elements.other_program
+            ? form.elements.other_program.value.trim()
+            : "";
+
         return Array.from(form.querySelectorAll('input[name="program"]:checked'))
-            .map(input => input.value);
+            .map(input => {
+                if (input.value === "Other" && otherProgram) {
+                    return `Other — ${otherProgram}`;
+                }
+
+                return input.value;
+            });
+    }
+
+    function syncOtherProgramField(form) {
+        const otherCheckbox = form.querySelector(
+            'input[name="program"][value="Other"]'
+        );
+        const container = document.getElementById("contactOtherProgram");
+        const input = form.elements.other_program;
+
+        if (!otherCheckbox || !container || !input) return;
+
+        const shouldShow = otherCheckbox.checked;
+
+        container.hidden = !shouldShow;
+        input.required = shouldShow;
+
+        if (!shouldShow) {
+            input.value = "";
+        }
     }
 
     function validateForm(form) {
@@ -68,6 +97,21 @@
             const firstTopic = form.querySelector('input[name="topic"]');
             if (firstTopic) firstTopic.focus();
             return "Please choose where your message should be routed.";
+        }
+
+        const otherCheckbox = form.querySelector(
+            'input[name="program"][value="Other"]'
+        );
+        const otherProgram = form.elements.other_program;
+
+        if (
+            otherCheckbox &&
+            otherCheckbox.checked &&
+            otherProgram &&
+            !otherProgram.value.trim()
+        ) {
+            otherProgram.focus();
+            return "Please tell us what other program or organization you are in.";
         }
 
         if (message.value.trim().length < 10) {
@@ -178,7 +222,9 @@
         const payload = {
             name: form.elements.from_name.value.trim(),
             email: form.elements.reply_to.value.trim(),
-            affiliation: form.elements.affiliation.value.trim(),
+            affiliation: form.elements.other_program
+                ? form.elements.other_program.value.trim()
+                : "",
             topic: topic ? topic.value : "General",
             programs: selectedPrograms(form),
             message: form.elements.message.value.trim(),
@@ -212,6 +258,7 @@
             }
 
             form.reset();
+            syncOtherProgramField(form);
 
             const counter = document.getElementById("contactCharacterCount");
             if (counter) counter.textContent = "0";
@@ -270,6 +317,22 @@
             updateCounter();
         }
 
+        const otherCheckbox = form.querySelector(
+            'input[name="program"][value="Other"]'
+        );
+
+        if (otherCheckbox) {
+            otherCheckbox.addEventListener("change", () => {
+                syncOtherProgramField(form);
+
+                if (otherCheckbox.checked && form.elements.other_program) {
+                    form.elements.other_program.focus();
+                }
+            });
+
+            syncOtherProgramField(form);
+        }
+
         renderTurnstile(config.turnstileSiteKey);
 
         form.addEventListener("submit", async event => {
@@ -279,6 +342,7 @@
             // Honeypot: silently discard obvious bot submissions.
             if (form.elements.website && form.elements.website.value.trim()) {
                 form.reset();
+                syncOtherProgramField(form);
                 if (counter) counter.textContent = "0";
                 setStatus(
                     "success",

@@ -134,19 +134,11 @@
                                     <input id="email" name="reply_to" placeholder="you@example.com" required type="email" autocomplete="email" maxlength="180">
                                 </div>
 
-                                <div class="form-group contact-field">
-                                    <label for="affiliation">
-                                        <span class="contact-field-number">03</span>
-                                        Program / organization
-                                        <span class="form-optional">Optional</span>
-                                    </label>
-                                    <input id="affiliation" name="affiliation" placeholder="Physics, Engineering, external organization..." type="text" maxlength="180">
-                                </div>
                             </div>
 
                             <fieldset class="contact-choice-fieldset">
                                 <legend>
-                                    <span class="contact-field-number">04</span>
+                                    <span class="contact-field-number">03</span>
                                     Route this message
                                 </legend>
                                 <div class="contact-topic-grid">
@@ -208,7 +200,7 @@
 
                             <fieldset class="contact-choice-fieldset contact-program-fieldset">
                                 <legend>
-                                    <span class="contact-field-number">05</span>
+                                    <span class="contact-field-number">04</span>
                                     Your background
                                     <span class="form-optional">Optional</span>
                                 </legend>
@@ -245,11 +237,25 @@
                                         <span>Other</span>
                                     </label>
                                 </div>
+
+                                <div class="contact-other-program" id="contactOtherProgram" hidden>
+                                    <label for="otherProgram">
+                                        Other program / organization
+                                    </label>
+                                    <input
+                                        id="otherProgram"
+                                        name="other_program"
+                                        type="text"
+                                        maxlength="120"
+                                        placeholder="e.g. Chemistry, another student group, company, school..."
+                                        autocomplete="organization"
+                                    >
+                                </div>
                             </fieldset>
 
                             <div class="form-group contact-field contact-message-field">
                                 <label for="message">
-                                    <span class="contact-field-number">06</span>
+                                    <span class="contact-field-number">05</span>
                                     Message
                                 </label>
                                 <textarea id="message" name="message" minlength="10" maxlength="2500" placeholder="What would you like to ask or discuss?" required rows="8"></textarea>
