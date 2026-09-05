@@ -466,99 +466,6 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Initialize the "Other" program functionality when DOM is loaded
-function handleOtherProgramSelection() {
-  const otherCheckbox = document.querySelector('input[name="program[]"][value="other"]');
-  const checkboxGroup = document.querySelector('.checkbox-group');
-  
-  if (!otherCheckbox) return;
-  
-  // Create the "Other" text input container
-  const otherInputContainer = document.createElement('div');
-  otherInputContainer.className = 'other-program-input';
-  otherInputContainer.style.display = 'none';
-  otherInputContainer.innerHTML = `
-    <input type="text" 
-           id="otherProgram" 
-           name="otherProgram" 
-           placeholder="Enter your programs..."
-           style="width: 100%; 
-                  padding: 12px; 
-                  margin-top: 0.5rem;
-                  border: 1px solid var(--border); 
-                  border-radius: 8px; 
-                  background: var(--glass); 
-                  color: var(--ink); 
-                  font-size: 0.9rem;">
-    <small style="color: var(--muted); 
-                  font-size: 0.8rem; 
-                  margin-top: 0.25rem; 
-                  display: block;">
-      Example: Biology, Chemistry, Environmental Science
-    </small>
-  `;
-  
-  // Insert after the checkbox group
-  checkboxGroup.parentNode.insertBefore(otherInputContainer, checkboxGroup.nextSibling);
-  
-  // Add event listener to the "Other" checkbox
-  otherCheckbox.addEventListener('change', function() {
-    const otherInput = document.getElementById('otherProgram');
-    
-    if (this.checked) {
-      // Show the input field with slide down animation
-      otherInputContainer.style.display = 'block';
-      otherInputContainer.style.maxHeight = '200px'; // Allow enough space for content
-      otherInputContainer.style.marginTop = '1rem';
-      otherInputContainer.style.padding = '1rem';
-      otherInputContainer.style.opacity = '1';
-      otherInputContainer.style.transform = 'translateY(0)';
-      setTimeout(() => {
-        otherInput.focus(); // Auto-focus for better UX
-      }, 150);
-    } else {
-      // Hide the input field with slide up animation
-      otherInputContainer.style.maxHeight = '0';
-      otherInputContainer.style.marginTop = '0';
-      otherInputContainer.style.padding = '0 1rem';
-      otherInputContainer.style.opacity = '0';
-      otherInputContainer.style.transform = 'translateY(-20px)';
-      setTimeout(() => {
-        otherInput.value = ''; // Clear the input when hidden
-      }, 300);
-    }
-  });
-  
-  // Style the input container for smooth slide animation - initially hidden
-  otherInputContainer.style.cssText += `
-    max-height: 0;
-    margin-top: 0;
-    padding: 0 1rem;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    display: block;
-  `;
-  
-  // Add focus styling to the input
-  const otherInput = otherInputContainer.querySelector('input');
-  otherInput.addEventListener('focus', function() {
-    this.style.borderColor = 'var(--primary-color)';
-    this.style.background = 'var(--glass-hover)';
-    this.style.boxShadow = '0 0 0 3px rgba(10, 132, 255, 0.1)';
-  });
-  
-  otherInput.addEventListener('blur', function() {
-    this.style.borderColor = 'var(--border)';
-    this.style.background = 'var(--glass)';
-    this.style.boxShadow = 'none';
-  });
-}
 
 // Consolidated DOMContentLoaded handler
 document.addEventListener('DOMContentLoaded', function() {
@@ -585,9 +492,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize website data manager
   websiteDataManager = new WebsiteDataManager();
-  
-  // Handle "Other" program selection (index.html contact form)
-  handleOtherProgramSelection();
   
   // Add fade-in class to elements and observe them with enhanced animations
   const animatedElements = document.querySelectorAll('.feature, .project-card, .event-item, .team-member');
@@ -642,84 +546,6 @@ document.addEventListener('DOMContentLoaded', function() {
     revealObserver.observe(section);
   });
 });
-
-// Contact form handling
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Get form data
-    const formData = new FormData(contactForm);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const message = formData.get('message');
-
-    // Get selected programs including "Other"
-    const selectedPrograms = Array.from(document.querySelectorAll('input[name="program[]"]:checked')).map(checkbox => checkbox.value);
-    const otherProgram = formData.get('otherProgram');
-    
-    // Build final programs list
-    let finalPrograms = [...selectedPrograms];
-    
-    // If "Other" is selected and has custom text, replace it with the custom programs
-    if (selectedPrograms.includes('other') && otherProgram && otherProgram.trim()) {
-      // Remove "other" from the list
-      finalPrograms = finalPrograms.filter(program => program !== 'other');
-      
-      // Split the custom programs by commas and add them
-      const customPrograms = otherProgram.split(',').map(program => program.trim()).filter(program => program);
-      finalPrograms.push(...customPrograms);
-    }
-  
-  // Simple validation
-  if (!name || !email || !finalPrograms.length || !message) {
-    showNotification('Please fill in all fields.', 'error');
-    return;
-  }
-  
-  // Check if "Other" is selected but no custom program is specified
-  if (selectedPrograms.includes('other') && (!otherProgram || !otherProgram.trim())) {
-    showNotification('Please specify your program(s) in the "Other" field.', 'error');
-    return;
-  }
-  
-  if (!isValidEmail(email)) {
-    showNotification('Please enter a valid email address.', 'error');
-    return;
-  }
-  
-  // Show success message with the programs list
-  const programsList = finalPrograms.join(', ');
-  showNotification(`Thank you ${name}! We received your interest for: ${programsList}. We'll get back to you soon!`, 'success');
-  
-  // Log the form data for debugging (remove in production)
-  console.log('Form submitted:', {
-    name,
-    email,
-    programs: finalPrograms,
-    otherProgram,
-    message
-  });
-  
-  contactForm.reset();
-  
-  // Reset the "Other" input field if it exists
-  const otherInputContainer = document.querySelector('.other-program-input');
-  if (otherInputContainer) {
-    otherInputContainer.style.display = 'none';
-    const otherInput = document.getElementById('otherProgram');
-    if (otherInput) otherInput.value = '';
-  }
-  });
-}
-
-// Email validation function
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
 
 // Notification system
 function showNotification(message, type = 'info') {
@@ -1502,7 +1328,8 @@ class WebsiteDataManager {
         document.getElementById('joinOptionsGrid') ||
         document.getElementById('mentorsGrid') ||
         document.getElementById('sponsorsGrid') ||
-        document.getElementById('homeProjectSpotlightContent')) {
+        document.getElementById('homeProjectSpotlightContent') ||
+        document.getElementById('executiveContactsGrid')) {
       await this.loadData();
       this.populateContent();
     }
@@ -1547,6 +1374,7 @@ class WebsiteDataManager {
     if (!this.data) return;
     
     this.populateLeadershipMembers();
+    this.populateExecutiveContacts();
     this.populateProjects();
     this.populatePrograms();
     this.populateOutreachEvents();
@@ -1664,6 +1492,55 @@ class WebsiteDataManager {
 
     // Load profile pictures after leadership cards are populated.
     loadTeamProfilePictures();
+  }
+  
+  populateExecutiveContacts() {
+    const grid = document.getElementById('executiveContactsGrid');
+    const members = this.data.teamMembers;
+    if (!grid || !Array.isArray(members)) return;
+
+    grid.innerHTML = '';
+
+    if (members.length === 0) {
+      grid.innerHTML = `
+        <div class="loading-placeholder">
+          <i class="fas fa-address-book"></i>
+          <p>Executive contact information will be added soon.</p>
+        </div>
+      `;
+      return;
+    }
+
+    members.forEach(member => {
+      const card = document.createElement('article');
+      card.className = 'executive-contact-card';
+
+      const contact = member.contact || {};
+      const publicEmail = typeof contact.email === 'string' ? contact.email.trim() : '';
+      const linkedIn = typeof contact.linkedin === 'string' ? contact.linkedin.trim() : '';
+      const fallbackSubject = encodeURIComponent(`Website inquiry for ${member.role} - ${member.name}`);
+      const emailHref = publicEmail
+        ? `mailto:${publicEmail}`
+        : `mailto:utstar@studentorg.utoronto.ca?subject=${fallbackSubject}`;
+      const emailText = publicEmail || 'Contact via club inbox';
+      const emailClass = publicEmail ? 'executive-contact-link' : 'executive-contact-link is-fallback';
+      const linkedInMarkup = linkedIn
+        ? `<a class="executive-contact-link" href="${linkedIn}" target="_blank" rel="noopener"><i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>`
+        : '';
+
+      card.innerHTML = `
+        <div class="executive-contact-identity">
+          <p class="executive-contact-role">${member.role || ''}</p>
+          <h3>${member.name || ''}</h3>
+        </div>
+        <div class="executive-contact-actions">
+          <a class="${emailClass}" href="${emailHref}"><i class="fas fa-envelope" aria-hidden="true"></i><span>${emailText}</span></a>
+          ${linkedInMarkup}
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
   }
   
   populateProjects() {
