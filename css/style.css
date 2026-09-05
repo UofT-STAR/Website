@@ -516,7 +516,7 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   animation: slideInLeft 1s ease-out;
 }
 
-.highlight {
+.highlight, .contact-topic-option strong {
   background: linear-gradient(135deg, var(--accent), #00d4ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -5054,12 +5054,12 @@ html {
 
 .contact-topic-option strong {
   color: var(--ink);
-  font-size: 0.86rem;
+  font-size: 1.5rem;
 }
 
 .contact-topic-option small {
   color: var(--muted);
-  font-size: 0.73rem;
+  font-size: 1rem;
   line-height: 1.45;
 }
 
