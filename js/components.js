@@ -34,8 +34,12 @@
     nav.innerHTML = `
       <div class="nav-container">
         <div class="nav-logo">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
           <img src="${SITE.logo}" alt="UofT STAR Logo" class="logo-img">
+        </a>
+        <a href="index.html" style="text-decoration: none; color: inherit;">
           <span>${SITE.name}</span>
+          </a>
         </div>
         <ul class="nav-menu">
           ${NAV_ITEMS.map(item => `
