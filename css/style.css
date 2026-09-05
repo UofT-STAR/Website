@@ -5054,12 +5054,12 @@ html {
 
 .contact-topic-option strong {
   color: var(--ink);
-  font-size: 0.86rem;
+  font-size: 1.1rem;
 }
 
 .contact-topic-option small {
   color: var(--muted);
-  font-size: 0.73rem;
+  font-size: 0.9rem;
   line-height: 1.45;
 }
 
