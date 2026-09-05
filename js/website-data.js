@@ -173,7 +173,7 @@ const websiteData = {
     {
       title: "Two Stage Launch Vehicle",
       icon: "fa-solid fa-shuttle-space",
-      description: "A high power launch vehicle mounting 2 x 54mm motors across two stages. The end goal being to ensure that both 4\" stages are dual-deploy recoverable consistently by Launch Canada 2027.",
+      description: "A high power launch vehicle mounting 2 x 54mm motors across two stages. The end goal being to ensure that both 4\" stages are dual deploy recoverable consistently by Launch Canada 2027.",
       status: "In Progress",
       statusClass: "active",
       detailedDescription: "This project is meant to be the culmination of everything that we have worked on in rocketry so far. We are constructing\n\
@@ -191,16 +191,16 @@ const websiteData = {
     {
       title: "Team-Built Flight Computer Demonstration",
       icon: "fas fa-laptop-code",
-      description: "A home-bult flight computer designed and built by our Avionics Team on an arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
+      description: "A home-built flight computer designed and built by our Avionics Team on an Arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
       status: "Completed",
       statusClass: "completed",
       detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us.\n\
-        We spent the spring designing and producing a flight computer capable of dual-deploy recovery of a 3\" diameter mid-power rocket!\n\
+        We spent the spring designing and producing a flight computer capable of dual deploy recovery of a 3\" diameter mid-power rocket!\n\
         This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved \n\
         programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
       details: [
         "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
-        "Capable of deploying gunpowder charges for dual-deploy recovery purposes",
+        "Capable of deploying gunpowder charges for dual deploy recovery purposes",
         "Wifi Capable for remote arming of charges",
         "Radio Telemetry for accurate data collection on the rocket's position and acceleration",
         "Successful demonstration of the computer's ability to execute the safe recovery of our rocket"
@@ -241,17 +241,17 @@ const websiteData = {
         "Fast-track yourself to be able to have the knowhow to contribute the most to the development of team projects",
       ],
       carouselImages: [
-        "Images/cert1.webp",
-        "Images/cert2.webp",
-        "Images/cert3.webp",
-        "Images/cert4.webp",
-        "Images/cert5.webp",
+        "Images/CertProgram/cert1.webp",
+        "Images/CertProgram/cert2.webp",
+        "Images/CertProgram/cert3.webp",
+        "Images/CertProgram/cert4.webp",
+        "Images/CertProgram/cert5.webp",
       ]
     },
     {
       title: "Rocket Assembly Workshop",
       icon: "fas fa-chalkboard-teacher",
-      description: "A Fun, educational, and creative workshop where our passionate club members assembled our rocket parts!",
+      description: "A fun, educational, and creative workshop where our passionate club members assembled our rocket parts!",
       status: "Completed",
       statusClass: "completed",
       detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry.\n\
@@ -324,14 +324,14 @@ const websiteData = {
       name: "Aerodynamics / Mechanics",
       icon: "fas fa-wind",
       description: "Our Aero/Mech team is principally concerned with the function and design of the air frames of each of \
-      our rockets. They do the most hands on work of any of our sub-teams on our main project rockets and also hold the \
+      our rockets. They do the most hands on work of any of our subteams on our main project rockets and also hold the \
       responsibility alongside propulsion of accurately simulating our rocket to ensure that it deploys correctly during \
       launch."
     },
     {
       name: "Avionics",
       icon: "fas fa-microchip",
-      description: "Our Avionics team handles all of the aspects of the flight computers which we launch with our rockets. \
+      description: "Our Avionics team handles all of the aspects of the flight computers with which we launch our rockets. \
       At the level of rocketry that our team works with, Avionics is all but required to ensure that we are able to \
       detonate black powder charges or stage our rockets successfully for recovery. This team works on both assembling \
       and testing home-built flight computers as well as commercial off the shelf ones depending on the needs of the \
@@ -348,7 +348,7 @@ const websiteData = {
     {
       name: "Recovery",
       icon: "fas fa-parachute-box",
-      description: "Our Recovery team is our newest yet still critically important sub-team. This team works primarily \
+      description: "Our Recovery team is our newest yet still critically important subteam. This team works primarily \
       with ensuring that our parachutes and related recovery hardware are able to handle the heat and forces of \
       deployment charges as well as making sure that our parachutes deploy properly and correctly when they need to. \
       This involves a decent amount of cooperation with our Avionics team and plenty of on the ground testing before \
@@ -418,7 +418,7 @@ const websiteData = {
        role: "Peer Mentor",
        organization: "Ascendant Research Group",
        bio: "Sawyer is a Third Year student at Rensselaer Polytechnic Institute pursuing a degree in Aerospace Engineering. He is currently the Propulsion Engineer for Ascendant Research Group in their current space-shot project and has provided our team with an amazing amount of guidance throughout the past year in climbing the ladder of High Power Rocketry.",
-       image: "Images/Sawyer_shaw.webp",
+       image: "Images/MentorSponsor/Sawyer_shaw.webp",
        website: "https://www.linkedin.com/in/sawyer-shaw/"
      }
   ],
@@ -436,7 +436,7 @@ const websiteData = {
        name: "Solidworks",
        level: "Club Sponsor",
        description: "",
-       logo: "Images/SolidWorks_Logo.webp",
+       logo: "Images/MentorSponsor/SolidWorks_Logo.webp",
        website: "https://www.solidworks.com/"
      }
   ]
