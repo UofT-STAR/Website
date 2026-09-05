@@ -273,6 +273,50 @@ const websiteData = {
     // }
   ],
 
+  programs: [
+    {
+        title: "Program Name",
+        icon: "fas fa-graduation-cap",
+        description: "Short description shown on the card.",
+
+        status: "Active",
+        statusClass: "active",
+
+        detailedDescription:
+            "Longer description shown when the program is opened.",
+
+        details: [
+            "First program detail",
+            "Second program detail"
+        ],
+
+        carouselImages: [
+            "Images/Programs/example-1.webp"
+        ]
+    }
+],
+
+  outreachEvents: [
+  // Example: copy this object for each outreach event and replace the values.
+  {
+    title: "Event Name",
+    icon: "fas fa-users",
+    description: "Short card description shown on events.html.",
+    status: "Upcoming",
+    statusClass: "active",
+    detailedDescription: "Longer description shown when the card is opened.",
+    detailsHeading: "Event Highlights & Details", // optional
+    details: [
+      "First detail",
+      "Second detail"
+    ],
+    carouselImages: [
+      "Images/Outreach/example-1.webp",
+      "Images/Outreach/example-2.webp"
+    ]
+  }
+],
+
   // Rocketry Division subteams shown on about.html.
   // Add, remove, or reorder objects here; the About-page grid adapts automatically.
   subteams: [
