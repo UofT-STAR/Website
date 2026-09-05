@@ -52,8 +52,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "joshuaz.chen@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/joshuazcchen/"
       }
     },
     {
@@ -64,8 +64,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "ty.cui@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/tycui/"
       }
     },
     {
@@ -76,7 +76,7 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
+        email: "ashish.abburvenkatakumar@mail.utoronto.ca",
         linkedin: ""
       }
     },
@@ -88,8 +88,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "kai.bague@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/kai-tano-bague-30569237b/"
       }
     },
     {
@@ -100,8 +100,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "anastasia.butnariu@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/anastasia-butnariu-86b4a3289/"
       }
     },
     {
@@ -112,8 +112,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "zagrous.ghodsian@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/zagrous-ghodsian-0054372ab/"
       }
     },
     {
@@ -124,7 +124,7 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
+        email: "jasmine.prete@mail.utoronto.ca",
         linkedin: ""
       }
     },
@@ -387,16 +387,19 @@ const websiteData = {
     {
       audience: "Mentors",
       icon: "fas fa-chalkboard-teacher",
-      description: "Information for prospective mentors will be added here once the mentorship process is finalized.",
-      actionLabel: "Coming Soon",
-      href: null
+      description: "We're always on the lookout for peers, graduates, or industry professionals with experience who are \
+      willing to share and assist us in expanding our rocketry know how. If you're interested in helping our team \
+      advance towards more complex projects head over to our Contact page to shoot us an email!",
+      actionLabel: "Learn More",
+      href: "contact.html"
     },
     {
       audience: "Sponsors",
       icon: "fas fa-handshake",
-      description: "Information for prospective sponsors will be added here once the sponsorship process is finalized.",
-      actionLabel: "Coming Soon",
-      href: null
+      description: "If you're interested in supporting us financially or materially in reaching our project goals, head \
+      on over to our Contact page to see how you can reach out to us!",
+      actionLabel: "Learn More",
+      href: "contact.html"
     }
   ],
 

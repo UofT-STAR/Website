@@ -22,74 +22,277 @@
         <div class="stars-background"></div>
         <!-- Navigation -->
         <nav id="site-navbar"></nav>
-        <main class="standalone-page">
-            <!-- Contact Section -->
-            <section class="section" id="contact">
+
+        <main class="standalone-page contact-page">
+            <!-- Club Contacts -->
+            <section class="section contact-page-section" id="club-contacts">
                 <div class="container">
-                    <h2 class="section-title">Contact Us</h2>
-                    <div class="contact-content">
-                        <div class="contact-info">
-                            <h3>Connect With UofT STAR</h3>
-                            <p>Have questions about joining our team or want to learn more about our projects? We'd love to hear from you!</p>
-                            <div class="contact-details">
-                                <div class="contact-item">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>utstar@studentorg.utoronto.ca</span>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>University of Toronto, Faculty of Arts &amp; Science</span>
-                                </div>
-                                <div class="contact-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>Open to all UofT students - all experience levels welcome</span>
-                                </div>
+                    <h1 class="section-title">Contact Us!</h1>
+                    <p class="contact-section-intro">
+                        For general questions, announcements, and the quickest way into the UofT STAR community, reach the club through one of our main channels.
+                    </p>
+
+                    <div class="club-contact-grid">
+                        <a class="club-contact-card" href="mailto:utstar@studentorg.utoronto.ca">
+                            <span class="club-contact-index">01</span>
+                            <span class="club-contact-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Sponsorships, mentorships and general inquiries</span>
+                                <strong>utstar@studentorg.utoronto.ca</strong>
+                                <span>If you have any questions, reach out to us!</span>
+                            </span>
+                            <i class="fas fa-arrow-right club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="club-contact-card" href="mailto:utstar@studentorg.utoronto.ca">
+                            <span class="club-contact-index">01</span>
+                            <span class="club-contact-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Outreach Initiatives</span>
+                                <strong>info.utstar@gmail.com</strong>
+                                <span>If you're looking to team up with us on collaborations or outreach, reach out to me!</span>
+                            </span>
+                            <i class="fas fa-arrow-right club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="club-contact-card" href="https://www.instagram.com/uoftstar/" rel="noopener" target="_blank">
+                            <span class="club-contact-index">02</span>
+                            <span class="club-contact-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Instagram</span>
+                                <strong>@uoftstar</strong>
+                                <span>Updates, launches, and event posts</span>
+                            </span>
+                            <i class="fas fa-arrow-up-right-from-square club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="club-contact-card" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank">
+                            <span class="club-contact-index">03</span>
+                            <span class="club-contact-icon" aria-hidden="true"><i class="fab fa-discord"></i></span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Discord</span>
+                                <strong>UofT STAR Community</strong>
+                                <span>Join the team and talk with members</span>
+                            </span>
+                            <i class="fas fa-arrow-up-right-from-square club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Executive Contacts -->
+            <section class="section contact-page-section executive-contacts-section" id="executive-contacts">
+                <div class="container">
+                    <h2 class="section-title">Executive Contacts</h2>
+                    <p class="contact-section-intro">
+                        Looking for a specific part of the team? Contact the executive responsible for that area.
+                    </p>
+
+                    <div class="executive-contacts-grid" id="executiveContactsGrid">
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading executive contacts...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Message Terminal -->
+            <section class="section contact-page-section contact-transmission-section" id="message-us">
+                <div class="container">
+                    <h2 class="section-title">Send Us a Message</h2>
+                    <p class="contact-section-intro">
+                        Not sure who should receive your question? Send us a message using the form below or email us directly at
+                            <a class="executive-contact-link" href="mailto:utstar@studentorg.utoronto.ca?subject=Website inquiry"><i class="fas fa-envelope" aria-hidden="true"></i><span>utstar@studentorg.utoronto.ca</span></a>
+                    </p>
+
+                    <div class="contact-form-shell">
+                        <div class="contact-terminal-head">
+                            <div>
+                                <p class="contact-terminal-kicker">CONTACT US</p>
+                                <h3>Open a Transmission</h3>
                             </div>
-                            <div class="social-links">
-                                <a class="social-link" href="https://www.instagram.com/uoftstar/" rel="noopener" target="_blank"><i class="fab fa-instagram"></i></a>
-                                <a class="social-link" href="mailto:utstar@studentorg.utoronto.ca"><i class="fas fa-envelope"></i></a>
-                                <a class="social-link" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank"><i class="fab fa-discord"></i></a>
+                            <div class="contact-terminal-status" aria-label="Contact form ready">
+                                <span class="contact-status-dot"></span>
+                                <span>READY</span>
                             </div>
                         </div>
-                        <div class="contact-form">
-                            <form id="contactForm">
-                                <div class="form-group">
-                                    <input id="name" name="name" placeholder="Your Name" required="" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <input id="email" name="email" placeholder="Your Email" required="" type="email">
-                                </div>
-                                <div class="form-group">
-                                    <label>Select Your Program(s):</label>
-                                    <div class="checkbox-group">
-                                        <label class="checkbox-item">
-                                            <input name="program[]" type="checkbox" value="physics"><span class="checkmark"></span>
-                                            <span>Physics &amp; Astronomy</span>
-                                        </label>
-                                        <label class="checkbox-item">
-                                            <input name="program[]" type="checkbox" value="mathematics"><span class="checkmark"></span>
-                                            <span>Mathematics</span>
-                                        </label>
-                                        <label class="checkbox-item">
-                                            <input name="program[]" type="checkbox" value="computer-science"><span class="checkmark"></span>
-                                            <span>Computer Science</span>
-                                        </label>
-                                        <label class="checkbox-item">
-                                            <input name="program[]" type="checkbox" value="engineering"><span class="checkmark"></span>
-                                            <span>Engineering</span>
-                                        </label>
-                                        <label class="checkbox-item">
-                                            <input name="program[]" type="checkbox" value="other"><span class="checkmark"></span>
-                                            <span>Other(s)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <textarea id="message" name="message" placeholder="Tell us about your interests in rocketry and aerospace..." rows="4"></textarea>
-                                </div>
-                                <button class="btn btn-primary btn-full" type="submit">Send Message</button>
-                            </form>
+
+                        <div class="contact-terminal-rule" aria-hidden="true">
+                            <span>UTSTAR // CONTACT</span>
                         </div>
+
+                        <form id="contactForm" novalidate>
+                            <div class="contact-honeypot" aria-hidden="true">
+                                <label for="contactWebsite">Website</label>
+                                <input id="contactWebsite" name="website" tabindex="-1" type="text" autocomplete="off">
+                            </div>
+
+                            <div class="contact-form-grid contact-form-grid-primary">
+                                <div class="form-group contact-field">
+                                    <label for="name">
+                                        <span class="contact-field-number">01</span>
+                                        Your name
+                                    </label>
+                                    <input id="name" name="from_name" placeholder="Name" required type="text" autocomplete="name" maxlength="100">
+                                </div>
+
+                                <div class="form-group contact-field">
+                                    <label for="email">
+                                        <span class="contact-field-number">02</span>
+                                        Reply email
+                                    </label>
+                                    <input id="email" name="reply_to" placeholder="you@example.com" required type="email" autocomplete="email" maxlength="180">
+                                </div>
+
+                            </div>
+
+                            <fieldset class="contact-choice-fieldset">
+                                <legend>
+                                    <span class="contact-field-number">03</span>
+                                    Route this message
+                                </legend>
+                                <div class="contact-topic-grid">
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="Joining UofT STAR" required>
+                                        <span class="contact-topic-icon"><i class="fas fa-user-plus"></i></span>
+                                        <span>
+                                            <strong>Join Us</strong>
+                                            <small>Membership and getting involved</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="Projects or technical question">
+                                        <span class="contact-topic-icon"><i class="fas fa-rocket"></i></span>
+                                        <span>
+                                            <strong>Technical</strong>
+                                            <small>Projects, systems, and rocketry</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="Outreach or event request">
+                                        <span class="contact-topic-icon"><i class="fas fa-people-group"></i></span>
+                                        <span>
+                                            <strong>Outreach</strong>
+                                            <small>Visits, presentations, and events</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="Sponsorship or partnership">
+                                        <span class="contact-topic-icon"><i class="fas fa-handshake"></i></span>
+                                        <span>
+                                            <strong>Partnership</strong>
+                                            <small>Sponsors, mentors and other organizations</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="AIAA">
+                                        <span class="contact-topic-icon"><i class="fas fa-plane"></i></span>
+                                        <span>
+                                            <strong>AIAA</strong>
+                                            <small>Chapter-related questions</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="contact-topic-option">
+                                        <input name="topic" type="radio" value="General or other">
+                                        <span class="contact-topic-icon"><i class="fas fa-message"></i></span>
+                                        <span>
+                                            <strong>Other</strong>
+                                            <small>Anything that does not fit above</small>
+                                        </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="contact-choice-fieldset contact-program-fieldset">
+                                <legend>
+                                    <span class="contact-field-number">04</span>
+                                    Your background
+                                    <span class="form-optional">Optional</span>
+                                </legend>
+                                <p class="contact-field-help">Select any that apply. This just helps us understand who is reaching out.</p>
+
+                                <div class="contact-program-grid">
+                                    <label class="contact-program-option">
+                                        <input name="program" type="checkbox" value="Physics & Astronomy">
+                                        <span class="contact-program-check"><i class="fas fa-check"></i></span>
+                                        <span>Physics &amp; Astronomy</span>
+                                    </label>
+
+                                    <label class="contact-program-option">
+                                        <input name="program" type="checkbox" value="Mathematics">
+                                        <span class="contact-program-check"><i class="fas fa-check"></i></span>
+                                        <span>Mathematics</span>
+                                    </label>
+
+                                    <label class="contact-program-option">
+                                        <input name="program" type="checkbox" value="Computer Science">
+                                        <span class="contact-program-check"><i class="fas fa-check"></i></span>
+                                        <span>Computer Science</span>
+                                    </label>
+
+                                    <label class="contact-program-option">
+                                        <input name="program" type="checkbox" value="Engineering">
+                                        <span class="contact-program-check"><i class="fas fa-check"></i></span>
+                                        <span>Engineering</span>
+                                    </label>
+
+                                    <label class="contact-program-option">
+                                        <input name="program" type="checkbox" value="Other">
+                                        <span class="contact-program-check"><i class="fas fa-check"></i></span>
+                                        <span>Other</span>
+                                    </label>
+                                </div>
+
+                                <div class="contact-other-program" id="contactOtherProgram" hidden>
+                                    <label for="otherProgram">
+                                        Other program / organization
+                                    </label>
+                                    <input
+                                        id="otherProgram"
+                                        name="other_program"
+                                        type="text"
+                                        maxlength="120"
+                                        placeholder="e.g. Chemistry, another student group, company, school..."
+                                        autocomplete="organization"
+                                    >
+                                </div>
+                            </fieldset>
+
+                            <div class="form-group contact-field contact-message-field">
+                                <label for="message">
+                                    <span class="contact-field-number">05</span>
+                                    Message
+                                </label>
+                                <textarea id="message" name="message" minlength="10" maxlength="2500" placeholder="What would you like to ask or discuss?" required rows="8"></textarea>
+                                <div class="contact-message-meta">
+                                    <span>Please do not include sensitive personal information.</span>
+                                    <span><strong id="contactCharacterCount">0</strong> / 2500</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-captcha-region" id="contactTurnstileRegion" hidden>
+                                <div>
+                                    <strong>Human verification</strong>
+                                    <span>Cloudflare Turnstile protects this form from automated spam.</span>
+                                </div>
+                                <div id="contactTurnstileWidget"></div>
+                            </div>
+
+                            <div class="contact-form-status" id="contactFormStatus" role="status" aria-live="polite" hidden></div>
+
+                            <div class="contact-form-footer">
+                                <button class="btn btn-primary contact-submit-button" id="contactSubmitButton" type="submit">
+                                    <span class="contact-submit-label">Submit</span>
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </section>
@@ -100,6 +303,8 @@
         <!-- Project Modal -->
         <script src="js/website-data.js"></script>
         <script src="js/components.js"></script>
+        <script src="js/contact-worker.js"></script>
         <script src="js/script.js"></script>
+        <script src="js/contact-form.js"></script>
     </body>
 </html>
