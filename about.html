@@ -16,56 +16,7 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-
-        <style>
-            /* About page: keep the data-driven Rocketry feature cards compact.
-               Scoped here so unrelated About headings can never affect them. */
-            #featuresGrid.organization-features {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 1.5rem;
-                width: 100%;
-                align-items: stretch;
-            }
-
-            #featuresGrid.organization-features .feature {
-                width: 100%;
-                min-width: 0;
-                max-width: none;
-                padding: 1.6rem 1.25rem;
-            }
-
-            #featuresGrid.organization-features .feature h3 {
-                font-size: 1.2rem !important;
-                line-height: 1.25 !important;
-                letter-spacing: normal !important;
-                margin-bottom: 0.8rem;
-                overflow-wrap: anywhere;
-            }
-
-            #featuresGrid.organization-features .feature p {
-                font-size: 0.9rem;
-                line-height: 1.55;
-            }
-
-            #featuresGrid.organization-features .feature i {
-                font-size: 2.35rem;
-                margin-bottom: 0.9rem;
-            }
-
-            @media (max-width: 820px) {
-                #featuresGrid.organization-features {
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                }
-            }
-
-            @media (max-width: 560px) {
-                #featuresGrid.organization-features {
-                    grid-template-columns: 1fr;
-                }
-            }
-        </style>
-    </head>
+</head>
     <body data-page="about">
         <!-- Global Stars Background -->
         <div class="stars-background"></div>
