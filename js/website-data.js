@@ -52,8 +52,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "joshuaz.chen@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/joshuazcchen/"
       }
     },
     {
@@ -64,8 +64,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "ty.cui@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/tycui/"
       }
     },
     {
@@ -76,7 +76,7 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
+        email: "ashish.abburvenkatakumar@mail.utoronto.ca",
         linkedin: ""
       }
     },
@@ -88,8 +88,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "kai.bague@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/kai-tano-bague-30569237b/"
       }
     },
     {
@@ -100,8 +100,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "anastasia.butnariu@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/anastasia-butnariu-86b4a3289/"
       }
     },
     {
@@ -112,8 +112,8 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
-        linkedin: ""
+        email: "zagrous.ghodsian@mail.utoronto.ca",
+        linkedin: "https://www.linkedin.com/in/zagrous-ghodsian-0054372ab/"
       }
     },
     {
@@ -124,7 +124,7 @@ const websiteData = {
       bio: "",
       motivation: "",
       contact: {
-        email: "",
+        email: "jasmine.prete@mail.utoronto.ca",
         linkedin: ""
       }
     },
