@@ -49,13 +49,3 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.' # Uploads your pure HTML/CSS/JS files
-
-      # CRITICAL FIX: The actual deployment only triggers on "main". 
-      # On a PR, this step prints a message and passes cleanly instead of skipping the job.
-      - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/deploy-pages@v4
-
-      - name: Fake Success for PR Branch Protection
-        if: github.event_name == 'pull_request'
-        run: echo "PR build succeeded! Skipping live deployment until merged."
