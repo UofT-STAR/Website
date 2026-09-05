@@ -1,8 +1,6 @@
 /*
  * UofT STAR contact form
  * Browser -> Cloudflare Worker -> private Discord webhook.
- *
- * Styling belongs in css/style.css.
  */
 
 (() => {
