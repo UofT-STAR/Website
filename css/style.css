@@ -4901,28 +4901,11 @@ html {
 }
 
 .contact-status-dot {
-  display: none;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-}
-
-.contact-terminal-status.is-ready {
-  color: rgba(229, 231, 235, 0.82);
-}
-
-.contact-terminal-status.is-ready .contact-status-dot {
-  display: inline-block;
   background: #48bb78;
   box-shadow: 0 0 14px rgba(72, 187, 120, 0.68);
-}
-
-.contact-terminal-status.is-awaiting {
-  color: rgba(148, 163, 184, 0.58);
-}
-
-.contact-terminal-status.is-error {
-  color: #fda4af;
 }
 
 .contact-terminal-rule {
@@ -5822,3 +5805,145 @@ html {
     animation: none;
   }
 }
+
+
+/* =========================================================
+   AIAA page
+   ========================================================= */
+
+.aiaa-page {
+  overflow: hidden;
+}
+
+.aiaa-hero {
+  position: relative;
+  min-height: 58vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 70px;
+  z-index: 1;
+}
+
+.aiaa-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(10, 132, 255, 0.12), transparent 36%),
+    linear-gradient(180deg, transparent, rgba(7, 11, 20, 0.20));
+  pointer-events: none;
+}
+
+.aiaa-hero-copy {
+  width: min(820px, 100%);
+  margin: 0 auto;
+  position: relative;
+}
+
+.aiaa-hero-copy h1 {
+  margin: 0;
+  color: var(--ink);
+  text-align: center;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 750;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.aiaa-hero-copy p {
+  max-width: 680px;
+  margin: 1.2rem auto 0;
+  padding-left: 0.2rem;
+  color: var(--muted);
+  text-align: left;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.aiaa-about-section {
+  padding-top: 40px;
+}
+
+.aiaa-about-panel {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid rgba(10, 132, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(10, 132, 255, 0.045), transparent 160px),
+    rgba(7, 11, 20, 0.90);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.aiaa-about-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.15rem 1.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.aiaa-section-index {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+}
+
+.aiaa-about-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 650;
+}
+
+.aiaa-about-copy {
+  min-height: 300px;
+  padding: 2rem 2.2rem 2.4rem;
+}
+
+.aiaa-about-copy p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.aiaa-events-section {
+  padding-top: 90px;
+}
+
+.aiaa-contact-section {
+  padding-top: 90px;
+}
+
+@media (max-width: 680px) {
+  .aiaa-hero {
+    min-height: 50vh;
+    padding-top: 110px;
+  }
+
+  .aiaa-hero-copy p {
+    padding-left: 0;
+  }
+
+  .aiaa-about-copy {
+    min-height: 240px;
+    padding: 1.5rem 1.25rem 1.8rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .aiaa-hero-copy h1 {
+    font-size: clamp(3rem, 17vw, 4.5rem);
+  }
+
+  .aiaa-hero-copy p {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+  }
+}
+
