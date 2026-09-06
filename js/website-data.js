@@ -176,10 +176,7 @@ const websiteData = {
       description: "A high power launch vehicle mounting 2 x 54mm motors across two stages. The end goal being to ensure that both 4\" stages are dual deploy recoverable consistently by Launch Canada 2027.",
       status: "In Progress",
       statusClass: "active",
-      detailedDescription: "This project is meant to be the culmination of everything that we have worked on in rocketry so far. We are constructing\n\
-        a 7\' 8\" fully composite rocket which will mount multiple flight computers in order to ensure the safe recovery of each stage of the\n\
-        rocket. The main design challenge for this project will be the rigorous designing & testing of our avionics to ensure the rocket stages & recovers properly.\n\
-        As we progress in the design & construction phases this page will be updated with more details on the project as well as photos of our work!",
+      detailedDescription: "This project is meant to be the culmination of everything that we have worked on in rocketry so far. We are constructing a 7\' 8\" fully composite rocket which will mount multiple flight computers in order to ensure the safe recovery of each stage of the rocket. The main design challenge for this project will be the rigorous designing & testing of our avionics to ensure the rocket stages & recovers properly. As we progress in the design & construction phases this page will be updated with more details on the project as well as photos of our work!",
       details: [
         "2 x 54 mm motor mount capabilities",
         "7,500+ ft projected altitude",
@@ -194,10 +191,7 @@ const websiteData = {
       description: "A home-built flight computer designed and built by our Avionics Team on an Arduino platform. It is dual deploy capable launching on a 3\" body with a 29mm motor.",
       status: "Completed",
       statusClass: "completed",
-      detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us.\n\
-        We spent the spring designing and producing a flight computer capable of dual deploy recovery of a 3\" diameter mid-power rocket!\n\
-        This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved \n\
-        programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
+      detailedDescription: "This was our first ever design challenge as a club. Although fairly simple in hindsight, it was a very important milestone for us. We spent the spring designing and producing a flight computer capable of dual deploy recovery of a 3\" diameter mid-power rocket! This project was mostly aimed at introducing rocketry to many in our team who were just starting out. A large part of this involved programming, software design, as well as soldering. This also was a demonstration of our newest members' abilities to construct their own hardware.",
       details: [
         "Team built Flight Computer capable of replicating the same functions as commercially sold devices",
         "Capable of deploying gunpowder charges for dual deploy recovery purposes",
@@ -230,10 +224,7 @@ const websiteData = {
       description: "Our year round flagship rocketry program dedicated towards educating new rocketeers in the basics of high power rocketry and earning them their Level 1 Certification!",
       status: "In Progress",
       statusClass: "active",
-      detailedDescription: "This is the premier way for new members in our club to learn, engage with, and become familiar with High Power Rocketry.\n\
-        We run this program in batches of students year round. Where, over the course of a month or two, Executives lead small groups through presentations and workshops\n\
-        in preparing students for their own certification launch. Students will learn the basic physical principles behind rocketry, the safety and precautions necessary,\n\
-        the tools and skillset for building their own rocket, and everything else they need to build and successfully fly their first high power rocket!",
+      detailedDescription: "This is the premier way for new members in our club to learn, engage with, and become familiar with High Power Rocketry. We run this program in batches of students year round. Where, over the course of a month or two, Executives lead small groups through presentations and workshops in preparing students for their own certification launch. Students will learn the basic physical principles behind rocketry, the safety and precautions necessary, the tools and skillset for building their own rocket, and everything else they need to build and successfully fly their first high power rocket!",
       details: [
         "Learn the skills necessary for independent rocketry",
         "Earn a certification you can be proud of",
@@ -254,8 +245,7 @@ const websiteData = {
       description: "A fun, educational, and creative workshop where our passionate club members assembled our rocket parts!",
       status: "Completed",
       statusClass: "completed",
-      detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry.\n\
-      This workshop provided practical experience in building and preparing rockets for flight.",
+      detailedDescription: "An engaging hands-on workshop where team members learned about rocket assembly, structural components, and the fundamentals of model rocketry. This workshop provided practical experience in building and preparing rockets for flight.",
       details: [
         "Hands-on experience with rocket assembly techniques",
         "Understanding of structural components and their functions",
@@ -298,21 +288,41 @@ const websiteData = {
 
   outreachEvents: [
   // Example: copy this object for each outreach event and replace the values.
+  //{
+  //  title: "Event Name",
+  //  icon: "fas fa-users",
+  //  description: "Short card description shown on events.html.",
+  //  status: "Upcoming",
+  //  statusClass: "active",
+  //  detailedDescription: "Longer description shown when the card is opened.",
+  //  detailsHeading: "Event Highlights & Details", // optional
+  //  details: [
+  //    "First detail",
+  //    "Second detail"
+  //  ],
+  //  carouselImages: [
+  //    "Images/Outreach/example-1.webp",
+  //    "Images/Outreach/example-2.webp"
+  //  ]
+  //}
   {
-    title: "Event Name",
+    title: "Girls In Stem at UofT",
     icon: "fas fa-users",
-    description: "Short card description shown on events.html.",
-    status: "Upcoming",
-    statusClass: "active",
-    detailedDescription: "Longer description shown when the card is opened.",
-    detailsHeading: "Event Highlights & Details", // optional
-    details: [
-      "First detail",
-      "Second detail"
-    ],
+    description: "A fun morning of rocketry where UTSTAR participated alongside the UofT Math Department with the Girls in Stem program!",
+    status: "Completed",
+    statusClass: "completed",
+    detailedDescription: "Our team had the pleasure of working with the Girls in Stem program this past spring to provide a fun introduction to rocketry for the girls in the program. A small group of our executives and volunteers led a presentation which guided the girls through the scientific principles underlining rocketry as well as famed female scientists and engineers. At the end of the presentations the group enjoyed a fun activity of painting their own rocket keychains that they could keep!",
+    //detailsHeading: "Event Highlights & Details", // optional
+    //details: [
+    //  "First detail",
+    // "Second detail"
+    //],
     carouselImages: [
-      "Images/Outreach/example-1.webp",
-      "Images/Outreach/example-2.webp"
+      "Images/GirlsInStem/girlsinstem1.webp",
+      "Images/GirlsInStem/girlsinstem2.webp",
+      "Images/GirlsInStem/girlsinstem3.webp",
+      "Images/GirlsInStem/girlsinstem4.webp",
+      "Images/GirlsInStem/girlsinstem5.webp",
     ]
   }
 ],
