@@ -100,6 +100,12 @@ const primaryHeroContent = document.querySelector('.hero-content-primary');
 const secondaryHeroContent = document.querySelector('.hero-content-secondary');
 let homeVideoStarted = false;
 
+// Reveal the first home-page title automatically
+const PRIMARY_AUTO_REVEAL_DELAY = 450;
+const PRIMARY_AUTO_REVEAL_DURATION = 650;
+let primaryAutoRevealProgress = 0;
+let primaryAutoRevealStarted = false;
+
 function clamp01(value) {
   return Math.max(0, Math.min(value, 1));
 }
@@ -184,13 +190,20 @@ function updateHeroReveal() {
   const sceneProgress = clamp01(sceneScroll / maxSceneScroll);
 
   const {
-    primaryEnter,
+    primaryEnter: scrollPrimaryEnter,
     primaryExit,
-    primaryOpacity,
     videoProgress,
     secondaryEnter,
     secondaryOpacity
   } = getIntroStageProgress(sceneProgress);
+
+  // Whichever reveals the title first wins: natural scrolling or the
+  // short automatic entrance animation on initial page load.
+  const primaryEnter = Math.max(
+    scrollPrimaryEnter,
+    primaryAutoRevealProgress
+  );
+  const primaryOpacity = primaryEnter * (1 - primaryExit);
 
   const overlayProgress = Math.max(
     primaryOpacity,
@@ -238,6 +251,33 @@ function updateHeroReveal() {
   }
 }
 
+function startPrimaryAutoReveal() {
+  if (!introScene || !heroSection || primaryAutoRevealStarted) return;
+
+  primaryAutoRevealStarted = true;
+
+  const startAnimation = () => {
+    const animationStart = performance.now();
+
+    const animate = now => {
+      const elapsed = now - animationStart;
+      primaryAutoRevealProgress = clamp01(
+        elapsed / PRIMARY_AUTO_REVEAL_DURATION
+      );
+
+      updateHeroReveal();
+
+      if (primaryAutoRevealProgress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+  window.setTimeout(startAnimation, PRIMARY_AUTO_REVEAL_DELAY);
+}
+
 function handleNavbarScroll() {
   const currentScrollY = window.scrollY;
   
@@ -280,6 +320,7 @@ if (introScene && heroSection) {
     pageReveal.style.setProperty('--page-reveal-progress', '0');
   }
   updateHeroReveal();
+  startPrimaryAutoReveal();
 }
 
 // Enhanced navbar button interactions
