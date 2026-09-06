@@ -10,6 +10,30 @@
         return window.UTSTAR_CONTACT_CONFIG || {};
     }
 
+    function setTerminalVerificationState(state) {
+        const status = document.getElementById("contactTerminalStatus");
+        const text = document.getElementById("contactTerminalStatusText");
+
+        if (!status || !text) return;
+
+        status.classList.remove("is-awaiting", "is-ready", "is-error");
+
+        if (state === "ready") {
+            status.classList.add("is-ready");
+            text.textContent = "READY";
+            return;
+        }
+
+        if (state === "error") {
+            status.classList.add("is-error");
+            text.textContent = "VERIFICATION ERROR";
+            return;
+        }
+
+        status.classList.add("is-awaiting");
+        text.textContent = "AWAITING VERIFICATION";
+    }
+
     function setStatus(type, message) {
         const status = document.getElementById("contactFormStatus");
         if (!status) return;
@@ -127,6 +151,7 @@
             typeof window.turnstile.reset === "function"
         ) {
             window.turnstile.reset(turnstileWidgetId);
+            setTerminalVerificationState("awaiting");
         }
     }
 
@@ -152,7 +177,19 @@
             turnstileWidgetId = window.turnstile.render(widget, {
                 sitekey: siteKey,
                 theme: "dark",
-                action: "contact"
+                action: "contact",
+                callback: () => {
+                    setTerminalVerificationState("ready");
+                },
+                "expired-callback": () => {
+                    setTerminalVerificationState("awaiting");
+                },
+                "timeout-callback": () => {
+                    setTerminalVerificationState("awaiting");
+                },
+                "error-callback": () => {
+                    setTerminalVerificationState("error");
+                }
             });
         };
 
@@ -331,6 +368,7 @@
             syncOtherProgramField(form);
         }
 
+        setTerminalVerificationState("awaiting");
         renderTurnstile(config.turnstileSiteKey);
 
         form.addEventListener("submit", async event => {

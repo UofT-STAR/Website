@@ -4901,11 +4901,28 @@ html {
 }
 
 .contact-status-dot {
+  display: none;
   width: 8px;
   height: 8px;
   border-radius: 50%;
+}
+
+.contact-terminal-status.is-ready {
+  color: rgba(229, 231, 235, 0.82);
+}
+
+.contact-terminal-status.is-ready .contact-status-dot {
+  display: inline-block;
   background: #48bb78;
   box-shadow: 0 0 14px rgba(72, 187, 120, 0.68);
+}
+
+.contact-terminal-status.is-awaiting {
+  color: rgba(148, 163, 184, 0.58);
+}
+
+.contact-terminal-status.is-error {
+  color: #fda4af;
 }
 
 .contact-terminal-rule {
