@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <script>
+            if (window.location.protocol !== "file:") {
+                const base = document.createElement("base");
+                base.href = "/";
+                document.head.appendChild(base);
+            }
+        </script>
+        <meta content="noindex, nofollow" name="robots">
+        <meta content="UofT STAR - Page Not Found" property="og:title">
+        <meta content="The requested trajectory could not be found." property="og:description">
+        <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
+        <meta content="summary_large_image" name="twitter:card">
+        <title>404 - Signal Lost | UofT STAR</title>
+        <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    </head>
+    <body data-page="404">
+        <div class="stars-background"></div>
+        <nav id="site-navbar"></nav>
+
+        <main class="error-page">
+            <section class="error-stage" aria-labelledby="errorTitle">
+                <div class="container">
+                    <div class="error-console">
+                        <div class="error-console-topline">
+                            <span>UTSTAR // NAVIGATION</span>
+                            <span class="error-console-status">
+                                <span class="error-status-dot" aria-hidden="true"></span>
+                                SIGNAL LOST
+                            </span>
+                        </div>
+
+                        <div class="error-console-grid">
+                            <div class="error-code-panel" aria-hidden="true">
+                                <div class="error-orbit error-orbit-outer"></div>
+                                <div class="error-orbit error-orbit-inner"></div>
+                                <div class="error-code">404</div>
+                                <div class="error-flight-marker">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                            </div>
+
+                            <div class="error-copy">
+                                <p class="error-kicker">TRAJECTORY ANOMALY</p>
+                                <h1 id="errorTitle">This page doesn't seem to be here.</h1>
+                                <p class="error-description">
+                                    The requested location does not appear to exist yet. Maybe we can build it together!
+                                </p>
+
+                                <div class="error-path-readout">
+                                    <span class="error-readout-label">REQUESTED PATH</span>
+                                    <code id="errorRequestedPath">/unknown</code>
+                                </div>
+
+                                <div class="error-actions">
+                                    <a class="btn btn-primary error-primary-action" href="index.html">
+                                        <i class="fas fa-house"></i>
+                                        Return to Base
+                                    </a>
+                                    <a class="btn btn-secondary" href="projects.html">
+                                        <i class="fas fa-rocket"></i>
+                                        See Our Projects
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="error-telemetry" aria-label="Recovery telemetry">
+                            <div class="error-telemetry-item">
+                                <span>ERROR CODE</span>
+                                <strong>404</strong>
+                            </div>
+                            <div class="error-telemetry-item">
+                                <span>NAV STATUS</span>
+                                <strong>OFF COURSE</strong>
+                            </div>
+                            <div class="error-telemetry-item">
+                                <span>RECOVERY</span>
+                                <strong>MANUAL</strong>
+                            </div>
+                            <div class="error-telemetry-item">
+                                <span>HOME DIRECTORY</span>
+                                <strong>/</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-recovery-links" aria-label="Recovery links">
+                        <a href="about.html">
+                            <span>01</span>
+                            <strong>About Our Team</strong>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="events.html">
+                            <span>02</span>
+                            <strong>Check Out Our Events</strong>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="join-us.html">
+                            <span>03</span>
+                            <strong>Join Us</strong>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="contact.html">
+                            <span>04</span>
+                            <strong>Contact Us</strong>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="site-footer"></footer>
+
+        <script src="js/components.js"></script>
+        <script src="js/script.js"></script>
+        <script src="js/404.js"></script>
+    </body>
+</html>
