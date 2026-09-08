@@ -121,8 +121,11 @@ const websiteData = {
       role: "Director of Recovery",
       program: "Programs: Astronomy and Physics",
       initials: "JP",
-      bio: "",
-      motivation: "",
+      bio: "Hello! I am in my second year at UofT in the Astronomy and Physics Specialist program. I have completed my L1 \
+            certification, and my passions include studying the stars, rocketry, and playing piano!",
+      motivation: "UofT STAR allowed me to learn about rocketry with no prior experience and meet wonderful like-minded \
+                    people. I now want to share my experience with others and get them excited and curious about rocketry \
+                    as well!",
       contact: {
         email: "jasmine.prete@mail.utoronto.ca",
         linkedin: ""
