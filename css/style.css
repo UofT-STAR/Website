@@ -4628,19 +4628,24 @@ html {
   }
 }
 
-
-/* Sponsors page support CTA — shared button styles */
-.sponsors-support-cta {
-  margin-top: 3.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--border);
-  text-align: center;
+/* =========================================================
+   Sponsors page
+   ========================================================= */
+.sponsors-page-nav {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.sponsors-support-cta p {
-  margin: 0 0 1.25rem;
-  color: var(--text-secondary);
-  font-size: 1.05rem;
+.sponsors-support-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 760px) {
+  .sponsors-page-nav {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =========================================================
