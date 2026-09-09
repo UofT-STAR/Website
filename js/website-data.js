@@ -289,6 +289,68 @@ const websiteData = {
     // }
 ],
 
+
+  /*
+   * Upcoming event data shown on events.html.
+   *
+   * Dates should be ISO 8601 strings with an explicit UTC offset.
+   * Ex: Toronto daylight time is -04:00; standard time is -05:00.
+   *
+   * EVENT TEMPLATE:
+   * {
+   *   id: "unique-event-id",
+   *   title: "Event title",
+   *   description: "Full public description.",
+   *   beginDate: "2026-09-20T18:00:00-04:00",
+   *   endDate: "2026-09-20T20:00:00-04:00",
+   *   timeZone: "America/Toronto",
+   *   host: "UofT STAR",
+   *
+   *   // Optional image. Leave blank to use an OpenStreetMap preview
+   *   // when latitude/longitude are supplied.
+   *   image: "Images/Events/example.webp",
+   *   imageAlt: "Description of the event image",
+   *
+   *   location: {
+   *     name: "Room / venue name",
+   *     address: "Street address",
+   *     latitude: 43.000000,
+   *     longitude: -79.000000,
+   *     mapZoom: 17
+   *   },
+   *
+   *   // Optional button, e.g. Discord event, registration form, etc.
+   *   action: {
+   *     label: "View Event",
+   *     href: "https://..."
+   *   }
+   * }
+   */
+  events: [
+    {
+      id: "first-general-meeting-2026",
+      title: "First UofT STAR Meeting of the Academic Year!",
+      description: "Come join us at our first meeting of the year! We'll be going over our project for this semester as well as laying out plans for the year and how you can get involved! Free pizza will be provided.",
+      beginDate: "2026-09-09T19:00:00-04:00",
+      endDate: "2026-09-09T21:30:00-04:00",
+      timeZone: "America/Toronto",
+      host: "UofT STAR",
+      image: "",
+      imageAlt: "",
+      location: {
+        name: "OI 5230 (OISE)",
+        address: "252 Bloor Street West, Toronto, ON",
+        latitude: 43.66831,
+        longitude: -79.39858,
+        mapZoom: 17
+      },
+      action: {
+        label: "",
+        href: ""
+      }
+    }
+  ],
+
   outreachEvents: [
   // Example: copy this object for each outreach event and replace the values.
   //{
