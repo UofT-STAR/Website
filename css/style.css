@@ -4628,6 +4628,25 @@ html {
   }
 }
 
+/* =========================================================
+   Sponsors page
+   ========================================================= */
+.sponsors-page-nav {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sponsors-support-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 760px) {
+  .sponsors-page-nav {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* =========================================================
    Contact page
