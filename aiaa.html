@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="A student led team dedicated to model rockets, open to anyone regardless of major." name="description">
+        <meta content="AIAA at UofT - shaping the future of aerospace." name="description">
         <!-- Discord embed -->
-        <meta content="UofT STAR - AIAA" property="og:title">
-        <meta content="Learn about the UofT STAR AIAA subdivision." property="og:description">
+        <meta content="UofT STAR - AIAA at UofT" property="og:title">
+        <meta content="Learn about AIAA at UofT, upcoming events, and how to get in touch." property="og:description">
         <meta content="https://www.utstar.ca/Images/UTSTAR_logo.webp" property="og:image">
         <meta content="https://www.utstar.ca/aiaa.html" property="og:url">
         <meta content="summary_large_image" name="twitter:card">
-        <title>UofT STAR - AIAA</title>
+        <title>UofT STAR - AIAA at UofT</title>
         <link href="Images/UTSTAR_logo.webp" rel="icon" type="image/webp">
         <link href="css/style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -23,13 +23,133 @@
         <!-- Navigation -->
         <nav id="site-navbar"></nav>
 
-        <main class="standalone-page">
-            <section class="section" id="aiaa">
+        <main class="standalone-page aiaa-page">
+            <!-- AIAA Hero -->
+            <section class="aiaa-hero" aria-labelledby="aiaaHeroTitle">
                 <div class="container">
-                    <h2 class="section-title">AIAA</h2>
-                    <p class="page-intro">
-                        UofT STAR's AIAA subdivision. More information will be added here soon.
+                    <div class="aiaa-hero-copy">
+                        <h1 id="aiaaHeroTitle">AIAA at UofT</h1>
+                        <p>Shaping the future of aerospace</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About -->
+            <section class="section aiaa-about-section" id="about-aiaa">
+                <div class="container">
+                    <div class="aiaa-about-panel">
+                        <div class="aiaa-about-heading">
+                            <span class="aiaa-section-index">01</span>
+                            <h2>About Us</h2>
+                        </div>
+
+                        <div class="aiaa-about-copy">
+                            <p>
+                                ADD TEXT
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section class="section events-upcoming-section aiaa-events-section" id="aiaa-events">
+                <div class="container">
+                    <h2 class="section-title">Upcoming Events</h2>
+                    <p class="events-section-intro">
+                        AIAA events and activities will appear here as dates and details are confirmed.
                     </p>
+
+                    <div class="events-timeline">
+                        <!--
+                            TO ADD A NEW EVENT, COPY THIS BLOCK AND REPLACE THE EXAMPLE VALUES:
+
+                            <article class="event-item">
+                                <div class="event-date">
+                                    <span class="day">14</span>
+                                    <span class="month">SEP</span>
+                                </div>
+                                <div class="event-content">
+                                    <h3>Event Name</h3>
+                                    <p>Short event description goes here.</p>
+                                    <div class="event-time">
+                                        <i class="far fa-clock"></i>
+                                        6:00 PM · Location
+                                    </div>
+                                </div>
+                            </article>
+                        -->
+
+                        <article class="event-item event-item-wip">
+                            <div class="event-date">
+                                <span class="day">TBD</span>
+                                <span class="month">Upcoming</span>
+                            </div>
+                            <div class="event-content">
+                                <span class="event-wip-label">WIP</span>
+                                <h3>Schedule being finalized</h3>
+                                <p>
+                                    Upcoming AIAA events are being prepared. Confirmed dates,
+                                    locations, and event details will be posted here as they become available.
+                                </p>
+                                <div class="event-time">
+                                    <i class="fab fa-discord"></i>
+                                    Follow Discord and Instagram for the latest announcements.
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section class="section contact-page-section aiaa-contact-section" id="aiaa-contact">
+                <div class="container">
+                    <h2 class="section-title">Contact Us</h2>
+                    <p class="contact-section-intro">
+                        Have a question about AIAA at UofT? Reach the team through one of our main channels.
+                    </p>
+
+                    <div class="club-contact-grid">
+                        <a class="club-contact-card" href="mailto:utstar@studentorg.utoronto.ca?subject=AIAA%20at%20UofT%20inquiry">
+                            <span class="club-contact-index">01</span>
+                            <span class="club-contact-icon" aria-hidden="true">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Email</span>
+                                <strong>utstar@studentorg.utoronto.ca</strong>
+                                <span>Questions and AIAA inquiries</span>
+                            </span>
+                            <i class="fas fa-arrow-right club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="club-contact-card" href="https://www.instagram.com/uoftstar/" rel="noopener" target="_blank">
+                            <span class="club-contact-index">02</span>
+                            <span class="club-contact-icon" aria-hidden="true">
+                                <i class="fab fa-instagram"></i>
+                            </span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Instagram</span>
+                                <strong>@uoftstar</strong>
+                                <span>Updates, announcements, and event posts</span>
+                            </span>
+                            <i class="fas fa-arrow-up-right-from-square club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="club-contact-card" href="https://discord.gg/nNsQn5J4SU" rel="noopener" target="_blank">
+                            <span class="club-contact-index">03</span>
+                            <span class="club-contact-icon" aria-hidden="true">
+                                <i class="fab fa-discord"></i>
+                            </span>
+                            <span class="club-contact-copy">
+                                <span class="club-contact-label">Discord</span>
+                                <strong>UofT STAR Community</strong>
+                                <span>Join the community and keep up with AIAA activity</span>
+                            </span>
+                            <i class="fas fa-arrow-up-right-from-square club-contact-arrow" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </section>
         </main>
