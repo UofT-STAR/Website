@@ -1363,6 +1363,7 @@ class WebsiteDataManager {
         document.getElementById('teamGrid') ||
         document.getElementById('projectsGrid') ||
         document.getElementById('programsGrid') ||
+        document.getElementById('upcomingEventsGrid') ||
         document.getElementById('outreachEventsGrid') ||
         document.getElementById('featuresGrid') ||
         document.getElementById('subteamsGrid') ||
@@ -1418,6 +1419,7 @@ class WebsiteDataManager {
     this.populateExecutiveContacts();
     this.populateProjects();
     this.populatePrograms();
+    this.populateUpcomingEvents();
     this.populateOutreachEvents();
     this.populateFeatures();
     this.populateSubteams();
@@ -1600,6 +1602,273 @@ class WebsiteDataManager {
       'programs',
       'No programs have been added yet.'
     );
+  }
+
+  populateUpcomingEvents() {
+    const grid = document.getElementById('upcomingEventsGrid');
+    const countLabel = document.getElementById('upcomingEventsCount');
+    if (!grid) return;
+
+    const events = Array.isArray(this.data.events) ? this.data.events : [];
+    const now = new Date();
+
+    const upcomingEvents = events
+      .filter(event => {
+        const end = this.getEventDate(event.endDate || event.beginDate);
+        return end && end >= now && event.cancelled !== true;
+      })
+      .sort((a, b) => {
+        const aStart = this.getEventDate(a.beginDate);
+        const bStart = this.getEventDate(b.beginDate);
+        return (aStart?.getTime() || 0) - (bStart?.getTime() || 0);
+      });
+
+    grid.innerHTML = '';
+
+    if (countLabel) {
+      const noun = upcomingEvents.length === 1 ? 'event' : 'events';
+      countLabel.textContent = `${upcomingEvents.length} scheduled ${noun}`;
+    }
+
+    if (upcomingEvents.length === 0) {
+      grid.innerHTML = `
+        <div class="events-empty-state">
+          <i class="far fa-calendar" aria-hidden="true"></i>
+          <div>
+            <h3>No scheduled events right now</h3>
+            <p>New meetings, workshops, and launches will appear here as soon as dates are confirmed.</p>
+          </div>
+          <a class="events-empty-link" href="https://discord.gg/nNsQn5J4SU" target="_blank" rel="noopener">
+            Follow Discord <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        </div>
+      `;
+      return;
+    }
+
+    upcomingEvents.forEach(event => {
+      const start = this.getEventDate(event.beginDate);
+      const end = this.getEventDate(event.endDate);
+      if (!start) return;
+
+      const location = event.location || {};
+      const hasCoordinates =
+        Number.isFinite(Number(location.latitude)) &&
+        Number.isFinite(Number(location.longitude));
+
+      const mediaMarkup = event.image
+        ? `
+          <div class="site-event-media">
+            <img
+              src="${event.image}"
+              alt="${event.imageAlt || event.title || 'Event image'}"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+        `
+        : hasCoordinates
+          ? `
+            <div
+              class="site-event-media site-event-map"
+              data-event-map
+              data-lat="${Number(location.latitude)}"
+              data-lng="${Number(location.longitude)}"
+              data-zoom="${Number(location.mapZoom) || 17}"
+              aria-label="Map showing ${location.name || 'event location'}"
+            ></div>
+          `
+          : '';
+
+      const locationLabel = [location.name, location.address]
+        .filter(Boolean)
+        .join(' · ');
+
+      const osmUrl = hasCoordinates
+        ? this.buildOpenStreetMapUrl(
+            Number(location.latitude),
+            Number(location.longitude),
+            Number(location.mapZoom) || 17
+          )
+        : '';
+
+      const locationMarkup = locationLabel
+        ? `
+          <div class="site-event-location">
+            <i class="fas fa-location-dot" aria-hidden="true"></i>
+            <div>
+              <strong>${location.name || location.address}</strong>
+              ${location.name && location.address ? `<span>${location.address}</span>` : ''}
+            </div>
+            ${osmUrl ? `
+              <a href="${osmUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in OpenStreetMap">
+                Open map <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              </a>
+            ` : ''}
+          </div>
+        `
+        : '';
+
+      const action = event.action || {};
+      const actionMarkup = action.href && action.label
+        ? `
+          <a class="site-event-action" href="${action.href}" target="_blank" rel="noopener">
+            ${action.label}
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        `
+        : '';
+
+      const hostMarkup = event.host
+        ? `
+          <span class="site-event-host">
+            <i class="fas fa-people-group" aria-hidden="true"></i>
+            ${event.host}
+          </span>
+        `
+        : '';
+
+      const card = document.createElement('article');
+      card.className = 'site-event-card';
+      card.dataset.eventStart = event.beginDate;
+      card.dataset.eventEnd = event.endDate || '';
+      card.dataset.eventTimeZone = event.timeZone || 'America/Toronto';
+
+      card.innerHTML = `
+        ${mediaMarkup}
+
+        <div class="site-event-body">
+          <div class="site-event-status-row">
+            <span class="site-event-status" data-event-status>
+              <i class="far fa-calendar" aria-hidden="true"></i>
+              <span>${this.getEventStatusText(start, end)}</span>
+            </span>
+            ${hostMarkup}
+          </div>
+
+          <h3>${event.title || 'Untitled Event'}</h3>
+          <p class="site-event-description">${event.description || ''}</p>
+
+          <div class="site-event-schedule">
+            <i class="far fa-clock" aria-hidden="true"></i>
+            <div>
+              <span class="site-event-schedule-label">Date &amp; time</span>
+              <strong>${this.formatEventRange(start, end, event.timeZone)}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="site-event-footer">
+          ${locationMarkup}
+          ${actionMarkup}
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    this.updateEventStatusLabels();
+
+    if (this.eventStatusTimer) {
+      window.clearInterval(this.eventStatusTimer);
+    }
+
+    this.eventStatusTimer = window.setInterval(() => {
+      this.updateEventStatusLabels();
+    }, 30000);
+
+    initEventMapPreviews(grid);
+  }
+
+  getEventDate(value) {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  getEventStatusText(start, end) {
+    const now = new Date();
+
+    if (end && now > end) {
+      return 'Ended';
+    }
+
+    if (now >= start && (!end || now <= end)) {
+      return 'Happening now';
+    }
+
+    const difference = start.getTime() - now.getTime();
+    const totalMinutes = Math.max(1, Math.ceil(difference / 60000));
+
+    if (totalMinutes < 60) {
+      return `Starting in ${totalMinutes}m`;
+    }
+
+    if (totalMinutes < 24 * 60) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return minutes ? `Starting in ${hours}h ${minutes}m` : `Starting in ${hours}h`;
+    }
+
+    const days = Math.ceil(totalMinutes / (24 * 60));
+    if (days <= 7) {
+      return `Starting in ${days}d`;
+    }
+
+    return 'Upcoming';
+  }
+
+  formatEventRange(start, end, timeZone = 'America/Toronto') {
+    const dateFormatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone,
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const timeFormatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone,
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+
+    const startDate = dateFormatter.format(start);
+    const startTime = timeFormatter.format(start);
+
+    if (!end) {
+      return `${startDate} · ${startTime}`;
+    }
+
+    const endDate = dateFormatter.format(end);
+    const endTime = timeFormatter.format(end);
+
+    if (startDate === endDate) {
+      return `${startDate} · ${startTime} – ${endTime}`;
+    }
+
+    return `${startDate} · ${startTime} – ${endDate} · ${endTime}`;
+  }
+
+  buildOpenStreetMapUrl(latitude, longitude, zoom = 17) {
+    const lat = encodeURIComponent(latitude);
+    const lng = encodeURIComponent(longitude);
+    return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=${zoom}/${lat}/${lng}`;
+  }
+
+  updateEventStatusLabels() {
+    document.querySelectorAll('.site-event-card').forEach(card => {
+      const start = this.getEventDate(card.dataset.eventStart);
+      const end = this.getEventDate(card.dataset.eventEnd);
+      const status = card.querySelector('[data-event-status] span');
+
+      if (!start || !status) return;
+
+      const label = this.getEventStatusText(start, end);
+      status.textContent = label;
+
+      card.classList.toggle('is-live', label === 'Happening now');
+      card.classList.toggle('is-ended', label === 'Ended');
+    });
   }
 
   populateOutreachEvents() {
@@ -2155,6 +2424,83 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+
+// Event map previews use the same Leaflet/OpenStreetMap dependency loader as
+// the footer, but are initialized only when they approach the viewport.
+function initEventMapPreviews(root = document) {
+  const mapElements = root.querySelectorAll('[data-event-map]:not([data-event-map-observed])');
+  if (!mapElements.length) return;
+
+  const initialize = mapElement => {
+    if (mapElement.dataset.eventMapInitialized === 'true') return;
+    mapElement.dataset.eventMapInitialized = 'true';
+    initializeEventMap(mapElement);
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    mapElements.forEach(initialize);
+    return;
+  }
+
+  const mapObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      mapObserver.unobserve(entry.target);
+      initialize(entry.target);
+    });
+  }, {
+    rootMargin: '250px 0px'
+  });
+
+  mapElements.forEach(mapElement => {
+    mapElement.dataset.eventMapObserved = 'true';
+    mapObserver.observe(mapElement);
+  });
+}
+
+async function initializeEventMap(mapElement) {
+  const latitude = Number(mapElement.dataset.lat);
+  const longitude = Number(mapElement.dataset.lng);
+  const zoom = Number(mapElement.dataset.zoom) || 17;
+
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+
+  try {
+    await ensureFooterMapDependencies();
+  } catch (error) {
+    console.warn('Event map dependencies could not be loaded:', error);
+    return;
+  }
+
+  if (typeof window.L === 'undefined') return;
+
+  const map = L.map(mapElement, {
+    center: [latitude, longitude],
+    zoom,
+    zoomControl: false,
+    attributionControl: true,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    touchZoom: false,
+    keyboard: false
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  L.circleMarker([latitude, longitude], {
+    radius: 8,
+    color: '#ffffff',
+    weight: 2,
+    fillColor: '#0A84FF',
+    fillOpacity: 1
+  }).addTo(map);
+
+  window.setTimeout(() => map.invalidateSize(), 0);
+}
 
 // Footer map: Leaflet + OpenStreetMap, no API key required.
 // Leaflet is loaded here on demand so individual HTML pages do not need to
