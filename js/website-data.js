@@ -388,7 +388,7 @@ const websiteData = {
         <strong>⏰ Registration closes September 20th — don't miss out!</strong>
       `,
       beginDate: "2026-09-24T18:00:00-04:00",
-      endDate: "2026-09-24T21:30:00-04:00",
+      endDate: "2026-09-24T21:00:00-04:00",
       timeZone: "America/Toronto",
       host: "AIAA TMU",
       image: "https://www.eventbrite.ca/e/_next/image?url=https%3A%2F%2Fimg.evbuc.com%2Fhttps%253A%252F%252Fcdn.evbuc.com%252Fimages%252F1193708924%252F2838967835421%252F1%252Foriginal.20260917-003211%3Fcrop%3Dfocalpoint%26fit%3Dcrop%26w%3D1880%26auto%3Dformat%252Ccompress%26q%3D75%26sharp%3D10%26fp-x%3D0.508%26fp-y%3D0.14%26s%3D71f797839e407c59fe812acd611cffb3&w=1880&q=75",
