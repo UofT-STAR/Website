@@ -60,44 +60,15 @@
                         AIAA events and activities will appear here as dates and details are confirmed.
                     </p>
 
-                    <div class="events-timeline">
-                        <!--
-                            TO ADD A NEW EVENT, COPY THIS BLOCK AND REPLACE THE EXAMPLE VALUES:
+                    <div class="events-feed-heading">
+                        <span class="events-feed-count" id="aiaaEventsCount">Loading events...</span>
+                    </div>
 
-                            <article class="event-item">
-                                <div class="event-date">
-                                    <span class="day">14</span>
-                                    <span class="month">SEP</span>
-                                </div>
-                                <div class="event-content">
-                                    <h3>Event Name</h3>
-                                    <p>Short event description goes here.</p>
-                                    <div class="event-time">
-                                        <i class="far fa-clock"></i>
-                                        6:00 PM · Location
-                                    </div>
-                                </div>
-                            </article>
-                        -->
-
-                        <article class="event-item event-item-wip">
-                            <div class="event-date">
-                                <span class="day">TBD</span>
-                                <span class="month">Upcoming</span>
-                            </div>
-                            <div class="event-content">
-                                <span class="event-wip-label">WIP</span>
-                                <h3>Schedule being finalized</h3>
-                                <p>
-                                    Upcoming AIAA events are being prepared. Confirmed dates,
-                                    locations, and event details will be posted here as they become available.
-                                </p>
-                                <div class="event-time">
-                                    <i class="fab fa-discord"></i>
-                                    Follow Discord and Instagram for the latest announcements.
-                                </div>
-                            </div>
-                        </article>
+                    <div class="events-feed" id="aiaaEventsGrid">
+                        <div class="loading-placeholder">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading AIAA events...</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -157,6 +128,7 @@
         <!-- Footer -->
         <footer id="site-footer"></footer>
 
+        <script src="js/website-data.js"></script>
         <script src="js/components.js"></script>
         <script src="js/script.js"></script>
     </body>

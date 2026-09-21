@@ -351,6 +351,62 @@ const websiteData = {
     }
   ],
 
+  aiaaEvents: [
+    {
+      id: "AIAA-TMUxUofT-Conference-2026",
+      title: "AIAA TMU x UofT Conference",
+      description: `
+        Join us in person for the AIAA TMU x UofT Conference, where aerospace minds meet and ideas take flight!
+        FREE FOOD will be provided!!!<br>
+
+        Curious about aerospace research, innovation, and where the industry is headed?
+        Join the AIAA student chapters at <strong>Toronto Metropolitan University and the University of Toronto</strong>
+        for an evening of aerospace talks, student research, networking, and <strong>FREE FOOD!</strong> 🍕🥤<br>
+
+        <br>
+
+        <strong>✨ What's happening?</strong>
+        <ul style="padding-left: 1.5rem;">
+          <li>🎤 Hear from aerospace pioneers and AIAA Distinguished Speakers
+          <strong>Walter Gordon and Alice Bowman</strong></li>
+          <li>🔬 Explore research from undergraduate students</li>
+          <li>🤝 Meet fellow aerospace students and aerospace professionals</li>
+          <li>🚀 Learn about the <strong>AIAA Student Chapters at TMU and UofT</strong> and how you can get involved</li>
+          <li>🍕 Enjoy <strong>free food and refreshments</strong></li>
+          <li>💡 Get inspired by the people and ideas shaping the future of aerospace</li>
+        </ul>
+
+        <br>
+
+        Whether you're deep into aerospace or just curious about the field, come <strong>learn, connect,
+        grab some food, and get inspired!</strong>
+        <br><br>
+
+        <strong>📍 Location: Toronto Metropolitan University, George Vari Engineering and Computing Centre, ENG-LG11</strong>
+        <br><br>
+
+        <strong>⏰ Registration closes September 20th — don't miss out!</strong>
+      `,
+      beginDate: "2026-09-24T18:00:00-04:00",
+      endDate: "2026-09-24T21:30:00-04:00",
+      timeZone: "America/Toronto",
+      host: "AIAA TMU",
+      image: "https://www.eventbrite.ca/e/_next/image?url=https%3A%2F%2Fimg.evbuc.com%2Fhttps%253A%252F%252Fcdn.evbuc.com%252Fimages%252F1193708924%252F2838967835421%252F1%252Foriginal.20260917-003211%3Fcrop%3Dfocalpoint%26fit%3Dcrop%26w%3D1880%26auto%3Dformat%252Ccompress%26q%3D75%26sharp%3D10%26fp-x%3D0.508%26fp-y%3D0.14%26s%3D71f797839e407c59fe812acd611cffb3&w=1880&q=75",
+      imageAlt: "AIAA TMU x UofT Conference Poster",
+      location: {
+        name: "George Vari Engineering and Computing Centre, ENG-LG11",
+        address: "245 Church Street Toronto, ON M5B 2R2",
+        latitude: 43.65760270067314,
+        longitude: -79.37720982319942,
+        mapZoom: 17
+      },
+      action: {
+        label: "View on eventbrite",
+        href: "https://www.eventbrite.ca/e/aiaa-tmu-x-uoft-conference-tickets-2000930029582?aff=oddtdtcreator"
+      }
+    }
+  ],
+
   outreachEvents: [
   // Example: copy this object for each outreach event and replace the values.
   //{

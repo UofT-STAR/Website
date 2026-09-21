@@ -5848,20 +5848,24 @@ html {
 .site-event-media {
   position: relative;
   width: 100%;
-  height: clamp(190px, 32vw, 290px);
   overflow: hidden;
   background: #0c111c;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.site-event-media:not(.site-event-map) {
+  height: auto;
+}
+
 .site-event-media img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .site-event-map {
+  height: clamp(190px, 32vw, 290px);
   z-index: 0;
 }
 

@@ -1364,6 +1364,7 @@ class WebsiteDataManager {
         document.getElementById('projectsGrid') ||
         document.getElementById('programsGrid') ||
         document.getElementById('upcomingEventsGrid') ||
+        document.getElementById('aiaaEventsGrid') ||
         document.getElementById('outreachEventsGrid') ||
         document.getElementById('featuresGrid') ||
         document.getElementById('subteamsGrid') ||
@@ -1420,6 +1421,7 @@ class WebsiteDataManager {
     this.populateProjects();
     this.populatePrograms();
     this.populateUpcomingEvents();
+    this.populateAiaaEvents();
     this.populateOutreachEvents();
     this.populateFeatures();
     this.populateSubteams();
@@ -1605,14 +1607,49 @@ class WebsiteDataManager {
   }
 
   populateUpcomingEvents() {
-    const grid = document.getElementById('upcomingEventsGrid');
-    const countLabel = document.getElementById('upcomingEventsCount');
+    this.populateEventCollection({
+      gridId: 'upcomingEventsGrid',
+      countId: 'upcomingEventsCount',
+      events: this.data.events,
+      emptyTitle: 'No scheduled events right now',
+      emptyDescription:
+        'New meetings, workshops, and launches will appear here as soon as dates are confirmed.',
+      emptyLinkLabel: 'Follow Discord',
+      emptyLinkHref: 'https://discord.gg/nNsQn5J4SU'
+    });
+  }
+
+  populateAiaaEvents() {
+    this.populateEventCollection({
+      gridId: 'aiaaEventsGrid',
+      countId: 'aiaaEventsCount',
+      events: this.data.aiaaEvents,
+      emptyTitle: 'No AIAA events scheduled right now',
+      emptyDescription:
+        'Upcoming AIAA meetings, workshops, and activities will appear here as soon as dates are confirmed.',
+      emptyLinkLabel: 'Contact AIAA',
+      emptyLinkHref:
+        'mailto:utstar@studentorg.utoronto.ca?subject=AIAA%20at%20UofT%20inquiry'
+    });
+  }
+
+  populateEventCollection({
+    gridId,
+    countId,
+    events,
+    emptyTitle = 'No scheduled events right now',
+    emptyDescription = 'New events will appear here as soon as dates are confirmed.',
+    emptyLinkLabel = '',
+    emptyLinkHref = ''
+  }) {
+    const grid = document.getElementById(gridId);
+    const countLabel = document.getElementById(countId);
     if (!grid) return;
 
-    const events = Array.isArray(this.data.events) ? this.data.events : [];
+    const eventCollection = Array.isArray(events) ? events : [];
     const now = new Date();
 
-    const upcomingEvents = events
+    const upcomingEvents = eventCollection
       .filter(event => {
         const end = this.getEventDate(event.endDate || event.beginDate);
         return end && end >= now && event.cancelled !== true;
@@ -1631,16 +1668,28 @@ class WebsiteDataManager {
     }
 
     if (upcomingEvents.length === 0) {
+      const emptyLinkMarkup =
+        emptyLinkHref && emptyLinkLabel
+          ? `
+            <a class="events-empty-link" href="${emptyLinkHref}"${
+              emptyLinkHref.startsWith('http')
+                ? ' target="_blank" rel="noopener"'
+                : ''
+            }>
+              ${emptyLinkLabel}
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          `
+          : '';
+
       grid.innerHTML = `
         <div class="events-empty-state">
           <i class="far fa-calendar" aria-hidden="true"></i>
           <div>
-            <h3>No scheduled events right now</h3>
-            <p>New meetings, workshops, and launches will appear here as soon as dates are confirmed.</p>
+            <h3>${emptyTitle}</h3>
+            <p>${emptyDescription}</p>
           </div>
-          <a class="events-empty-link" href="https://discord.gg/nNsQn5J4SU" target="_blank" rel="noopener">
-            Follow Discord <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </a>
+          ${emptyLinkMarkup}
         </div>
       `;
       return;
@@ -1698,26 +1747,46 @@ class WebsiteDataManager {
             <i class="fas fa-location-dot" aria-hidden="true"></i>
             <div>
               <strong>${location.name || location.address}</strong>
-              ${location.name && location.address ? `<span>${location.address}</span>` : ''}
+              ${
+                location.name && location.address
+                  ? `<span>${location.address}</span>`
+                  : ''
+              }
             </div>
-            ${osmUrl ? `
-              <a href="${osmUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in OpenStreetMap">
-                Open map <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-              </a>
-            ` : ''}
+            ${
+              osmUrl
+                ? `
+                  <a
+                    href="${osmUrl}"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Open ${location.name || 'event location'} in OpenStreetMap"
+                  >
+                    Open map
+                    <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                  </a>
+                `
+                : ''
+            }
           </div>
         `
         : '';
 
       const action = event.action || {};
-      const actionMarkup = action.href && action.label
-        ? `
-          <a class="site-event-action" href="${action.href}" target="_blank" rel="noopener">
-            ${action.label}
-            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </a>
-        `
-        : '';
+      const actionMarkup =
+        action.href && action.label
+          ? `
+            <a
+              class="site-event-action"
+              href="${action.href}"
+              target="_blank"
+              rel="noopener"
+            >
+              ${action.label}
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          `
+          : '';
 
       const hostMarkup = event.host
         ? `
@@ -1747,7 +1816,7 @@ class WebsiteDataManager {
           </div>
 
           <h3>${event.title || 'Untitled Event'}</h3>
-          <p class="site-event-description">${event.description || ''}</p>
+          <div class="site-event-description">${event.description || ''}</div>
 
           <div class="site-event-schedule">
             <i class="far fa-clock" aria-hidden="true"></i>
@@ -1768,16 +1837,16 @@ class WebsiteDataManager {
     });
 
     this.updateEventStatusLabels();
+    this.ensureEventStatusTimer();
+    initEventMapPreviews(grid);
+  }
 
-    if (this.eventStatusTimer) {
-      window.clearInterval(this.eventStatusTimer);
-    }
+  ensureEventStatusTimer() {
+    if (this.eventStatusTimer) return;
 
     this.eventStatusTimer = window.setInterval(() => {
       this.updateEventStatusLabels();
     }, 30000);
-
-    initEventMapPreviews(grid);
   }
 
   getEventDate(value) {
