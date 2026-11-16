@@ -1,0 +1,20 @@
+# Cloudflare Worker for the UofT STAR contact form.
+# Live at https://utstar-contact.kaibague.workers.dev/contact
+#
+# `name` MUST match the existing Worker in the Cloudflare dashboard,
+# otherwise a deploy creates a second Worker instead of updating this one.
+#
+# Secrets (DISCORD_WEBHOOK_URL, TURNSTILE_SECRET) are NOT stored here.
+# They live in Cloudflare: Workers & Pages -> utstar-contact -> Settings ->
+# Variables and Secrets. Deploying this config leaves them untouched.
+
+name = "utstar-contact"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+# Don't wipe any plain-text variables that were set in the dashboard.
+keep_vars = true
+
+[observability]
+enabled = true
