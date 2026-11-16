@@ -1,5 +1,5 @@
 # Cloudflare Worker for the UofT STAR contact form.
-# Live at https://utstar-contact.kaibague.workers.dev/contact
+# Live at https://utstar-contact.utstar.workers.dev/contact
 #
 # `name` MUST match the existing Worker in the Cloudflare dashboard,
 # otherwise a deploy creates a second Worker instead of updating this one.

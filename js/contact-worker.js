@@ -9,6 +9,6 @@
  */
 
 window.UTSTAR_CONTACT_CONFIG = {
-    endpoint: "https://utstar-contact.kaibague.workers.dev/contact",
-    turnstileSiteKey: "0x4AAAAAAEoytoccf7egkyBz"
+    endpoint: "https://utstar-contact.utstar.workers.dev/contact",
+    turnstileSiteKey: "0x4AAAAAAGDpQrJu1-OprqrZ"
 };
