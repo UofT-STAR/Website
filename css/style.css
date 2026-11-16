@@ -6155,3 +6155,116 @@ html {
     grid-column: 2;
   }
 }
+
+/* ===== Sponsorship package (sponsors.html#package) ===== */
+.package-section {
+  scroll-margin-top: 90px;
+}
+
+.package-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.package-copy {
+  text-align: left;
+}
+
+.package-eyebrow {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.partner-section .package-copy h3 {
+  text-align: inherit;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+}
+
+.package-description {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.package-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.package-meta {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.package-embed {
+  display: block;
+  width: 100%;
+  height: min(85vh, 1000px);
+  min-height: 600px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.package-cover {
+  position: relative;
+  display: block;
+  max-width: 420px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.package-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.package-cover-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(7, 11, 20, 0.85);
+  color: #fff;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .package-panel {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .package-copy {
+    text-align: center;
+  }
+
+  .package-actions {
+    justify-content: center;
+  }
+}

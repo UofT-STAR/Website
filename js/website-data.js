@@ -471,10 +471,10 @@ const websiteData = {
     {
       audience: "Sponsors",
       icon: "fas fa-handshake",
-      description: "If you're interested in supporting us financially or materially in reaching our project goals, head \
-      on over to our Contact page to see how you can reach out to us!",
-      actionLabel: "Learn More",
-      href: "contact.html"
+      description: "If you're interested in supporting us financially or materially in reaching our project goals, take \
+      a look at our sponsorship package, then head on over to our Contact page to reach out to us!",
+      actionLabel: "View Sponsorship Package",
+      href: "sponsors.html#package"
     }
   ],
 
@@ -497,6 +497,22 @@ const websiteData = {
        website: "https://www.linkedin.com/in/sawyer-shaw/"
      }
   ],
+
+  // Sponsorship package shown at the top of sponsors.html (#package).
+  // For a new year: drop the new PDF in docs/, render its cover into Images/Sponsorship/,
+  // and update the fields below. Keep PDFs small (a few MB) — compress before adding.
+  sponsorshipPackage: {
+    title: "Sponsorship Package",
+    year: "2026–2027",
+    description: "Everything a potential sponsor should know about UofT STAR: who we are, how our rocketry \
+    division and AIAA chapter are organized, the competitions and outreach we take part in, and how your support \
+    helps our members.",
+    file: "docs/UofT-STAR-Sponsorship-Package-2026-2027.pdf",
+    downloadName: "UofT-STAR-Sponsorship-Package-2026-2027.pdf",
+    cover: "Images/Sponsorship/package-cover-2026-2027.webp",
+    coverAlt: "Cover of the UofT STAR 2026–2027 Sponsorship Package",
+    meta: "PDF · 8 pages · 2.1 MB"
+  },
 
   // Add sponsors here. Copy the example object and remove the // markers.
   sponsors: [

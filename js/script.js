@@ -1370,6 +1370,7 @@ class WebsiteDataManager {
         document.getElementById('joinOptionsGrid') ||
         document.getElementById('mentorsGrid') ||
         document.getElementById('sponsorsGrid') ||
+        document.getElementById('sponsorshipPackage') ||
         document.getElementById('homeProjectSpotlightContent') ||
         document.getElementById('executiveContactsGrid')) {
       await this.loadData();
@@ -1426,6 +1427,7 @@ class WebsiteDataManager {
     this.populateJoinOptions();
     this.populateMentors();
     this.populateSponsors();
+    this.populateSponsorshipPackage();
     this.populateHomeProjectSpotlight();
   }
 
@@ -2078,6 +2080,65 @@ class WebsiteDataManager {
       `;
       sponsorsGrid.appendChild(card);
     });
+  }
+
+  populateSponsorshipPackage() {
+    const container = document.getElementById('sponsorshipPackage');
+    const pkg = this.data.sponsorshipPackage;
+    if (!container) return;
+
+    if (!pkg || !pkg.file) {
+      container.closest('section')?.setAttribute('hidden', '');
+      return;
+    }
+
+    const downloadName = pkg.downloadName || pkg.file.split('/').pop();
+
+    container.innerHTML = `
+      <div class="package-copy">
+        <p class="package-eyebrow">${pkg.year || ''}</p>
+        <h3 id="package-title">${pkg.title || 'Sponsorship Package'}</h3>
+        ${pkg.description ? `<p class="package-description">${pkg.description}</p>` : ''}
+        <div class="package-actions">
+          <a class="btn btn-primary" href="${pkg.file}" download="${downloadName}">
+            <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+          </a>
+          <a class="btn btn-secondary" href="${pkg.file}" target="_blank" rel="noopener">
+            <i class="fas fa-up-right-from-square" aria-hidden="true"></i> Open full screen
+          </a>
+        </div>
+        ${pkg.meta ? `<p class="package-meta">${pkg.meta}</p>` : ''}
+      </div>
+      <div class="package-viewer" id="sponsorshipPackageViewer"></div>
+    `;
+
+    const viewer = container.querySelector('#sponsorshipPackageViewer');
+
+    // Phone browsers can't show PDFs inline (Android shows nothing, iOS only page 1),
+    // so small screens get a tappable cover image instead of the embedded viewer.
+    // The iframe is only created on wide screens so phones never download the PDF unasked.
+    const wideScreen = window.matchMedia('(min-width: 769px)');
+
+    const renderViewer = () => {
+      if (wideScreen.matches) {
+        viewer.innerHTML = `
+          <iframe class="package-embed"
+                  src="${pkg.file}#view=FitH"
+                  title="${pkg.title || 'Sponsorship Package'} (PDF)"
+                  loading="lazy"></iframe>
+        `;
+      } else {
+        viewer.innerHTML = `
+          <a class="package-cover" href="${pkg.file}" target="_blank" rel="noopener">
+            <img src="${pkg.cover}" alt="${pkg.coverAlt || ''}" loading="lazy">
+            <span class="package-cover-hint"><i class="fas fa-book-open" aria-hidden="true"></i> Tap to read</span>
+          </a>
+        `;
+      }
+    };
+
+    renderViewer();
+    wideScreen.addEventListener('change', renderViewer);
   }
 }
 
