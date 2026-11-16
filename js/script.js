@@ -1351,6 +1351,169 @@ class TriviaGame {
 let triviaGame;
 
 // Website Data Management
+// ===== Google Calendar events (public "UofT STAR Events" calendar) =====
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Returns the UTC instant of midnight on `dateString` (YYYY-MM-DD) in `timeZone`,
+// so all-day events start at Toronto midnight no matter where the visitor is.
+function zonedMidnightISO(dateString, timeZone) {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const utcGuess = Date.UTC(year, month - 1, day);
+
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }).formatToParts(new Date(utcGuess)).map(part => [part.type, part.value])
+  );
+
+  const wallClockAsUtc = Date.UTC(
+    Number(parts.year), Number(parts.month) - 1, Number(parts.day),
+    Number(parts.hour), Number(parts.minute), Number(parts.second)
+  );
+
+  return new Date(utcGuess - (wallClockAsUtc - utcGuess)).toISOString();
+}
+
+// Google Calendar descriptions can contain HTML. Keep simple formatting and safe links only;
+// everything else is reduced to its text so nothing in a description can run on the site.
+function sanitizeCalendarDescription(input) {
+  if (!input) return '';
+
+  const looksLikeHtml = /<[a-z][\s\S]*>/i.test(input);
+  const html = looksLikeHtml ? input : escapeHtml(input).replace(/\r?\n/g, '<br>');
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html');
+  const allowed = new Set(['B', 'STRONG', 'I', 'EM', 'U', 'BR', 'A', 'UL', 'OL', 'LI', 'P', 'SPAN', 'DIV']);
+
+  const linkify = text =>
+    escapeHtml(text).replace(
+      /https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"]/g,
+      url => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`
+    );
+
+  const clean = (node, insideLink = false) => {
+    let out = '';
+    node.childNodes.forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        out += insideLink ? escapeHtml(child.textContent) : linkify(child.textContent);
+        return;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE) return;
+
+      const tag = child.tagName;
+      if (tag === 'BR') {
+        out += '<br>';
+        return;
+      }
+      if (tag === 'A') {
+        const href = child.getAttribute('href') || '';
+        const inner = clean(child, true);
+        out += /^(https?:|mailto:)/i.test(href)
+          ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${inner}</a>`
+          : inner;
+        return;
+      }
+
+      const inner = clean(child, insideLink);
+      if (!allowed.has(tag) || tag === 'SPAN') {
+        out += inner;
+      } else if (tag === 'P' || tag === 'DIV') {
+        out += `${inner}<br>`;
+      } else {
+        const name = tag.toLowerCase();
+        out += `<${name}>${inner}</${name}>`;
+      }
+    });
+    return out;
+  };
+
+  return clean(doc.body.firstElementChild).replace(/(<br>\s*)+$/, '');
+}
+
+function mapGoogleCalendarEvent(item, calendar) {
+  const timeZone = calendar.timeZone || 'America/Toronto';
+  const allDay = Boolean(item.start?.date && !item.start?.dateTime);
+
+  const beginDate = allDay
+    ? zonedMidnightISO(item.start.date, timeZone)
+    : item.start?.dateTime;
+  const endDate = allDay
+    ? (item.end?.date ? zonedMidnightISO(item.end.date, timeZone) : '')
+    : (item.end?.dateTime || '');
+
+  if (!beginDate) return null;
+
+  // Google stores the location as one line, e.g. "OISE Library, 252 Bloor St W, Toronto, ON ...".
+  // Show the part before the first comma as the venue name and the rest as the address.
+  const rawLocation = (item.location || '').trim();
+  const commaIndex = rawLocation.indexOf(',');
+  const location = rawLocation
+    ? {
+        name: escapeHtml(commaIndex > 0 ? rawLocation.slice(0, commaIndex).trim() : rawLocation),
+        address: escapeHtml(commaIndex > 0 ? rawLocation.slice(commaIndex + 1).trim() : ''),
+        mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawLocation)}`
+      }
+    : {};
+
+  return {
+    id: `gcal-${item.id}`,
+    title: escapeHtml(item.summary || 'Untitled Event'),
+    description: sanitizeCalendarDescription(item.description || ''),
+    beginDate,
+    endDate,
+    allDay,
+    timeZone,
+    host: 'UofT STAR',
+    image: '',
+    location,
+    action: item.htmlLink
+      ? { label: 'Open in Google Calendar', href: item.htmlLink }
+      : {}
+  };
+}
+
+async function fetchGoogleCalendarEvents(calendar) {
+  const params = new URLSearchParams({
+    key: calendar.apiKey,
+    singleEvents: 'true',        // expand repeating events (e.g. weekly meetings) into dates
+    orderBy: 'startTime',
+    timeMin: new Date().toISOString(), // events that haven't ended yet
+    maxResults: String(calendar.maxResults || 25),
+    fields: 'items(id,status,summary,description,location,start,end,htmlLink)'
+  });
+
+  const url =
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.calendarId)}/events?${params}`;
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`Google Calendar API responded ${response.status}`);
+    }
+
+    const data = await response.json();
+    return (data.items || [])
+      .filter(item => item.status !== 'cancelled')
+      .map(item => mapGoogleCalendarEvent(item, calendar))
+      .filter(Boolean);
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 class WebsiteDataManager {
   constructor() {
     this.data = null;
@@ -1608,10 +1771,61 @@ class WebsiteDataManager {
 
   populateUpcomingEvents() {
     const grid = document.getElementById('upcomingEventsGrid');
+    if (!grid) return;
+
+    const staticEvents = Array.isArray(this.data.events) ? this.data.events : [];
+    const calendar = this.data.calendar || {};
+
+    this.renderCalendarSubscribeLinks(calendar);
+
+    if (!calendar.apiKey || !calendar.calendarId) {
+      this.renderUpcomingEvents(staticEvents);
+      return;
+    }
+
+    // Keep the loading spinner up while Google Calendar responds, then show both sources together.
+    // If Google is unreachable, fall back to the hand-written events so the page never stays empty.
+    fetchGoogleCalendarEvents(calendar)
+      .then(calendarEvents => this.renderUpcomingEvents([...staticEvents, ...calendarEvents]))
+      .catch(error => {
+        console.warn('Could not load Google Calendar events:', error);
+        this.renderUpcomingEvents(staticEvents);
+      });
+  }
+
+  renderCalendarSubscribeLinks(calendar) {
+    const container = document.getElementById('calendarSubscribe');
+    if (!container) return;
+
+    const links = [];
+
+    if (calendar.googleSubscribeUrl) {
+      links.push(`
+        <a class="calendar-subscribe-link" href="${calendar.googleSubscribeUrl}" target="_blank" rel="noopener">
+          <i class="fab fa-google" aria-hidden="true"></i> Add to Google Calendar
+        </a>
+      `);
+    }
+
+    if (calendar.icalUrl) {
+      // webcal:// makes Apple Calendar and Outlook offer to subscribe instead of downloading a file.
+      const webcalUrl = calendar.icalUrl.replace(/^https?:\/\//i, 'webcal://');
+      links.push(`
+        <a class="calendar-subscribe-link" href="${webcalUrl}">
+          <i class="far fa-calendar-plus" aria-hidden="true"></i> Apple / Outlook
+        </a>
+      `);
+    }
+
+    container.innerHTML = links.join('');
+    container.hidden = links.length === 0;
+  }
+
+  renderUpcomingEvents(events) {
+    const grid = document.getElementById('upcomingEventsGrid');
     const countLabel = document.getElementById('upcomingEventsCount');
     if (!grid) return;
 
-    const events = Array.isArray(this.data.events) ? this.data.events : [];
     const now = new Date();
 
     const upcomingEvents = events
@@ -1694,6 +1908,9 @@ class WebsiteDataManager {
           )
         : '';
 
+      // Calendar events have an address but no coordinates, so they link to a map search instead.
+      const mapUrl = osmUrl || location.mapUrl || '';
+
       const locationMarkup = locationLabel
         ? `
           <div class="site-event-location">
@@ -1702,8 +1919,8 @@ class WebsiteDataManager {
               <strong>${location.name || location.address}</strong>
               ${location.name && location.address ? `<span>${location.address}</span>` : ''}
             </div>
-            ${osmUrl ? `
-              <a href="${osmUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in OpenStreetMap">
+            ${mapUrl ? `
+              <a href="${mapUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in a map">
                 Open map <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
             ` : ''}
@@ -1755,7 +1972,7 @@ class WebsiteDataManager {
             <i class="far fa-clock" aria-hidden="true"></i>
             <div>
               <span class="site-event-schedule-label">Date &amp; time</span>
-              <strong>${this.formatEventRange(start, end, event.timeZone)}</strong>
+              <strong>${this.formatEventRange(start, end, event.timeZone, event.allDay === true)}</strong>
             </div>
           </div>
         </div>
@@ -1820,13 +2037,22 @@ class WebsiteDataManager {
     return 'Upcoming';
   }
 
-  formatEventRange(start, end, timeZone = 'America/Toronto') {
+  formatEventRange(start, end, timeZone = 'America/Toronto', allDay = false) {
     const dateFormatter = new Intl.DateTimeFormat('en-CA', {
       timeZone,
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     });
+
+    if (allDay) {
+      // All-day end times are exclusive (midnight after the last day), so step back 1 ms.
+      const startDate = dateFormatter.format(start);
+      const lastDay = end ? dateFormatter.format(new Date(end.getTime() - 1)) : startDate;
+      return lastDay === startDate
+        ? `${startDate} · All day`
+        : `${startDate} – ${lastDay}`;
+    }
 
     const timeFormatter = new Intl.DateTimeFormat('en-CA', {
       timeZone,
