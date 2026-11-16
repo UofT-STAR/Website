@@ -1989,8 +1989,11 @@ class WebsiteDataManager {
       const card = document.createElement('article');
       card.className = 'join-option-card';
 
+      // Only external links (Discord, etc.) open in a new tab; pages on our own site stay in the same tab.
+      const isExternal = /^https?:\/\//i.test(option.href || '');
+      const newTabAttrs = isExternal ? ' target="_blank" rel="noopener"' : '';
       const action = option.href
-        ? `<a class="btn btn-primary" href="${option.href}" target="_blank" rel="noopener">${option.actionLabel}</a>`
+        ? `<a class="btn btn-primary" href="${option.href}"${newTabAttrs}>${option.actionLabel}</a>`
         : `<span class="btn btn-secondary join-option-disabled" aria-disabled="true">${option.actionLabel}</span>`;
 
       card.innerHTML = `
