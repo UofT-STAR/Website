@@ -2,7 +2,7 @@
 
 This Cloudflare Worker sits behind the contact form on `contact.html`. The flow is:
 
-1. The browser sends a POST to `https://utstar-contact.kaibague.workers.dev/contact`. The address is set in `js/contact-worker.js`.
+1. The browser sends a POST to `https://utstar-contact.utstar.workers.dev/contact`. The address is set in `js/contact-worker.js`.
 2. The Worker checks the request's origin, then checks the fields.
 3. It verifies the Cloudflare Turnstile token, including that the action is `contact` and the hostname is one of ours.
 4. It forwards the message as an embed to a private Discord webhook.
