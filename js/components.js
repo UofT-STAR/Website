@@ -21,7 +21,7 @@
     { page: 'contact', label: 'Contact', href: 'contact.html' },
     { page: 'join-us', label: 'Join Us', href: 'join-us.html' },
     // Re-enable when wanted:
-    // { page: 'constitution', label: 'Constitution', href: 'Constitution.html' },
+    // { page: 'constitution', label: 'Constitution', href: 'constitution.html' },
     // { page: 'trivia', label: 'Trivia', href: 'trivia.html' }
   ];
 
