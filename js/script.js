@@ -1440,6 +1440,47 @@ function sanitizeCalendarDescription(input) {
   return clean(doc.body.firstElementChild).replace(/(<br>\s*)+$/, '');
 }
 
+// Lets execs control the website from Google Calendar by adding lines like these to the
+// event description (each on its own line; they're removed from the text shown on the site):
+//   Image: https://drive.google.com/file/d/<id>/view   (or any https:// image, or Images/... in this repo)
+//   Map: 40 St George St, Toronto                      (what to search for, if the location text confuses the map)
+//   Map: 43.65966, -79.39740                           (exact coordinates)
+function extractCalendarDirectives(html) {
+  const directives = {};
+  const kept = [];
+
+  html.split(/<br\s*\/?>/i).forEach(segment => {
+    const text = new DOMParser().parseFromString(segment, 'text/html').body.textContent.trim();
+    const match = text.match(/^(image|map)\s*:\s*(.+)$/i);
+    if (match) {
+      directives[match[1].toLowerCase()] = match[2].trim();
+      return;
+    }
+    kept.push(segment);
+  });
+
+  return {
+    html: kept.join('<br>').replace(/^(\s*<br>)+|(<br>\s*)+$/g, ''),
+    directives
+  };
+}
+
+function resolveEventImageUrl(value) {
+  if (!value) return '';
+
+  // Google Drive share links -> direct thumbnail (the file must be shared "Anyone with the link").
+  const driveMatch = value.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/);
+  if (driveMatch) {
+    return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1800`;
+  }
+
+  if (/^https:\/\//i.test(value) || /^Images\//.test(value)) {
+    return value;
+  }
+
+  return '';
+}
+
 function mapGoogleCalendarEvent(item, calendar) {
   const timeZone = calendar.timeZone || 'America/Toronto';
   const allDay = Boolean(item.start?.date && !item.start?.dateTime);
@@ -1465,16 +1506,38 @@ function mapGoogleCalendarEvent(item, calendar) {
       }
     : {};
 
+  // Optional "Image: ..." and "Map: ..." lines in the description (see extractCalendarDirectives).
+  const { html: description, directives } =
+    extractCalendarDirectives(sanitizeCalendarDescription(item.description || ''));
+
+  // Map: a "Map:" line overrides what we search for; it can also be exact "lat, lng" coordinates.
+  const mapOverride = directives.map || '';
+  const coordinateMatch = mapOverride.match(/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
+  if (coordinateMatch) {
+    location.latitude = Number(coordinateMatch[1]);
+    location.longitude = Number(coordinateMatch[2]);
+  } else if (mapOverride || rawLocation) {
+    location.geocodeQuery = mapOverride || rawLocation;
+  }
+
+  // Image: an "Image:" line wins; otherwise use the first image attached to the event.
+  const imageAttachment = (item.attachments || [])
+    .find(file => /^image\//i.test(file.mimeType || '') && file.fileId);
+  const image =
+    resolveEventImageUrl(directives.image) ||
+    (imageAttachment ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(imageAttachment.fileId)}&sz=w1800` : '');
+
   return {
     id: `gcal-${item.id}`,
     title: escapeHtml(item.summary || 'Untitled Event'),
-    description: sanitizeCalendarDescription(item.description || ''),
+    description,
     beginDate,
     endDate,
     allDay,
     timeZone,
     host: 'UofT STAR',
-    image: '',
+    image: escapeHtml(image),
+    imageAlt: escapeHtml(item.summary || 'Event image'),
     location,
     action: item.htmlLink
       ? { label: 'Open in Google Calendar', href: item.htmlLink }
@@ -1489,7 +1552,7 @@ async function fetchGoogleCalendarEvents(calendar) {
     orderBy: 'startTime',
     timeMin: new Date().toISOString(), // events that haven't ended yet
     maxResults: String(calendar.maxResults || 25),
-    fields: 'items(id,status,summary,description,location,start,end,htmlLink)'
+    fields: 'items(id,status,summary,description,location,start,end,htmlLink,attachments(fileId,mimeType,title))'
   });
 
   const url =
@@ -1894,7 +1957,17 @@ class WebsiteDataManager {
               aria-label="Map showing ${location.name || 'event location'}"
             ></div>
           `
-          : '';
+          : location.geocodeQuery
+            ? `
+              <div
+                class="site-event-media site-event-map"
+                data-event-map
+                data-geocode="${escapeHtml(location.geocodeQuery)}"
+                data-zoom="${Number(location.mapZoom) || 17}"
+                aria-label="Map showing ${location.name || 'event location'}"
+              ></div>
+            `
+            : '';
 
       const locationLabel = [location.name, location.address]
         .filter(Boolean)
@@ -2748,10 +2821,131 @@ function initEventMapPreviews(root = document) {
   });
 }
 
+// ===== Address -> map location + building outline (OpenStreetMap Nominatim) =====
+// Used for Google Calendar events, which only have an address. Nominatim is free but asks for
+// at most ~1 request per second and for results to be cached, so requests are queued and every
+// answer is remembered in the visitor's browser.
+
+const GEOCODE_CACHE_KEY = 'utstar-geocode-v1';
+const GEOCODE_FOUND_TTL = 30 * 24 * 60 * 60 * 1000;  // 30 days
+const GEOCODE_MISS_TTL = 24 * 60 * 60 * 1000;         // retry unknown addresses after a day
+const geocodeInFlight = new Map();
+let geocodeQueue = Promise.resolve();
+
+function readGeocodeCache() {
+  try {
+    return JSON.parse(localStorage.getItem(GEOCODE_CACHE_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function writeGeocodeCache(query, value) {
+  try {
+    const cache = readGeocodeCache();
+    cache[query] = { value, savedAt: Date.now() };
+    localStorage.setItem(GEOCODE_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // Storage full or blocked: the map still works, it just looks the address up again next time.
+  }
+}
+
+// Google locations look like "OISE Library, 252 Bloor St W, Toronto, ON M5S 1V6, Canada".
+// OpenStreetMap often can't match the whole string, so try progressively simpler versions.
+function geocodeSearchCandidates(query) {
+  const parts = query.split(',').map(part => part.trim()).filter(Boolean);
+  const candidates = [query];
+
+  if (parts.length > 1) candidates.push(parts.slice(1).join(', '));    // address without venue name
+  if (parts.length > 2) candidates.push(parts.slice(1, 3).join(', ')); // street + city only
+  if (parts.length > 1) candidates.push(`${parts[0]}, ${parts[2] || parts[1]}`); // venue + city
+
+  return [...new Set(candidates)];
+}
+
+function queueNominatimRequest(task) {
+  const run = geocodeQueue.then(task);
+  geocodeQueue = run
+    .catch(() => {})
+    .then(() => new Promise(resolve => window.setTimeout(resolve, 1100)));
+  return run;
+}
+
+async function nominatimSearch(text) {
+  const params = new URLSearchParams({
+    q: text,
+    format: 'jsonv2',
+    limit: '1',
+    polygon_geojson: '1',
+    polygon_threshold: '0.00001',
+    'accept-language': 'en'
+  });
+
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
+  if (!response.ok) throw new Error(`Nominatim responded ${response.status}`);
+
+  const [result] = await response.json();
+  if (!result) return null;
+
+  // Only outline reasonably small areas (a building, a park), never a whole neighbourhood or city.
+  const [south, north, west, east] = (result.boundingbox || []).map(Number);
+  const smallEnough = north - south < 0.01 && east - west < 0.015;
+  const isArea = result.geojson && /Polygon$/.test(result.geojson.type);
+
+  return {
+    lat: Number(result.lat),
+    lon: Number(result.lon),
+    outline: isArea && smallEnough ? result.geojson : null
+  };
+}
+
+function geocodeEventLocation(query) {
+  const cached = readGeocodeCache()[query];
+  if (cached) {
+    const ttl = cached.value ? GEOCODE_FOUND_TTL : GEOCODE_MISS_TTL;
+    if (Date.now() - cached.savedAt < ttl) return Promise.resolve(cached.value);
+  }
+
+  if (geocodeInFlight.has(query)) return geocodeInFlight.get(query);
+
+  const lookup = (async () => {
+    for (const candidate of geocodeSearchCandidates(query)) {
+      const place = await queueNominatimRequest(() => nominatimSearch(candidate));
+      if (place) {
+        writeGeocodeCache(query, place);
+        return place;
+      }
+    }
+    writeGeocodeCache(query, null);
+    return null;
+  })()
+    .catch(error => {
+      console.warn('Could not look up event location:', error);
+      return null; // network error: don't cache, try again on the next visit
+    })
+    .finally(() => geocodeInFlight.delete(query));
+
+  geocodeInFlight.set(query, lookup);
+  return lookup;
+}
+
 async function initializeEventMap(mapElement) {
-  const latitude = Number(mapElement.dataset.lat);
-  const longitude = Number(mapElement.dataset.lng);
+  let latitude = Number(mapElement.dataset.lat);
+  let longitude = Number(mapElement.dataset.lng);
+  let outline = null;
   const zoom = Number(mapElement.dataset.zoom) || 17;
+
+  // Calendar events only have an address: look it up first.
+  if ((!Number.isFinite(latitude) || !Number.isFinite(longitude)) && mapElement.dataset.geocode) {
+    const place = await geocodeEventLocation(mapElement.dataset.geocode);
+    if (!place) {
+      mapElement.remove(); // couldn't find it: show the card without a map rather than an empty box
+      return;
+    }
+    latitude = place.lat;
+    longitude = place.lon;
+    outline = place.outline;
+  }
 
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
 
@@ -2780,6 +2974,25 @@ async function initializeEventMap(mapElement) {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
+
+  if (outline) {
+    // Same orange building highlight as the Bahen outline in the footer.
+    const outlineLayer = L.geoJSON(outline, {
+      interactive: false,
+      style: {
+        color: '#e65c00',
+        weight: 3,
+        fillColor: '#ff7800',
+        fillOpacity: 0.4
+      }
+    }).addTo(map);
+
+    window.setTimeout(() => {
+      map.invalidateSize();
+      map.fitBounds(outlineLayer.getBounds(), { padding: [28, 28], maxZoom: 18 });
+    }, 0);
+    return;
+  }
 
   L.circleMarker([latitude, longitude], {
     radius: 8,
