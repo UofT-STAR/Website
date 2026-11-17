@@ -1440,22 +1440,21 @@ function sanitizeCalendarDescription(input) {
   return clean(doc.body.firstElementChild).replace(/(<br>\s*)+$/, '');
 }
 
-// Lets execs control the website from Google Calendar by adding lines like these to the
-// event description (each on its own line; they're removed from the text shown on the site):
+// Escape hatches for execs, written as lines in the event description (each on its own line;
+// they're hidden on the website, but members who subscribe to the calendar DO see them,
+// so prefer attaching an image and fixing the Location field instead):
 //   Image: https://drive.google.com/file/d/<id>/view   (or any https:// image, or Images/... in this repo)
 //   Map: 40 St George St, Toronto                      (what to search for, if the location text confuses the map)
 //   Map: 43.65966, -79.39740                           (exact coordinates)
-//   Image focus: 40%                                   (which part of a tall photo stays visible:
-//                                                       top, center, bottom, or 0%-100% from the top)
 function extractCalendarDirectives(html) {
   const directives = {};
   const kept = [];
 
   html.split(/<br\s*\/?>/i).forEach(segment => {
     const text = new DOMParser().parseFromString(segment, 'text/html').body.textContent.trim();
-    const match = text.match(/^(image\s+focus|image|map)\s*:\s*(.+)$/i);
+    const match = text.match(/^(image|map)\s*:\s*(.+)$/i);
     if (match) {
-      directives[match[1].toLowerCase().replace(/\s+/g, ' ')] = match[2].trim();
+      directives[match[1].toLowerCase()] = match[2].trim();
       return;
     }
     kept.push(segment);
@@ -1467,17 +1466,17 @@ function extractCalendarDirectives(html) {
   };
 }
 
-// "Image focus: 40%" / "top" / "center" / "bottom" -> a safe CSS object-position value.
-// The image strip is wide, so only the vertical position matters.
-function resolveImageFocus(value) {
-  if (!value) return '';
-  const keyword = { top: '0%', center: '50%', middle: '50%', bottom: '100%' }[value.trim().toLowerCase()];
-  if (keyword) return `50% ${keyword}`;
+// Image focus lives in the attached image's FILE NAME, so it never shows up in members'
+// synced calendars: "genMeeting1 focus40.jpg" keeps the part 40% down from the top visible.
+// Also accepts "focus-40", "focus_40%", "focus top", "focus center", "focus bottom".
+// Returns a safe CSS object-position value; the image strip is wide, so only vertical matters.
+function resolveImageFocus(fileName) {
+  const match = (fileName || '').match(/focus[\s_-]*(top|center|centre|middle|bottom|\d{1,3}(?:\.\d+)?)\s*%?/i);
+  if (!match) return '';
 
-  const percent = value.match(/^\s*(\d{1,3}(?:\.\d+)?)\s*%?\s*$/);
-  if (percent) return `50% ${Math.min(100, Number(percent[1]))}%`;
-
-  return '';
+  const keyword = { top: 0, center: 50, centre: 50, middle: 50, bottom: 100 }[match[1].toLowerCase()];
+  const percent = keyword ?? Math.min(100, Number(match[1]));
+  return `50% ${percent}%`;
 }
 
 function resolveEventImageUrl(value) {
@@ -1553,7 +1552,7 @@ function mapGoogleCalendarEvent(item, calendar) {
     host: 'UofT STAR',
     image: escapeHtml(image),
     imageAlt: escapeHtml(item.summary || 'Event image'),
-    imagePosition: resolveImageFocus(directives['image focus']),
+    imagePosition: imageAttachment && !directives.image ? resolveImageFocus(imageAttachment.title) : '',
     location,
     action: item.htmlLink
       ? { label: 'Open in Google Calendar', href: item.htmlLink }
