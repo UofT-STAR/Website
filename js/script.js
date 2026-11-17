@@ -1445,15 +1445,17 @@ function sanitizeCalendarDescription(input) {
 //   Image: https://drive.google.com/file/d/<id>/view   (or any https:// image, or Images/... in this repo)
 //   Map: 40 St George St, Toronto                      (what to search for, if the location text confuses the map)
 //   Map: 43.65966, -79.39740                           (exact coordinates)
+//   Image focus: 40%                                   (which part of a tall photo stays visible:
+//                                                       top, center, bottom, or 0%-100% from the top)
 function extractCalendarDirectives(html) {
   const directives = {};
   const kept = [];
 
   html.split(/<br\s*\/?>/i).forEach(segment => {
     const text = new DOMParser().parseFromString(segment, 'text/html').body.textContent.trim();
-    const match = text.match(/^(image|map)\s*:\s*(.+)$/i);
+    const match = text.match(/^(image\s+focus|image|map)\s*:\s*(.+)$/i);
     if (match) {
-      directives[match[1].toLowerCase()] = match[2].trim();
+      directives[match[1].toLowerCase().replace(/\s+/g, ' ')] = match[2].trim();
       return;
     }
     kept.push(segment);
@@ -1463,6 +1465,19 @@ function extractCalendarDirectives(html) {
     html: kept.join('<br>').replace(/^(\s*<br>)+|(<br>\s*)+$/g, ''),
     directives
   };
+}
+
+// "Image focus: 40%" / "top" / "center" / "bottom" -> a safe CSS object-position value.
+// The image strip is wide, so only the vertical position matters.
+function resolveImageFocus(value) {
+  if (!value) return '';
+  const keyword = { top: '0%', center: '50%', middle: '50%', bottom: '100%' }[value.trim().toLowerCase()];
+  if (keyword) return `50% ${keyword}`;
+
+  const percent = value.match(/^\s*(\d{1,3}(?:\.\d+)?)\s*%?\s*$/);
+  if (percent) return `50% ${Math.min(100, Number(percent[1]))}%`;
+
+  return '';
 }
 
 function resolveEventImageUrl(value) {
@@ -1538,6 +1553,7 @@ function mapGoogleCalendarEvent(item, calendar) {
     host: 'UofT STAR',
     image: escapeHtml(image),
     imageAlt: escapeHtml(item.summary || 'Event image'),
+    imagePosition: resolveImageFocus(directives['image focus']),
     location,
     action: item.htmlLink
       ? { label: 'Open in Google Calendar', href: item.htmlLink }
@@ -1941,6 +1957,7 @@ class WebsiteDataManager {
             <img
               src="${event.image}"
               alt="${event.imageAlt || event.title || 'Event image'}"
+              ${/^\d{1,3}(\.\d+)?% \d{1,3}(\.\d+)?%$/.test(event.imagePosition || '') ? `style="object-position: ${event.imagePosition}"` : ''}
               loading="lazy"
               decoding="async"
             >
@@ -2958,16 +2975,34 @@ async function initializeEventMap(mapElement) {
 
   if (typeof window.L === 'undefined') return;
 
+  // Interactive like the footer map, but without hijacking page scrolling:
+  // - mouse: drag to pan right away; scroll-wheel zoom only after clicking into the map
+  // - touch: pinch to zoom right away; one-finger panning only after tapping the map,
+  //   so swiping over a map while scrolling the page still scrolls the page
+  const isTouchDevice = L.Browser.mobile;
+
   const map = L.map(mapElement, {
     center: [latitude, longitude],
     zoom,
     zoomControl: false,
     attributionControl: true,
-    dragging: false,
+    dragging: !isTouchDevice,
     scrollWheelZoom: false,
-    doubleClickZoom: false,
-    touchZoom: false,
-    keyboard: false
+    doubleClickZoom: true,
+    touchZoom: true,
+    keyboard: true // makes the map focusable, which is what the focus/blur handlers below rely on
+  });
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  map.on('focus', () => {
+    map.scrollWheelZoom.enable();
+    if (isTouchDevice) map.dragging.enable();
+  });
+
+  map.on('blur', () => {
+    map.scrollWheelZoom.disable();
+    if (isTouchDevice) map.dragging.disable();
   });
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
