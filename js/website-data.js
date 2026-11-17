@@ -291,7 +291,28 @@ const websiteData = {
 
 
   /*
-   * Upcoming event data shown on events.html.
+   * Public Google Calendar ("UofT STAR Events").
+   * Every upcoming event in this calendar shows up on events.html automatically.
+   * To publish an event: create it in (or move it to) the public calendar.
+   *
+   * The API key is meant to be public: in Google Cloud it is restricted to the
+   * Google Calendar API and to utstar.ca / *.utstarwebsite.pages.dev, so it is
+   * useless anywhere else.
+   * NEVER put a key here that lacks those restrictions.
+   */
+  calendar: {
+    calendarId: "6b0c35f9354e7c908920aef0f963e264095897b77050d4c0a164caa17046b5e6@group.calendar.google.com",
+    apiKey: "AIzaSyCPuP0rzNMPlrc0ZjIe5ilLqwJXs_kpt1k",
+    timeZone: "America/Toronto",
+    // "Add to Google Calendar" button: subscribes the person to the public calendar.
+    googleSubscribeUrl: "https://calendar.google.com/calendar/u/0?cid=NmIwYzM1ZjkzNTRlN2M5MDg5MjBhZWYwZjk2M2UyNjQwOTU4OTdiNzcwNTBkNGMwYTE2NGNhYTE3MDQ2YjVlNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t",
+    // Public iCal feed, used for the Apple / Outlook subscribe button.
+    icalUrl: "https://calendar.google.com/calendar/ical/6b0c35f9354e7c908920aef0f963e264095897b77050d4c0a164caa17046b5e6%40group.calendar.google.com/public/basic.ics"
+  },
+
+  /*
+   * Extra hand-written events shown on events.html, alongside the Google Calendar events above.
+   * Usually we won't need these: just add the event to the public Google Calendar from now on.
    *
    * Dates should be ISO 8601 strings with an explicit UTC offset.
    * Ex: Toronto daylight time is -04:00; standard time is -05:00.

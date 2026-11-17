@@ -5835,6 +5835,51 @@ html {
   justify-content: flex-end;
 }
 
+.events-feed-heading:has(.calendar-subscribe:not([hidden])) {
+  margin-top: 0;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.calendar-subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.calendar-subscribe[hidden] {
+  display: none;
+}
+
+.calendar-subscribe-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.site-event-description a {
+  color: #60a5fa;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.calendar-subscribe-link:hover,
+.calendar-subscribe-link:focus-visible {
+  background: var(--glass-hover);
+  border-color: var(--accent);
+}
+
 .events-feed-count {
   color: rgba(148, 163, 184, 0.72);
   font-size: 0.72rem;

@@ -1351,6 +1351,247 @@ class TriviaGame {
 let triviaGame;
 
 // Website Data Management
+// ===== Google Calendar events (public "UofT STAR Events" calendar) =====
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Returns the UTC instant of midnight on `dateString` (YYYY-MM-DD) in `timeZone`,
+// so all-day events start at Toronto midnight no matter where the visitor is.
+function zonedMidnightISO(dateString, timeZone) {
+  const [year, month, day] = dateString.split('-').map(Number);
+  const utcGuess = Date.UTC(year, month - 1, day);
+
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }).formatToParts(new Date(utcGuess)).map(part => [part.type, part.value])
+  );
+
+  const wallClockAsUtc = Date.UTC(
+    Number(parts.year), Number(parts.month) - 1, Number(parts.day),
+    Number(parts.hour), Number(parts.minute), Number(parts.second)
+  );
+
+  return new Date(utcGuess - (wallClockAsUtc - utcGuess)).toISOString();
+}
+
+// Google Calendar descriptions can contain HTML. Keep simple formatting and safe links only;
+// everything else is reduced to its text so nothing in a description can run on the site.
+function sanitizeCalendarDescription(input) {
+  if (!input) return '';
+
+  const looksLikeHtml = /<[a-z][\s\S]*>/i.test(input);
+  const html = looksLikeHtml ? input : escapeHtml(input).replace(/\r?\n/g, '<br>');
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html');
+  const allowed = new Set(['B', 'STRONG', 'I', 'EM', 'U', 'BR', 'A', 'UL', 'OL', 'LI', 'P', 'SPAN', 'DIV']);
+
+  const linkify = text =>
+    escapeHtml(text).replace(
+      /https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"]/g,
+      url => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`
+    );
+
+  const clean = (node, insideLink = false) => {
+    let out = '';
+    node.childNodes.forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        out += insideLink ? escapeHtml(child.textContent) : linkify(child.textContent);
+        return;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE) return;
+
+      const tag = child.tagName;
+      if (tag === 'BR') {
+        out += '<br>';
+        return;
+      }
+      if (tag === 'A') {
+        const href = child.getAttribute('href') || '';
+        const inner = clean(child, true);
+        out += /^(https?:|mailto:)/i.test(href)
+          ? `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${inner}</a>`
+          : inner;
+        return;
+      }
+
+      const inner = clean(child, insideLink);
+      if (!allowed.has(tag) || tag === 'SPAN') {
+        out += inner;
+      } else if (tag === 'P' || tag === 'DIV') {
+        out += `${inner}<br>`;
+      } else {
+        const name = tag.toLowerCase();
+        out += `<${name}>${inner}</${name}>`;
+      }
+    });
+    return out;
+  };
+
+  return clean(doc.body.firstElementChild).replace(/(<br>\s*)+$/, '');
+}
+
+// Escape hatches for execs, written as lines in the event description (each on its own line;
+// they're hidden on the website, but members who subscribe to the calendar DO see them,
+// so prefer attaching an image and fixing the Location field instead):
+//   Image: https://drive.google.com/file/d/<id>/view   (or any https:// image, or Images/... in this repo)
+//   Map: 40 St George St, Toronto                      (what to search for, if the location text confuses the map)
+//   Map: 43.65966, -79.39740                           (exact coordinates)
+function extractCalendarDirectives(html) {
+  const directives = {};
+  const kept = [];
+
+  html.split(/<br\s*\/?>/i).forEach(segment => {
+    const text = new DOMParser().parseFromString(segment, 'text/html').body.textContent.trim();
+    const match = text.match(/^(image|map)\s*:\s*(.+)$/i);
+    if (match) {
+      directives[match[1].toLowerCase()] = match[2].trim();
+      return;
+    }
+    kept.push(segment);
+  });
+
+  return {
+    html: kept.join('<br>').replace(/^(\s*<br>)+|(<br>\s*)+$/g, ''),
+    directives
+  };
+}
+
+// Image focus lives in the attached image's FILE NAME, so it never shows up in members'
+// synced calendars: "genMeeting1 focus40.jpg" keeps the part 40% down from the top visible.
+// Also accepts "focus-40", "focus_40%", "focus top", "focus center", "focus bottom".
+// Returns a safe CSS object-position value; the image strip is wide, so only vertical matters.
+function resolveImageFocus(fileName) {
+  const match = (fileName || '').match(/focus[\s_-]*(top|center|centre|middle|bottom|\d{1,3}(?:\.\d+)?)\s*%?/i);
+  if (!match) return '';
+
+  const keyword = { top: 0, center: 50, centre: 50, middle: 50, bottom: 100 }[match[1].toLowerCase()];
+  const percent = keyword ?? Math.min(100, Number(match[1]));
+  return `50% ${percent}%`;
+}
+
+function resolveEventImageUrl(value) {
+  if (!value) return '';
+
+  // Google Drive share links -> direct thumbnail (the file must be shared "Anyone with the link").
+  const driveMatch = value.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/);
+  if (driveMatch) {
+    return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1800`;
+  }
+
+  if (/^https:\/\//i.test(value) || /^Images\//.test(value)) {
+    return value;
+  }
+
+  return '';
+}
+
+function mapGoogleCalendarEvent(item, calendar) {
+  const timeZone = calendar.timeZone || 'America/Toronto';
+  const allDay = Boolean(item.start?.date && !item.start?.dateTime);
+
+  const beginDate = allDay
+    ? zonedMidnightISO(item.start.date, timeZone)
+    : item.start?.dateTime;
+  const endDate = allDay
+    ? (item.end?.date ? zonedMidnightISO(item.end.date, timeZone) : '')
+    : (item.end?.dateTime || '');
+
+  if (!beginDate) return null;
+
+  // Google stores the location as one line, e.g. "OISE Library, 252 Bloor St W, Toronto, ON ...".
+  // Show the part before the first comma as the venue name and the rest as the address.
+  const rawLocation = (item.location || '').trim();
+  const commaIndex = rawLocation.indexOf(',');
+  const location = rawLocation
+    ? {
+        name: escapeHtml(commaIndex > 0 ? rawLocation.slice(0, commaIndex).trim() : rawLocation),
+        address: escapeHtml(commaIndex > 0 ? rawLocation.slice(commaIndex + 1).trim() : ''),
+        mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rawLocation)}`
+      }
+    : {};
+
+  // Optional "Image: ..." and "Map: ..." lines in the description (see extractCalendarDirectives).
+  const { html: description, directives } =
+    extractCalendarDirectives(sanitizeCalendarDescription(item.description || ''));
+
+  // Map: a "Map:" line overrides what we search for; it can also be exact "lat, lng" coordinates.
+  const mapOverride = directives.map || '';
+  const coordinateMatch = mapOverride.match(/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
+  if (coordinateMatch) {
+    location.latitude = Number(coordinateMatch[1]);
+    location.longitude = Number(coordinateMatch[2]);
+  } else if (mapOverride || rawLocation) {
+    location.geocodeQuery = mapOverride || rawLocation;
+  }
+
+  // Image: an "Image:" line wins; otherwise use the first image attached to the event.
+  const imageAttachment = (item.attachments || [])
+    .find(file => /^image\//i.test(file.mimeType || '') && file.fileId);
+  const image =
+    resolveEventImageUrl(directives.image) ||
+    (imageAttachment ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(imageAttachment.fileId)}&sz=w1800` : '');
+
+  return {
+    id: `gcal-${item.id}`,
+    title: escapeHtml(item.summary || 'Untitled Event'),
+    description,
+    beginDate,
+    endDate,
+    allDay,
+    timeZone,
+    host: 'UofT STAR',
+    image: escapeHtml(image),
+    imageAlt: escapeHtml(item.summary || 'Event image'),
+    imagePosition: imageAttachment && !directives.image ? resolveImageFocus(imageAttachment.title) : '',
+    location,
+    action: item.htmlLink
+      ? { label: 'Open in Google Calendar', href: item.htmlLink }
+      : {}
+  };
+}
+
+async function fetchGoogleCalendarEvents(calendar) {
+  const params = new URLSearchParams({
+    key: calendar.apiKey,
+    singleEvents: 'true',        // expand repeating events (e.g. weekly meetings) into dates
+    orderBy: 'startTime',
+    timeMin: new Date().toISOString(), // events that haven't ended yet
+    maxResults: String(calendar.maxResults || 25),
+    fields: 'items(id,status,summary,description,location,start,end,htmlLink,attachments(fileId,mimeType,title))'
+  });
+
+  const url =
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.calendarId)}/events?${params}`;
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`Google Calendar API responded ${response.status}`);
+    }
+
+    const data = await response.json();
+    return (data.items || [])
+      .filter(item => item.status !== 'cancelled')
+      .map(item => mapGoogleCalendarEvent(item, calendar))
+      .filter(Boolean);
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 class WebsiteDataManager {
   constructor() {
     this.data = null;
@@ -1608,10 +1849,61 @@ class WebsiteDataManager {
 
   populateUpcomingEvents() {
     const grid = document.getElementById('upcomingEventsGrid');
+    if (!grid) return;
+
+    const staticEvents = Array.isArray(this.data.events) ? this.data.events : [];
+    const calendar = this.data.calendar || {};
+
+    this.renderCalendarSubscribeLinks(calendar);
+
+    if (!calendar.apiKey || !calendar.calendarId) {
+      this.renderUpcomingEvents(staticEvents);
+      return;
+    }
+
+    // Keep the loading spinner up while Google Calendar responds, then show both sources together.
+    // If Google is unreachable, fall back to the hand-written events so the page never stays empty.
+    fetchGoogleCalendarEvents(calendar)
+      .then(calendarEvents => this.renderUpcomingEvents([...staticEvents, ...calendarEvents]))
+      .catch(error => {
+        console.warn('Could not load Google Calendar events:', error);
+        this.renderUpcomingEvents(staticEvents);
+      });
+  }
+
+  renderCalendarSubscribeLinks(calendar) {
+    const container = document.getElementById('calendarSubscribe');
+    if (!container) return;
+
+    const links = [];
+
+    if (calendar.googleSubscribeUrl) {
+      links.push(`
+        <a class="calendar-subscribe-link" href="${calendar.googleSubscribeUrl}" target="_blank" rel="noopener">
+          <i class="fab fa-google" aria-hidden="true"></i> Add to Google Calendar
+        </a>
+      `);
+    }
+
+    if (calendar.icalUrl) {
+      // webcal:// makes Apple Calendar and Outlook offer to subscribe instead of downloading a file.
+      const webcalUrl = calendar.icalUrl.replace(/^https?:\/\//i, 'webcal://');
+      links.push(`
+        <a class="calendar-subscribe-link" href="${webcalUrl}">
+          <i class="far fa-calendar-plus" aria-hidden="true"></i> Apple / Outlook
+        </a>
+      `);
+    }
+
+    container.innerHTML = links.join('');
+    container.hidden = links.length === 0;
+  }
+
+  renderUpcomingEvents(events) {
+    const grid = document.getElementById('upcomingEventsGrid');
     const countLabel = document.getElementById('upcomingEventsCount');
     if (!grid) return;
 
-    const events = Array.isArray(this.data.events) ? this.data.events : [];
     const now = new Date();
 
     const upcomingEvents = events
@@ -1664,6 +1956,7 @@ class WebsiteDataManager {
             <img
               src="${event.image}"
               alt="${event.imageAlt || event.title || 'Event image'}"
+              ${/^\d{1,3}(\.\d+)?% \d{1,3}(\.\d+)?%$/.test(event.imagePosition || '') ? `style="object-position: ${event.imagePosition}"` : ''}
               loading="lazy"
               decoding="async"
             >
@@ -1680,7 +1973,17 @@ class WebsiteDataManager {
               aria-label="Map showing ${location.name || 'event location'}"
             ></div>
           `
-          : '';
+          : location.geocodeQuery
+            ? `
+              <div
+                class="site-event-media site-event-map"
+                data-event-map
+                data-geocode="${escapeHtml(location.geocodeQuery)}"
+                data-zoom="${Number(location.mapZoom) || 17}"
+                aria-label="Map showing ${location.name || 'event location'}"
+              ></div>
+            `
+            : '';
 
       const locationLabel = [location.name, location.address]
         .filter(Boolean)
@@ -1694,6 +1997,9 @@ class WebsiteDataManager {
           )
         : '';
 
+      // Calendar events have an address but no coordinates, so they link to a map search instead.
+      const mapUrl = osmUrl || location.mapUrl || '';
+
       const locationMarkup = locationLabel
         ? `
           <div class="site-event-location">
@@ -1702,8 +2008,8 @@ class WebsiteDataManager {
               <strong>${location.name || location.address}</strong>
               ${location.name && location.address ? `<span>${location.address}</span>` : ''}
             </div>
-            ${osmUrl ? `
-              <a href="${osmUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in OpenStreetMap">
+            ${mapUrl ? `
+              <a href="${mapUrl}" target="_blank" rel="noopener" aria-label="Open ${location.name || 'event location'} in a map">
                 Open map <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
             ` : ''}
@@ -1755,7 +2061,7 @@ class WebsiteDataManager {
             <i class="far fa-clock" aria-hidden="true"></i>
             <div>
               <span class="site-event-schedule-label">Date &amp; time</span>
-              <strong>${this.formatEventRange(start, end, event.timeZone)}</strong>
+              <strong>${this.formatEventRange(start, end, event.timeZone, event.allDay === true)}</strong>
             </div>
           </div>
         </div>
@@ -1820,13 +2126,22 @@ class WebsiteDataManager {
     return 'Upcoming';
   }
 
-  formatEventRange(start, end, timeZone = 'America/Toronto') {
+  formatEventRange(start, end, timeZone = 'America/Toronto', allDay = false) {
     const dateFormatter = new Intl.DateTimeFormat('en-CA', {
       timeZone,
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     });
+
+    if (allDay) {
+      // All-day end times are exclusive (midnight after the last day), so step back 1 ms.
+      const startDate = dateFormatter.format(start);
+      const lastDay = end ? dateFormatter.format(new Date(end.getTime() - 1)) : startDate;
+      return lastDay === startDate
+        ? `${startDate} · All day`
+        : `${startDate} – ${lastDay}`;
+    }
 
     const timeFormatter = new Intl.DateTimeFormat('en-CA', {
       timeZone,
@@ -2522,10 +2837,131 @@ function initEventMapPreviews(root = document) {
   });
 }
 
+// ===== Address -> map location + building outline (OpenStreetMap Nominatim) =====
+// Used for Google Calendar events, which only have an address. Nominatim is free but asks for
+// at most ~1 request per second and for results to be cached, so requests are queued and every
+// answer is remembered in the visitor's browser.
+
+const GEOCODE_CACHE_KEY = 'utstar-geocode-v1';
+const GEOCODE_FOUND_TTL = 30 * 24 * 60 * 60 * 1000;  // 30 days
+const GEOCODE_MISS_TTL = 24 * 60 * 60 * 1000;         // retry unknown addresses after a day
+const geocodeInFlight = new Map();
+let geocodeQueue = Promise.resolve();
+
+function readGeocodeCache() {
+  try {
+    return JSON.parse(localStorage.getItem(GEOCODE_CACHE_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function writeGeocodeCache(query, value) {
+  try {
+    const cache = readGeocodeCache();
+    cache[query] = { value, savedAt: Date.now() };
+    localStorage.setItem(GEOCODE_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // Storage full or blocked: the map still works, it just looks the address up again next time.
+  }
+}
+
+// Google locations look like "OISE Library, 252 Bloor St W, Toronto, ON M5S 1V6, Canada".
+// OpenStreetMap often can't match the whole string, so try progressively simpler versions.
+function geocodeSearchCandidates(query) {
+  const parts = query.split(',').map(part => part.trim()).filter(Boolean);
+  const candidates = [query];
+
+  if (parts.length > 1) candidates.push(parts.slice(1).join(', '));    // address without venue name
+  if (parts.length > 2) candidates.push(parts.slice(1, 3).join(', ')); // street + city only
+  if (parts.length > 1) candidates.push(`${parts[0]}, ${parts[2] || parts[1]}`); // venue + city
+
+  return [...new Set(candidates)];
+}
+
+function queueNominatimRequest(task) {
+  const run = geocodeQueue.then(task);
+  geocodeQueue = run
+    .catch(() => {})
+    .then(() => new Promise(resolve => window.setTimeout(resolve, 1100)));
+  return run;
+}
+
+async function nominatimSearch(text) {
+  const params = new URLSearchParams({
+    q: text,
+    format: 'jsonv2',
+    limit: '1',
+    polygon_geojson: '1',
+    polygon_threshold: '0.00001',
+    'accept-language': 'en'
+  });
+
+  const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
+  if (!response.ok) throw new Error(`Nominatim responded ${response.status}`);
+
+  const [result] = await response.json();
+  if (!result) return null;
+
+  // Only outline reasonably small areas (a building, a park), never a whole neighbourhood or city.
+  const [south, north, west, east] = (result.boundingbox || []).map(Number);
+  const smallEnough = north - south < 0.01 && east - west < 0.015;
+  const isArea = result.geojson && /Polygon$/.test(result.geojson.type);
+
+  return {
+    lat: Number(result.lat),
+    lon: Number(result.lon),
+    outline: isArea && smallEnough ? result.geojson : null
+  };
+}
+
+function geocodeEventLocation(query) {
+  const cached = readGeocodeCache()[query];
+  if (cached) {
+    const ttl = cached.value ? GEOCODE_FOUND_TTL : GEOCODE_MISS_TTL;
+    if (Date.now() - cached.savedAt < ttl) return Promise.resolve(cached.value);
+  }
+
+  if (geocodeInFlight.has(query)) return geocodeInFlight.get(query);
+
+  const lookup = (async () => {
+    for (const candidate of geocodeSearchCandidates(query)) {
+      const place = await queueNominatimRequest(() => nominatimSearch(candidate));
+      if (place) {
+        writeGeocodeCache(query, place);
+        return place;
+      }
+    }
+    writeGeocodeCache(query, null);
+    return null;
+  })()
+    .catch(error => {
+      console.warn('Could not look up event location:', error);
+      return null; // network error: don't cache, try again on the next visit
+    })
+    .finally(() => geocodeInFlight.delete(query));
+
+  geocodeInFlight.set(query, lookup);
+  return lookup;
+}
+
 async function initializeEventMap(mapElement) {
-  const latitude = Number(mapElement.dataset.lat);
-  const longitude = Number(mapElement.dataset.lng);
+  let latitude = Number(mapElement.dataset.lat);
+  let longitude = Number(mapElement.dataset.lng);
+  let outline = null;
   const zoom = Number(mapElement.dataset.zoom) || 17;
+
+  // Calendar events only have an address: look it up first.
+  if ((!Number.isFinite(latitude) || !Number.isFinite(longitude)) && mapElement.dataset.geocode) {
+    const place = await geocodeEventLocation(mapElement.dataset.geocode);
+    if (!place) {
+      mapElement.remove(); // couldn't find it: show the card without a map rather than an empty box
+      return;
+    }
+    latitude = place.lat;
+    longitude = place.lon;
+    outline = place.outline;
+  }
 
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
 
@@ -2538,22 +2974,59 @@ async function initializeEventMap(mapElement) {
 
   if (typeof window.L === 'undefined') return;
 
+  // Interactive like the footer map, but without hijacking page scrolling:
+  // - mouse: drag to pan right away; scroll-wheel zoom only after clicking into the map
+  // - touch: pinch to zoom right away; one-finger panning only after tapping the map,
+  //   so swiping over a map while scrolling the page still scrolls the page
+  const isTouchDevice = L.Browser.mobile;
+
   const map = L.map(mapElement, {
     center: [latitude, longitude],
     zoom,
     zoomControl: false,
     attributionControl: true,
-    dragging: false,
+    dragging: !isTouchDevice,
     scrollWheelZoom: false,
-    doubleClickZoom: false,
-    touchZoom: false,
-    keyboard: false
+    doubleClickZoom: true,
+    touchZoom: true,
+    keyboard: true // makes the map focusable, which is what the focus/blur handlers below rely on
+  });
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  map.on('focus', () => {
+    map.scrollWheelZoom.enable();
+    if (isTouchDevice) map.dragging.enable();
+  });
+
+  map.on('blur', () => {
+    map.scrollWheelZoom.disable();
+    if (isTouchDevice) map.dragging.disable();
   });
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
+
+  if (outline) {
+    // Same orange building highlight as the Bahen outline in the footer.
+    const outlineLayer = L.geoJSON(outline, {
+      interactive: false,
+      style: {
+        color: '#e65c00',
+        weight: 3,
+        fillColor: '#ff7800',
+        fillOpacity: 0.4
+      }
+    }).addTo(map);
+
+    window.setTimeout(() => {
+      map.invalidateSize();
+      map.fitBounds(outlineLayer.getBounds(), { padding: [28, 28], maxZoom: 18 });
+    }, 0);
+    return;
+  }
 
   L.circleMarker([latitude, longitude], {
     radius: 8,
