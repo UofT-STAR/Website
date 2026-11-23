@@ -655,17 +655,20 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   animation-delay: 4s;
 }
 
-/* The star pattern repeats every 300x150px. Instead of animating background-position (which
-   repaints the whole screen every frame), the layer is one tile larger than the screen and
-   slides by exactly one tile: it looks the same, but the GPU just moves an already-drawn layer. */
+/* Stars drift by animating background-position. Don't switch this to a transform: on screens
+   with fractional scaling (125%, 150%) a GPU-moved layer slides these 1-2px dots by fractions
+   of a pixel, so they shimmer and wobble up and down instead of drifting smoothly.
+   The browser draws background positions on whole screen pixels anyway, so the drift moves in
+   steps of exactly one screen pixel per axis (steps set in js/script.js from the screen's
+   scaling; 300/150 = 100% scaling). Same motion, but the stars are redrawn only when they
+   actually move a pixel (15 times a second at 100%) instead of 60 times a second. */
 .stars-background {
   position: fixed;
-  top: -150px;
-  left: -300px;
-  width: calc(100vw + 300px);
-  height: calc(100vh + 150px);
-  will-change: transform;
-  background-image:
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
     radial-gradient(2px 2px at 20px 30px, #fff, transparent),
     radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
     radial-gradient(1px 1px at 90px 40px, #fff, transparent),
@@ -676,7 +679,9 @@ body.intro-enhanced .page-reveal.page-reveal-active {
     radial-gradient(1px 1px at 250px 20px, rgba(255,255,255,0.8), transparent);
   background-repeat: repeat;
   background-size: 300px 150px;
-  animation: twinkle 20s linear infinite;
+  animation:
+    starsDriftX 20s steps(var(--stars-steps-x, 300)) infinite,
+    starsDriftY 20s steps(var(--stars-steps-y, 150)) infinite;
   opacity: 0.6;
   pointer-events: none;
   z-index: 0;
@@ -688,9 +693,15 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   50% { transform: translateY(-20px); }
 }
 
-@keyframes twinkle {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(300px, 150px, 0); }
+/* One pattern tile (300x150px) every 20s, so each loop is seamless. */
+@keyframes starsDriftX {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 300px; }
+}
+
+@keyframes starsDriftY {
+  0% { background-position-y: 0; }
+  100% { background-position-y: 150px; }
 }
 
 @keyframes twinkleSmooth {
@@ -748,22 +759,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   position: relative;
   transition: all 0.3s ease;
   z-index: 1;
-}
-
-/* Very subtle alternating backgrounds */
-.section:nth-child(2n) {
-  background: rgba(0, 0, 0, 0.025);
-}
-
-.section:nth-child(2n+1) {
-  background: rgba(0, 0, 0, 0.01);
-}
-
-/* Ultra-smooth section blending */
-.section {
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.01),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.01);
 }
 
 .bg-dark {
@@ -865,7 +860,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.6s ease-out, float 6s ease-in-out infinite;
   width: 100%;
@@ -921,7 +915,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   border-radius: 15px;
   padding: 2rem;
   text-align: center;
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 0.8s ease-out, pulse 4s ease-in-out infinite;
@@ -1009,7 +1002,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
 
@@ -1081,7 +1073,6 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInUp 1s ease-out, float 8s ease-in-out infinite;
   width: 100%;
@@ -1419,7 +1410,6 @@ body.modal-open {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
 }
 
 /* Remove resize delay from message textarea */
@@ -1453,7 +1443,6 @@ body.modal-open {
   transition: all 0.3s ease;
   background: var(--glass);
   color: var(--ink);
-  backdrop-filter: blur(10px);
 }
 
 .form-group select {
@@ -1496,7 +1485,6 @@ body.modal-open {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
-  backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -2273,7 +2261,6 @@ html, body {
   background: var(--glass);
   border: 1px solid var(--border);
   border-radius: 12px;
-  backdrop-filter: blur(10px);
   min-width: 80px;
 }
 
@@ -2320,7 +2307,6 @@ html, body {
   background: var(--glass);
   border: 1px solid var(--border);
   border-radius: 12px;
-  backdrop-filter: blur(10px);
   max-width: 800px;
   text-align: center;
 }
@@ -2392,7 +2378,6 @@ html, body {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
@@ -2533,7 +2518,6 @@ html, body {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
@@ -2773,7 +2757,6 @@ html, body {
 /* Table of Contents */
 .constitution-nav {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 2rem;
@@ -2846,7 +2829,6 @@ html {
   max-width: 900px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 3rem;
@@ -3534,7 +3516,6 @@ html {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
-  backdrop-filter: blur(10px);
   transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -6246,7 +6227,6 @@ html {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
-  backdrop-filter: blur(10px);
 }
 
 .package-copy {
@@ -6342,5 +6322,50 @@ html {
 
   .package-actions {
     justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   Phones: lighter effects
+   ========================================================= */
+/* Animations that never stop, and frosted-glass blur over the stars, are among the most
+   expensive things for a cheap phone's graphics chip: they are redrawn every frame. On small
+   screens they are switched off. The footer gets a dark backing instead of its blur so it looks
+   the same (cards have no blur at all: they are see-through, like the homepage spotlight card). */
+@media (max-width: 768px) {
+  .footer,
+  .footer-copyright {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .footer {
+    background-color: rgba(7, 11, 20, 0.92); /* under its existing dark gradient */
+  }
+
+  /* Only the one-time slide-in: no endless floating or pulsing cards. */
+  .feature {
+    animation: slideInUp 0.6s ease-out;
+  }
+
+  .project-card {
+    animation: slideInUp 0.8s ease-out;
+  }
+
+  .team-member {
+    animation: slideInUp 1s ease-out;
+  }
+
+  /* The highlighted link sits in the closed phone menu off-screen, where its glow kept
+     animating unseen; it keeps its static glow. */
+  .nav-link.active,
+  .nav-link.active::after {
+    animation: none;
+  }
+
+  /* Stars stay in place: still visible, just not drifting, so nothing is redrawn while idle. */
+  .stars-background {
+    animation: none;
   }
 }

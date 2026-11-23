@@ -1,0 +1,4 @@
+# Every text file uses LF line endings, in the repository and in your working folder,
+# on every computer and git app. This overrides Git for Windows' default core.autocrlf=true,
+# which otherwise rewrites files with CRLF when switching branches.
+* text=auto eol=lf

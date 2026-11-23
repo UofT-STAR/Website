@@ -2,6 +2,17 @@ if (window.location.hostname.includes("github.io")) {
   window.location.replace("https://www.utstar.ca");
 }
 
+// Star background: move the drift in steps of exactly one screen pixel (see .stars-background in
+// css/style.css). The stars cross 300px x 150px per loop, so that's 300 x scaling steps across and
+// 150 x scaling steps down. Recomputed when the window moves to another screen or the page is zoomed.
+function updateStarSteps() {
+  const scaling = window.devicePixelRatio || 1;
+  document.documentElement.style.setProperty('--stars-steps-x', String(Math.max(1, Math.round(300 * scaling))));
+  document.documentElement.style.setProperty('--stars-steps-y', String(Math.max(1, Math.round(150 * scaling))));
+  window.matchMedia(`(resolution: ${scaling}dppx)`).addEventListener('change', updateStarSteps, { once: true });
+}
+updateStarSteps();
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
