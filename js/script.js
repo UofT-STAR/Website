@@ -2,6 +2,17 @@ if (window.location.hostname.includes("github.io")) {
   window.location.replace("https://www.utstar.ca");
 }
 
+// Star background: move the drift in steps of exactly one screen pixel (see .stars-background in
+// css/style.css). The stars cross 300px x 150px per loop, so that's 300 x scaling steps across and
+// 150 x scaling steps down. Recomputed when the window moves to another screen or the page is zoomed.
+function updateStarSteps() {
+  const scaling = window.devicePixelRatio || 1;
+  document.documentElement.style.setProperty('--stars-steps-x', String(Math.max(1, Math.round(300 * scaling))));
+  document.documentElement.style.setProperty('--stars-steps-y', String(Math.max(1, Math.round(150 * scaling))));
+  window.matchMedia(`(resolution: ${scaling}dppx)`).addEventListener('change', updateStarSteps, { once: true });
+}
+updateStarSteps();
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -100,6 +111,36 @@ const primaryHeroContent = document.querySelector('.hero-content-primary');
 const secondaryHeroContent = document.querySelector('.hero-content-secondary');
 let homeVideoStarted = false;
 
+// The launch video is 3.8 MB and only appears after about 1.5 screens of scrolling, so it is
+// not downloaded up front: loading starts on the first scroll. Visitors with data saver on, a
+// 2G connection or "reduce motion" turned on never download it and keep the banner photo.
+const homeVideoConnection = navigator.connection || {};
+const homeVideoAllowed = Boolean(homeHeroVideo) &&
+  !homeVideoConnection.saveData &&
+  !/(^|-)2g$/.test(homeVideoConnection.effectiveType || '') &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let homeVideoRequested = false;
+
+function requestHomeVideo() {
+  if (!homeVideoAllowed || homeVideoRequested) return;
+  homeVideoRequested = true;
+  homeHeroVideo.preload = 'auto';
+  homeHeroVideo.load();
+}
+
+if (homeHeroVideo && introScene) {
+  // Until the video can actually play, CSS keeps the photo fully visible and the video hidden
+  // (.intro-scene:not(.video-ready)), so visitors never see a black frame while it loads.
+  homeHeroVideo.addEventListener('canplay', () => {
+    introScene.classList.add('video-ready', 'video-fading-in');
+    window.setTimeout(() => introScene.classList.remove('video-fading-in'), 700);
+  }, { once: true });
+
+  if (homeVideoAllowed) {
+    window.addEventListener('scroll', requestHomeVideo, { passive: true, once: true });
+  }
+}
+
 // Reveal the first home-page title automatically
 const PRIMARY_AUTO_REVEAL_DELAY = 450;
 const PRIMARY_AUTO_REVEAL_DURATION = 650;
@@ -154,11 +195,12 @@ function getIntroStageProgress(sceneProgress, config = INTRO_SCROLL_CONFIG) {
 }
 
 function updateHomeVideoPlayback(videoProgress) {
-  if (!homeHeroVideo) return;
+  if (!homeHeroVideo || !homeVideoAllowed) return;
 
   if (videoProgress > 0.02) {
     if (!homeVideoStarted) {
       homeVideoStarted = true;
+      requestHomeVideo(); // in case the page opened already scrolled down
       const playPromise = homeHeroVideo.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch(() => {
@@ -280,17 +322,16 @@ function startPrimaryAutoReveal() {
 
 function handleNavbarScroll() {
   const currentScrollY = window.scrollY;
-  
-  // Update active nav link
-  updateActiveNavLink();
-  
-  // Dynamic navbar styling based on scroll using classes
+
+  // Pages with <body data-page> always highlight the same link; only legacy pages
+  // without it need the active link recomputed while scrolling.
+  if (!document.body.dataset.page) {
+    updateActiveNavLink();
+  }
+
+  // Dynamic navbar styling based on scroll using classes (toggle only changes the DOM when it flips)
   if (navbar) {
-    if (currentScrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
+    navbar.classList.toggle('scrolled', currentScrollY > 100);
   }
   
   lastScrollY = currentScrollY;
@@ -447,37 +488,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Navbar scroll effect - Cool dark theme (optimized)
-let navbarTicking = false;
-
-function updateNavbarStyle() {
-  const navbar = document.querySelector('.navbar');
-  if (!navbar) {
-    navbarTicking = false;
-    return;
-  }
-  if (window.scrollY > 100) {
-    // Scrolled down - make navbar more solid and add glow effect
-    navbar.style.background = 'rgba(13, 17, 23, 0.95)';
-    navbar.style.backdropFilter = 'blur(16px)';
-    navbar.style.borderBottom = '1px solid rgba(10, 132, 255, 0.3)';
-    navbar.style.boxShadow = '0 4px 32px rgba(10, 132, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3)';
-  } else {
-    // At top - more transparent and subtle
-    navbar.style.background = 'rgba(13, 17, 23, 0.85)';
-    navbar.style.backdropFilter = 'blur(8px)';
-    navbar.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
-    navbar.style.boxShadow = 'none';
-  }
-  navbarTicking = false;
-}
-
-window.addEventListener('scroll', () => {
-  if (!navbarTicking) {
-    requestAnimationFrame(updateNavbarStyle);
-    navbarTicking = true;
-  }
-}, { passive: true });
+// The scrolled navbar look lives in css (.navbar.scrolled); handleNavbarScroll only toggles the
+// class when crossing the threshold, instead of rewriting inline styles on every scroll frame.
 
 // Enhanced Intersection Observer for staggered animations
 const observerOptions = {
@@ -517,8 +529,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initBackToTopButton();
   initLeadershipModal();
   
-  // Initialize footer map (Leaflet + OpenStreetMap)
-  initFooterMap();
+  // Footer map (Leaflet + OpenStreetMap): built only when the footer gets near the screen
+  initFooterMapWhenVisible();
   
   // Initialize Constitution page features
   setupConstitutionSectionObserver();
@@ -741,23 +753,23 @@ function showNotification(message, type = 'info') {
 }
 
 // Parallax effect for hero section (optimized)
+// Only the home page has the floating planets, so other pages don't listen at all.
+const parallaxHeroAnimation = document.querySelector('.hero-animation');
 let parallaxTicking = false;
 
 function updateParallaxEffect() {
-  const scrolled = window.pageYOffset;
-  const heroAnimation = document.querySelector('.hero-animation');
-  if (heroAnimation) {
-    heroAnimation.style.transform = `translateY(${scrolled * 0.5}px)`;
-  }
+  parallaxHeroAnimation.style.transform = `translateY(${window.pageYOffset * 0.5}px)`;
   parallaxTicking = false;
 }
 
-window.addEventListener('scroll', () => {
-  if (!parallaxTicking) {
-    requestAnimationFrame(updateParallaxEffect);
-    parallaxTicking = true;
-  }
-}, { passive: true });
+if (parallaxHeroAnimation) {
+  window.addEventListener('scroll', () => {
+    if (!parallaxTicking) {
+      requestAnimationFrame(updateParallaxEffect);
+      parallaxTicking = true;
+    }
+  }, { passive: true });
+}
 
 // Dynamic typing effect for hero title
 function typeWriter(element, text, speed = 100) {
@@ -3110,6 +3122,27 @@ async function ensureFooterMapDependencies() {
       console.warn('Leaflet rotate plugin could not be loaded:', error);
     }
   }
+}
+
+// The footer is at the very bottom of every page, so don't download Leaflet, its plugin and the
+// map tiles (~175 KB) or build the map until the visitor scrolls within ~400px of it.
+function initFooterMapWhenVisible() {
+  const mapEl = document.getElementById('footer-map');
+  if (!mapEl) return;
+
+  if (!('IntersectionObserver' in window)) {
+    initFooterMap();
+    return;
+  }
+
+  const footerMapObserver = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      footerMapObserver.disconnect();
+      initFooterMap();
+    }
+  }, { rootMargin: '400px 0px' });
+
+  footerMapObserver.observe(mapEl);
 }
 
 // Renders a live, draggable/zoomable map centered on the Bahen Centre.

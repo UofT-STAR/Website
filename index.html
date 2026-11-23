@@ -33,8 +33,9 @@
                             <source media="(max-aspect-ratio: 1/1)" srcset="Images/22Nov2026Launch-tall.webp" width="1080" height="2340">
                             <img class="home-media home-media-photo" alt="UofT STAR members holding rockets and a Canadian flag at the November 22, 2026 launch" src="Images/22Nov2026Launch-wide.webp" width="1920" height="1011" fetchpriority="high">
                         </picture>
-                        <!-- Put your home video at Videos/HomeHero.mp4, or change the source below. -->
-                        <video class="home-media home-media-video" id="homeHeroVideo" muted playsinline loop preload="auto" poster="Images/LaunchGroupPic.webp">
+                        <!-- Launch video (3.8 MB). preload="none": js/script.js starts loading it on the first scroll,
+                             and keeps the banner photo showing until it can play, so no poster image is needed. -->
+                        <video class="home-media home-media-video" id="homeHeroVideo" muted playsinline loop preload="none">
                             <source src="Videos/launch-desktop.mp4" type="video/mp4">
                         </video>
                         <div class="banner-overlay"></div>
