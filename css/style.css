@@ -109,6 +109,20 @@ html {
   background: #000;
 }
 
+/* The launch video loads only once the visitor scrolls (js/script.js). Until it can play, keep
+   the banner photo fully visible instead of fading into an empty video; then fade it in briefly. */
+.intro-scene:not(.video-ready) .home-media-photo {
+  opacity: 1;
+}
+
+.intro-scene:not(.video-ready) .home-media-video {
+  opacity: 0;
+}
+
+.intro-scene.video-fading-in .home-media {
+  transition: opacity 0.6s ease;
+}
+
 .intro-scene .banner-overlay {
   background: linear-gradient(
     180deg,
@@ -246,15 +260,12 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   overflow: visible;
 }
 
+/* Past 100px of scrolling (js: handleNavbarScroll). Same look the old per-frame inline styles set. */
 .navbar.scrolled {
-  --navbar-bg: linear-gradient(
-    135deg,
-    rgba(13, 17, 23, 0.95) 0%,
-    rgba(20, 25, 35, 0.9) 50%,
-    rgba(13, 17, 23, 0.95) 100%
-  );
-  --navbar-blur: blur(25px) saturate(180%);
+  --navbar-bg: rgba(13, 17, 23, 0.95);
+  --navbar-blur: blur(16px);
   --navbar-border: rgba(10, 132, 255, 0.3);
+  box-shadow: 0 4px 32px rgba(10, 132, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .navbar::before {
@@ -644,13 +655,17 @@ body.intro-enhanced .page-reveal.page-reveal-active {
   animation-delay: 4s;
 }
 
+/* The star pattern repeats every 300x150px. Instead of animating background-position (which
+   repaints the whole screen every frame), the layer is one tile larger than the screen and
+   slides by exactly one tile: it looks the same, but the GPU just moves an already-drawn layer. */
 .stars-background {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: 
+  top: -150px;
+  left: -300px;
+  width: calc(100vw + 300px);
+  height: calc(100vh + 150px);
+  will-change: transform;
+  background-image:
     radial-gradient(2px 2px at 20px 30px, #fff, transparent),
     radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
     radial-gradient(1px 1px at 90px 40px, #fff, transparent),
@@ -674,8 +689,8 @@ body.intro-enhanced .page-reveal.page-reveal-active {
 }
 
 @keyframes twinkle {
-  0% { background-position: 0 0; }
-  100% { background-position: 300px 150px; }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(300px, 150px, 0); }
 }
 
 @keyframes twinkleSmooth {
@@ -5818,6 +5833,24 @@ html {
   .error-orbit,
   .error-flight-marker {
     animation: none;
+  }
+}
+
+/* Site-wide: visitors who turned on "reduce motion" in their device settings get no decorative
+   movement (moving stars, floating cards, glows, smooth scrolling). Elements still end up in
+   their final state, and the homepage keeps the photo instead of the launch video (js/script.js). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
