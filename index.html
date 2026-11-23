@@ -27,9 +27,14 @@
                 <!-- Pinned Home Media: photo first, then video -->
                 <section class="banner">
                     <div class="banner-image">
-                        <img class="home-media home-media-photo" alt="UofT STAR Team Launch" src="Images/LaunchGroupPic.jpeg">
+                        <!-- Banner photo, pre-cropped to the screen shape: -tall (9:19.5, full photo width with extra sky added on top so nobody is cut off) for portrait screens like phones,
+                             -wide (1.9:1, the usual laptop/desktop banner shape) for everything else. When replacing it, save both crops at these sizes. -->
+                        <picture>
+                            <source media="(max-aspect-ratio: 1/1)" srcset="Images/22Nov2026Launch-tall.webp" width="1080" height="2340">
+                            <img class="home-media home-media-photo" alt="UofT STAR members holding rockets and a Canadian flag at the November 22, 2026 launch" src="Images/22Nov2026Launch-wide.webp" width="1920" height="1011" fetchpriority="high">
+                        </picture>
                         <!-- Put your home video at Videos/HomeHero.mp4, or change the source below. -->
-                        <video class="home-media home-media-video" id="homeHeroVideo" muted playsinline loop preload="auto" poster="Images/LaunchGroupPic.jpeg">
+                        <video class="home-media home-media-video" id="homeHeroVideo" muted playsinline loop preload="auto" poster="Images/LaunchGroupPic.webp">
                             <source src="Videos/launch-desktop.mp4" type="video/mp4">
                         </video>
                         <div class="banner-overlay"></div>
