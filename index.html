@@ -27,10 +27,15 @@
                 <!-- Pinned Home Media: photo first, then video -->
                 <section class="banner">
                     <div class="banner-image">
-                        <!-- Banner photo, pre-cropped to the screen shape: -tall (9:19.5, full photo width with extra sky added on top so nobody is cut off) for portrait screens like phones,
-                             -wide (1.9:1, the usual laptop/desktop banner shape) for everything else. When replacing it, save both crops at these sizes. -->
+                        <!-- Banner photo: five crops of the same photo, one per range of window shapes (phones -> wide laptops),
+                             so everyone and the raised rocket stay in frame at any window size. They are made, and these
+                             media queries printed, by tools/banner_crops.py from the original in originals/ (not in git).
+                             To change the photo, run that script again and paste its output here. -->
                         <picture>
-                            <source media="(max-aspect-ratio: 1/1)" srcset="Images/22Nov2026Launch-tall.webp" width="1080" height="2340">
+                            <source media="(max-aspect-ratio: 575/1000)" srcset="Images/22Nov2026Launch-tall.webp" width="1080" height="2340">
+                            <source media="(max-aspect-ratio: 971/1000)" srcset="Images/22Nov2026Launch-portrait.webp" width="1440" height="2149">
+                            <source media="(max-aspect-ratio: 1744/1000)" srcset="Images/22Nov2026Launch-landscape.webp" width="1920" height="1745">
+                            <source media="(min-aspect-ratio: 2145/1000)" srcset="Images/22Nov2026Launch-ultrawide.webp" width="2560" height="1113">
                             <img class="home-media home-media-photo" alt="UofT STAR members holding rockets and a Canadian flag at the November 22, 2026 launch" src="Images/22Nov2026Launch-wide.webp" width="1920" height="1011" fetchpriority="high">
                         </picture>
                         <!-- Put your home video at Videos/HomeHero.mp4, or change the source below. -->
