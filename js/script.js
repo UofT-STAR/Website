@@ -2701,7 +2701,8 @@ function openProjectModal(itemIndex, collectionKey = 'projects') {
         <div class="carousel-track" id="carouselTrack">
           ${item.carouselImages.map((img, index) => `
             <div class="carousel-slide">
-              <img src="${img}" alt="${item.title} - Image ${index + 1}" />
+              <img ${index < 2 ? 'src' : 'data-src'}="${img}" alt="${item.title} - Image ${index + 1}"
+                   decoding="async" />
             </div>
           `).join('')}
         </div>
@@ -2766,6 +2767,19 @@ function updateCarousel() {
   
   if (track) {
     track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
+
+    // Slides start with data-src so opening a gallery doesn't download every photo at once:
+    // load the visible slide and its neighbours (so the next click is instant).
+    const slides = track.querySelectorAll('img[data-src]');
+    slides.forEach(image => {
+      const slideIndex = Array.prototype.indexOf.call(track.querySelectorAll('img'), image);
+      const distance = Math.abs(slideIndex - currentCarouselIndex);
+      const wrapsAround = slideIndex === currentProjectImages.length - 1 && currentCarouselIndex === 0;
+      if (distance <= 1 || wrapsAround) {
+        image.src = image.dataset.src;
+        image.removeAttribute('data-src');
+      }
+    });
   }
   
   indicators.forEach((indicator, index) => {
